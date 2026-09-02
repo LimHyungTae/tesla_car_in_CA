@@ -1,0 +1,77 @@
+{
+  "version": 2,
+  "effective_date": "2026-09-02",
+  "market": {
+    "registration_location": "Foster City, CA",
+    "zip": "94404",
+    "search_radius_miles": 200,
+    "sales_tax_rate": 0.09375,
+    "estimated_fixed_fees_usd": {
+      "low": 600,
+      "high": 800
+    },
+    "max_otd_usd": 40000
+  },
+  "vehicle_gates": {
+    "model": "Model Y",
+    "accepted_trims": ["Long Range AWD", "Long Range All-Wheel Drive"],
+    "minimum_year": 2023,
+    "required_hardware": "HW4",
+    "required_wheel_inches": 19,
+    "maximum_mileage_exclusive": 50000,
+    "preferred_maximum_mileage": 35000,
+    "require_tesla_cpo": true,
+    "require_clean_title": true,
+    "require_no_reported_accident_or_damage": true,
+    "excluded_prior_use": ["rental", "fleet", "commercial", "taxi", "rideshare"],
+    "require_battery_health_clear": true
+  },
+  "price_mileage_bands": {
+    "ultra_value": {
+      "any_of": [
+        {
+          "name": "A",
+          "maximum_listing_price_usd": 34000,
+          "maximum_mileage": 35000
+        },
+        {
+          "name": "B",
+          "maximum_listing_price_usd": 35000,
+          "maximum_mileage": 25000
+        }
+      ]
+    },
+    "high_priority": {
+      "maximum_listing_price_usd": 35500,
+      "maximum_mileage": 30000
+    },
+    "buy": {
+      "maximum_listing_price_usd": 35000,
+      "maximum_mileage": 35000
+    },
+    "fair": {
+      "maximum_listing_price_usd": 35500,
+      "maximum_mileage": 40000
+    },
+    "avoid": {
+      "minimum_listing_price_usd": 35000,
+      "minimum_mileage": 40000
+    }
+  },
+  "tie_break_weights_percent": {
+    "price": 30,
+    "mileage": 25,
+    "wheel": 15,
+    "original_basic_warranty": 10,
+    "model_year": 10,
+    "options": 9,
+    "pickup_location": 1
+  },
+  "policy_notes": [
+    "Hard gates dominate all weights.",
+    "The 19-inch weight is binary because 19-inch wheels are also required.",
+    "Battery SOH must not be inferred from displayed range.",
+    "A BUY tier remains conditional while any verification gate is pending.",
+    "Transport is taxable in the report estimate and Tesla checkout is final."
+  ]
+}

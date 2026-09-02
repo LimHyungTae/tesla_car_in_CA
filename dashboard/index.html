@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Foster City Tesla Model Y CPO Buy Box inventory dashboard">
+  <title>Tesla Model Y Monitor · Foster City Buy Box</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+
+  <header class="masthead">
+    <div class="shell masthead__inner">
+      <div class="topline">
+        <a class="wordmark" href="./" aria-label="Tesla Model Y Monitor 홈">
+          <span class="wordmark__mark" aria-hidden="true">Y</span>
+          <span>Tesla Model Y Monitor</span>
+        </a>
+        <div class="health-pill" id="health-pill" data-state="loading" role="status" aria-live="polite">
+          <span class="health-pill__dot" aria-hidden="true"></span>
+          <span id="health-label">데이터 확인 중</span>
+        </div>
+      </div>
+
+      <section class="crawl-strip" aria-label="크롤러 소스 상태">
+        <article>
+          <span>Last successful crawl</span>
+          <strong id="last-successful-crawl">—</strong>
+        </article>
+        <article>
+          <span>Last attempted crawl</span>
+          <strong id="last-attempted-crawl">—</strong>
+        </article>
+        <article>
+          <span>Source status</span>
+          <strong id="source-status">LOADING</strong>
+        </article>
+      </section>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Tesla Certified Pre-Owned · Model Y · ZIP 94404</p>
+          <h1>살 차보다,<br><span>기다릴 가격</span>을 봅니다.</h1>
+          <p class="hero-copy__lede" id="hero-summary">
+            최신 재고와 Foster City 예상 OTD를 Buy Box v2로 판정하고 있습니다.
+          </p>
+          <div class="hero-actions">
+            <a class="button button--primary" href="#high-priority">우선 관찰 보기</a>
+            <a class="button button--quiet" id="report-link" href="https://github.com/LimHyungTae/tesla_car_in_CA/blob/main/0902_candidates_v2.html">상세 리포트</a>
+          </div>
+        </div>
+
+        <aside class="decision-panel" aria-labelledby="decision-title">
+          <p class="decision-panel__label">오늘의 결론</p>
+          <div class="decision-panel__value"><strong id="decision-count">—</strong><span>confirmed BUY</span></div>
+          <h2 id="decision-title">조건을 모두 통과한 차량만 BUY입니다.</h2>
+          <p id="decision-copy">가격, 19인치 휠, 이력, SOH와 최종 Transport를 함께 확인합니다.</p>
+          <div class="decision-panel__rule">
+            <span>OTD ceiling</span>
+            <strong id="otd-ceiling">—</strong>
+          </div>
+        </aside>
+      </div>
+
+      <section class="metrics" aria-label="재고 핵심 지표">
+        <article class="metric">
+          <span class="metric__label">Current candidates</span>
+          <strong class="metric__value" id="metric-active">—</strong>
+          <span class="metric__hint">tracked now</span>
+        </article>
+        <article class="metric metric--priority">
+          <span class="metric__label">HIGH PRIORITY count</span>
+          <strong class="metric__value" id="metric-priority">—</strong>
+          <span class="metric__hint">next action</span>
+        </article>
+        <article class="metric metric--buy">
+          <span class="metric__label">BUY count</span>
+          <strong class="metric__value" id="metric-buy">—</strong>
+          <span class="metric__hint" id="metric-buy-hint">confirmed + conditional</span>
+        </article>
+        <article class="metric">
+          <span class="metric__label">신규</span>
+          <strong class="metric__value" id="metric-new">—</strong>
+          <span class="metric__hint">since prior snapshot</span>
+        </article>
+        <article class="metric metric--drop">
+          <span class="metric__label">가격 인하</span>
+          <strong class="metric__value" id="metric-drops">—</strong>
+          <span class="metric__hint">observed listings</span>
+        </article>
+        <article class="metric metric--gone">
+          <span class="metric__label">사라짐</span>
+          <strong class="metric__value" id="metric-gone">—</strong>
+          <span class="metric__hint">since prior snapshot</span>
+        </article>
+      </section>
+
+      <p class="freshness" id="freshness">스냅샷 시각을 불러오는 중입니다.</p>
+    </div>
+  </header>
+
+  <nav class="section-nav" aria-label="대시보드 섹션">
+    <div class="shell section-nav__scroll">
+      <a href="#high-priority">High Priority</a>
+      <a href="#buy">BUY</a>
+      <a href="#new-listings">신규</a>
+      <a href="#price-drops">가격 인하</a>
+      <a href="#all-active">전체 활성</a>
+      <a href="#disappeared">사라짐</a>
+      <a href="#history">History</a>
+    </div>
+  </nav>
+
+  <main id="main-content" class="shell dashboard" tabindex="-1" aria-busy="true">
+    <div class="notice" id="data-notice" hidden role="status" aria-live="polite"></div>
+
+    <section class="dashboard-section dashboard-section--priority" id="high-priority" aria-labelledby="priority-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Act first</p>
+          <h2 id="priority-title">HIGH PRIORITY</h2>
+          <p><code>monitor_tier</code>가 HIGH PRIORITY 또는 ULTRA VALUE인 활성 차량입니다.</p>
+        </div>
+        <span class="section-count" id="priority-count">—</span>
+      </div>
+      <div class="vehicle-grid vehicle-grid--priority" id="priority-grid">
+        <div class="loading-card" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="dashboard-section" id="buy" aria-labelledby="buy-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker section-kicker--buy">Ready band</p>
+          <h2 id="buy-title">BUY</h2>
+          <p>Buy Box와 OTD를 통과한 차량입니다. 미확인 gate가 있으면 조건부로 구분합니다.</p>
+        </div>
+        <span class="section-count" id="buy-count">—</span>
+      </div>
+      <div class="vehicle-grid" id="buy-grid"></div>
+    </section>
+
+    <section class="dashboard-section" id="new-listings" aria-labelledby="new-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">What changed</p>
+          <h2 id="new-title">NEW SINCE LAST CRAWL</h2>
+          <p>직전 저장 스냅샷과 비교해 새 후보 풀에 들어온 차량입니다.</p>
+        </div>
+        <span class="section-count" id="new-count">—</span>
+      </div>
+      <div class="vehicle-grid" id="new-grid"></div>
+    </section>
+
+    <section class="dashboard-section" id="price-drops" aria-labelledby="drops-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker section-kicker--drop">Momentum</p>
+          <h2 id="drops-title">PRICE DROPS</h2>
+          <p>직전 crawl 대비 <span id="price-drop-threshold">설정값</span> 이상 내려간 활성 차량입니다. 누적 인하와 구분합니다.</p>
+        </div>
+        <span class="section-count" id="drops-count">—</span>
+      </div>
+      <div class="vehicle-grid" id="drops-grid"></div>
+    </section>
+
+    <section class="dashboard-section" id="all-active" aria-labelledby="active-title">
+      <div class="section-heading section-heading--toolbar">
+        <div>
+          <p class="section-kicker">Inventory</p>
+          <h2 id="active-title">ALL ACTIVE CANDIDATES</h2>
+          <p>현재 데이터셋에 포함된 모든 활성 후보를 같은 기준으로 비교합니다.</p>
+        </div>
+        <span class="section-count" id="active-count">—</span>
+      </div>
+      <form class="toolbar" id="inventory-controls" role="search" aria-label="활성 재고 필터">
+        <label class="search-control">
+          <span class="sr-only">VIN, 색상 또는 위치 검색</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.3-4.3m2.3-5.2A7.5 7.5 0 1 1 4 11.5a7.5 7.5 0 0 1 15 0Z"/></svg>
+          <input id="inventory-search" type="search" placeholder="VIN · 색상 · 위치 검색" autocomplete="off">
+        </label>
+        <label>
+          <span class="sr-only">판정 필터</span>
+          <select id="decision-filter">
+            <option value="ALL">모든 판정</option>
+            <option value="BUY">BUY</option>
+            <option value="FAIR">FAIR</option>
+            <option value="WAIT">WAIT</option>
+            <option value="EXCLUDE">EXCLUDE</option>
+          </select>
+        </label>
+        <label>
+          <span class="sr-only">정렬 방식</span>
+          <select id="inventory-sort">
+            <option value="priority">우선순위순</option>
+            <option value="price">낮은 가격순</option>
+            <option value="mileage">낮은 마일순</option>
+            <option value="drop">인하폭순</option>
+            <option value="newest">최근 포착순</option>
+          </select>
+        </label>
+      </form>
+      <p class="results-copy" id="results-copy" aria-live="polite"></p>
+      <div class="vehicle-grid" id="active-grid"></div>
+    </section>
+
+    <section class="dashboard-section" id="disappeared" aria-labelledby="gone-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker section-kicker--gone">No longer active</p>
+          <h2 id="gone-title">RECENTLY DISAPPEARED</h2>
+          <p>직전 관찰 뒤 현재 활성 목록에서 빠진 차량입니다. 판매 완료와 동일한 뜻은 아닙니다.</p>
+        </div>
+        <span class="section-count" id="gone-count">—</span>
+      </div>
+      <div class="vehicle-grid vehicle-grid--gone" id="gone-grid"></div>
+    </section>
+
+    <section class="dashboard-section" id="history" aria-labelledby="history-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Snapshots</p>
+          <h2 id="history-title">PRICE HISTORY</h2>
+          <p>저장된 가격 이벤트와 crawl 실행 이력입니다. 직전 crawl 변화는 별도 표시합니다.</p>
+        </div>
+        <span class="section-count" id="history-count">—</span>
+      </div>
+      <div class="history-panel" id="history-panel"></div>
+    </section>
+
+    <aside class="method-note" aria-labelledby="method-title">
+      <div>
+        <p class="section-kicker">Calculation note</p>
+        <h2 id="method-title">숫자와 확인 항목을 분리합니다.</h2>
+        <p id="otd-method-copy">표시 OTD는 Foster City 설정값으로 계산합니다. 최종 Transport, 세금, 등록비와 판매 상태는 Tesla checkout이 우선합니다.</p>
+      </div>
+      <code id="otd-formula">OTD 계산 설정을 불러오는 중입니다.</code>
+    </aside>
+
+    <noscript>
+      <div class="empty-state empty-state--error">
+        <strong>JavaScript가 필요합니다.</strong>
+        <p>이 정적 대시보드는 JSON 재고 데이터를 읽어 화면을 구성합니다.</p>
+      </div>
+    </noscript>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell site-footer__inner">
+      <div>
+        <strong>Foster City Tesla Buy Box</strong>
+        <p>의사결정 보조용 추정치이며 차량 예약·금융 승인을 의미하지 않습니다.</p>
+      </div>
+      <a href="#main-content">맨 위로</a>
+    </div>
+  </footer>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

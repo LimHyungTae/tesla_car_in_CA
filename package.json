@@ -1,0 +1,16 @@
+{
+  "name": "tesla-model-y-cpo-buy-box",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "evaluate": "node .agents/skills/tesla-buy-box/scripts/evaluate.mjs data/snapshots/2026-09-02.json",
+    "monitor": "python3 -m tesla_monitor.cli",
+    "monitor:force": "python3 -m tesla_monitor.cli --force",
+    "test": "node --test",
+    "test:python": "python3 -m pytest -q"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

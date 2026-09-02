@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "timezone": "America/Los_Angeles",
+  "cadence": {
+    "overnight_start_hour": 0,
+    "overnight_end_hour_exclusive": 5,
+    "overnight_interval_minutes": 15,
+    "day_interval_minutes": 30,
+    "stale_multiplier": 2
+  },
+  "source": {
+    "name": "Tesla Used Inventory",
+    "base_url": "https://www.tesla.com/inventory/api/v4/inventory-results",
+    "market": "US",
+    "language": "en",
+    "model": "my",
+    "condition": "used",
+    "zip": "94404",
+    "radius_miles": 200,
+    "latitude": 37.5538,
+    "longitude": -122.2711,
+    "page_size": 50,
+    "max_pages": 10,
+    "timeout_seconds": 20,
+    "maximum_attempts": 3,
+    "initial_backoff_seconds": 2,
+    "allow_empty_inventory": false,
+    "user_agent": "tesla-car-in-ca-inventory-monitor/1.0 (+https://github.com/LimHyungTae/tesla_car_in_CA)"
+  },
+  "filters": {
+    "neutral_colors": [
+      "Black",
+      "Diamond Black",
+      "Grey",
+      "Gray",
+      "Midnight Silver Metallic",
+      "Quicksilver",
+      "Silver",
+      "Stealth Grey",
+      "White",
+      "Pearl White Multi-Coat"
+    ]
+  },
+  "changes": {
+    "price_drop_alert_usd": 300,
+    "recently_disappeared_limit": 25,
+    "price_history_limit": 250
+  },
+  "history": {
+    "maximum_runs": 500,
+    "maximum_events": 5000
+  },
+  "paths": {
+    "state": "data/state.json",
+    "inventory": "data/inventory.json",
+    "history": "data/history.json",
+    "dashboard_inventory": "dashboard/data/inventory.json",
+    "dashboard_history": "dashboard/data/history.json",
+    "dashboard_status": "dashboard/data/status.json",
+    "buy_box_config": "config/buy-box.json",
+    "monitor_config": "config/monitor.json",
+    "dashboard_buy_box_config": "dashboard/data/buy-box.json",
+    "dashboard_monitor_config": "dashboard/data/monitor.json"
+  }
+}

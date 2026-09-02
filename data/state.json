@@ -1,0 +1,1049 @@
+{
+  "schema_version": 1,
+  "last_run_at": "2026-09-02T07:08:00Z",
+  "last_attempt_at": "2026-09-02T07:08:00Z",
+  "last_successful_at": "2026-09-02T07:08:00Z",
+  "last_status": "success",
+  "last_error": null,
+  "consecutive_failures": 0,
+  "stale": false,
+  "inventory_count": 8,
+  "last_event_count": 12,
+  "last_alert_count": 6,
+  "known_vins": [
+    "7SAYGDEE0PF875376",
+    "7SAYGDEE2PF864217",
+    "7SAYGDEE4PA151462",
+    "7SAYGDEE4PA154636",
+    "7SAYGDEE5PF873395",
+    "7SAYGDEE6PF853205",
+    "7SAYGDEE7PF886407",
+    "7SAYGDEE7PF964653",
+    "7SAYGDEE8PF866876",
+    "7SAYGDEE8PF971563",
+    "7SAYGDEE9PF840366",
+    "7SAYGDEE9RF043246"
+  ],
+  "inactive_vins": [
+    "7SAYGDEE0PF875376",
+    "7SAYGDEE4PA151462",
+    "7SAYGDEE5PF873395",
+    "7SAYGDEE6PF853205"
+  ],
+  "catalog": {
+    "7SAYGDEE7PF886407": {
+      "vin": "7SAYGDEE7PF886407",
+      "available": true,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 19,
+      "mileage": 27544,
+      "price_usd": 36800,
+      "location": "McClellan Park, CA",
+      "exterior": "Black",
+      "interior": "Black",
+      "tesla_cpo": true,
+      "autocheck_score": 93,
+      "title_status": "clean",
+      "accident_or_damage": false,
+      "prior_use": "lease",
+      "battery_health": "unknown",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": 2500,
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": true,
+      "option_codes": [],
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE7PF886407?titleStatus=used&redirect=no#overview",
+      "first_seen_at": "2026-08-24T22:07:35.246Z",
+      "last_seen_at": "2026-09-02T07:08:00Z",
+      "source_first_seen_at": "2026-08-24T22:07:35.246Z",
+      "source_last_seen_at": "2026-09-02T06:07:00Z",
+      "source_previous_price_usd": 37200,
+      "previous_price_usd": 37200,
+      "price_change_usd": -400,
+      "first_observed_price_usd": 39100,
+      "history_source": "AutoCheck report",
+      "history_verified_at": "2026-09-02T07:08:00Z",
+      "history_evidence_status": "current_source",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "raw_rewards": [],
+      "rewards_source": null,
+      "rewards_verified_at": null,
+      "rewards_evidence_status": "unverified",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "WAIT",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "WAIT",
+      "verification": "VERIFY FIRST",
+      "evaluation": {
+        "tier": "WAIT",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "WAIT",
+        "verification": "VERIFY FIRST",
+        "failures": [],
+        "pending": [
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "estimated OTD exceeds cap"
+        ],
+        "otd": {
+          "low": 40850.0,
+          "high": 41050.0
+        },
+        "direct_pickup_otd": {
+          "low": 40850.0,
+          "high": 41050.0
+        },
+        "listing_price_target_usd": 35500
+      }
+    },
+    "7SAYGDEE7PF964653": {
+      "vin": "7SAYGDEE7PF964653",
+      "available": true,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 19,
+      "mileage": 37242,
+      "price_usd": 36900,
+      "location": "Reno, NV",
+      "exterior": "Grey",
+      "interior": "Black",
+      "tesla_cpo": true,
+      "autocheck_score": 94,
+      "title_status": "clean",
+      "accident_or_damage": false,
+      "prior_use": "personal",
+      "battery_health": "unknown",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": 2500,
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": true,
+      "option_codes": [],
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE7PF964653?titleStatus=used&redirect=no#overview",
+      "first_seen_at": "2026-08-25T20:08:21.961Z",
+      "last_seen_at": "2026-09-02T07:08:00Z",
+      "source_first_seen_at": "2026-08-25T20:08:21.961Z",
+      "source_last_seen_at": "2026-09-02T06:07:00Z",
+      "source_previous_price_usd": 37100,
+      "previous_price_usd": 37100,
+      "price_change_usd": -200,
+      "first_observed_price_usd": 39000,
+      "history_source": "AutoCheck report",
+      "history_verified_at": "2026-09-02T07:08:00Z",
+      "history_evidence_status": "current_source",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "raw_rewards": [],
+      "rewards_source": null,
+      "rewards_verified_at": null,
+      "rewards_evidence_status": "unverified",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "WAIT",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "WAIT",
+      "verification": "VERIFY FIRST",
+      "evaluation": {
+        "tier": "WAIT",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "WAIT",
+        "verification": "VERIFY FIRST",
+        "failures": [],
+        "pending": [
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "estimated OTD exceeds cap"
+        ],
+        "otd": {
+          "low": 40959.38,
+          "high": 41159.38
+        },
+        "direct_pickup_otd": {
+          "low": 40959.38,
+          "high": 41159.38
+        },
+        "listing_price_target_usd": 35500
+      }
+    },
+    "7SAYGDEE8PF971563": {
+      "vin": "7SAYGDEE8PF971563",
+      "available": true,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 19,
+      "mileage": 22851,
+      "price_usd": 37100,
+      "location": "Colma, CA",
+      "exterior": "Black",
+      "interior": "White",
+      "tesla_cpo": true,
+      "autocheck_score": null,
+      "title_status": null,
+      "accident_or_damage": null,
+      "prior_use": null,
+      "battery_health": "unknown",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": 2500,
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": true,
+      "option_codes": [],
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE8PF971563?titleStatus=used&redirect=no#overview",
+      "first_seen_at": "2026-08-21T22:12:05.356Z",
+      "last_seen_at": "2026-09-02T07:08:00Z",
+      "source_first_seen_at": "2026-08-21T22:12:05.356Z",
+      "source_last_seen_at": "2026-09-02T06:07:00Z",
+      "source_previous_price_usd": 37400,
+      "previous_price_usd": 37400,
+      "price_change_usd": -300,
+      "first_observed_price_usd": 40300,
+      "history_source": null,
+      "history_verified_at": null,
+      "history_evidence_status": "unverified",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "raw_rewards": [],
+      "rewards_source": null,
+      "rewards_verified_at": null,
+      "rewards_evidence_status": "unverified",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "WAIT",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "WAIT",
+      "verification": "VERIFY FIRST",
+      "evaluation": {
+        "tier": "WAIT",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "WAIT",
+        "verification": "VERIFY FIRST",
+        "failures": [],
+        "pending": [
+          "title status",
+          "accident/damage history",
+          "prior use",
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "estimated OTD exceeds cap"
+        ],
+        "otd": {
+          "low": 41178.12,
+          "high": 41378.12
+        },
+        "direct_pickup_otd": {
+          "low": 41178.12,
+          "high": 41378.12
+        },
+        "listing_price_target_usd": 35500
+      }
+    },
+    "7SAYGDEE4PA154636": {
+      "vin": "7SAYGDEE4PA154636",
+      "available": true,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 19,
+      "mileage": 19147,
+      "price_usd": 37500,
+      "location": "McClellan Park, CA",
+      "exterior": "Grey",
+      "interior": "White",
+      "tesla_cpo": true,
+      "autocheck_score": null,
+      "title_status": null,
+      "accident_or_damage": null,
+      "prior_use": null,
+      "battery_health": "unknown",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": 2500,
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": true,
+      "option_codes": [],
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE4PA154636?titleStatus=used&redirect=no#overview",
+      "first_seen_at": "2026-08-24T16:08:00.662Z",
+      "last_seen_at": "2026-09-02T07:08:00Z",
+      "source_first_seen_at": "2026-08-24T16:08:00.662Z",
+      "source_last_seen_at": "2026-09-02T06:07:00Z",
+      "source_previous_price_usd": 37400,
+      "previous_price_usd": 37400,
+      "price_change_usd": 100,
+      "first_observed_price_usd": 39600,
+      "history_source": null,
+      "history_verified_at": null,
+      "history_evidence_status": "unverified",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "raw_rewards": [],
+      "rewards_source": null,
+      "rewards_verified_at": null,
+      "rewards_evidence_status": "unverified",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "WAIT",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "WAIT",
+      "verification": "VERIFY FIRST",
+      "evaluation": {
+        "tier": "WAIT",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "WAIT",
+        "verification": "VERIFY FIRST",
+        "failures": [],
+        "pending": [
+          "title status",
+          "accident/damage history",
+          "prior use",
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "estimated OTD exceeds cap"
+        ],
+        "otd": {
+          "low": 41615.62,
+          "high": 41815.62
+        },
+        "direct_pickup_otd": {
+          "low": 41615.62,
+          "high": 41815.62
+        },
+        "listing_price_target_usd": 35500
+      }
+    },
+    "7SAYGDEE9PF840366": {
+      "vin": "7SAYGDEE9PF840366",
+      "available": true,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 20,
+      "mileage": 44377,
+      "price_usd": 35200,
+      "location": "Gilroy, CA",
+      "exterior": "Grey",
+      "interior": "White",
+      "tesla_cpo": true,
+      "autocheck_score": 93,
+      "title_status": "clean",
+      "accident_or_damage": false,
+      "prior_use": "lease",
+      "battery_health": "unknown",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": 2500,
+      "data_conflicts": [
+        "titleSubtype=DEMO while isDemo=false"
+      ],
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": true,
+      "option_codes": [],
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE9PF840366?titleStatus=used&redirect=no#overview",
+      "first_seen_at": "2026-08-25T20:08:20.902Z",
+      "last_seen_at": "2026-09-02T07:08:00Z",
+      "source_first_seen_at": "2026-08-25T20:08:20.902Z",
+      "source_last_seen_at": "2026-09-02T06:07:00Z",
+      "source_previous_price_usd": 35800,
+      "previous_price_usd": 35800,
+      "price_change_usd": -600,
+      "first_observed_price_usd": 37100,
+      "history_source": "AutoCheck report",
+      "history_verified_at": "2026-09-02T07:08:00Z",
+      "history_evidence_status": "current_source",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "raw_rewards": [
+        {
+          "code": "PC1mo",
+          "description": "Premium Connectivity 1 month"
+        },
+        {
+          "code": "FSDTrial1mo",
+          "description": "Autopilot/FSD trial 1 month"
+        }
+      ],
+      "rewards_source": "TeslaTracker cached detail endpoint",
+      "rewards_verified_at": "2026-09-02T07:08:00Z",
+      "rewards_evidence_status": "current_source",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "EXCLUDE",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "EXCLUDE",
+      "verification": "FAIL",
+      "evaluation": {
+        "tier": "EXCLUDE",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "not 19-inch wheels"
+        ],
+        "pending": [
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "not 19-inch wheels"
+        ],
+        "otd": {
+          "low": 39100.0,
+          "high": 39300.0
+        },
+        "direct_pickup_otd": {
+          "low": 39100.0,
+          "high": 39300.0
+        },
+        "listing_price_target_usd": null
+      }
+    },
+    "7SAYGDEE8PF866876": {
+      "vin": "7SAYGDEE8PF866876",
+      "available": true,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 19,
+      "mileage": 47548,
+      "price_usd": 35700,
+      "location": "McClellan Park, CA",
+      "exterior": "Grey",
+      "interior": "Black",
+      "tesla_cpo": true,
+      "autocheck_score": 93,
+      "title_status": "clean",
+      "accident_or_damage": false,
+      "prior_use": "lease",
+      "battery_health": "unknown",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": 2500,
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": true,
+      "option_codes": [],
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE8PF866876?titleStatus=used&redirect=no#overview",
+      "first_seen_at": "2026-08-27T20:07:56.947Z",
+      "last_seen_at": "2026-09-02T07:08:00Z",
+      "source_first_seen_at": "2026-08-27T20:07:56.947Z",
+      "source_last_seen_at": "2026-09-02T06:07:00Z",
+      "source_previous_price_usd": 36200,
+      "previous_price_usd": 36200,
+      "price_change_usd": -500,
+      "first_observed_price_usd": 36900,
+      "history_source": "AutoCheck report",
+      "history_verified_at": "2026-09-02T07:08:00Z",
+      "history_evidence_status": "current_source",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "raw_rewards": [
+        {
+          "code": "PC1mo",
+          "description": "Premium Connectivity 1 month"
+        },
+        {
+          "code": "FSDTrial1mo",
+          "description": "Autopilot/FSD trial 1 month"
+        }
+      ],
+      "rewards_source": "TeslaTracker cached detail endpoint",
+      "rewards_verified_at": "2026-09-02T07:08:00Z",
+      "rewards_evidence_status": "current_source",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "EXCLUDE",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "EXCLUDE",
+      "verification": "VERIFY FIRST",
+      "evaluation": {
+        "tier": "EXCLUDE",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "EXCLUDE",
+        "verification": "VERIFY FIRST",
+        "failures": [],
+        "pending": [
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "$35k+ with 40k–50kmi poor-value band"
+        ],
+        "otd": {
+          "low": 39646.88,
+          "high": 39846.88
+        },
+        "direct_pickup_otd": {
+          "low": 39646.88,
+          "high": 39846.88
+        },
+        "listing_price_target_usd": null
+      }
+    },
+    "7SAYGDEE2PF864217": {
+      "vin": "7SAYGDEE2PF864217",
+      "available": true,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 20,
+      "mileage": 32138,
+      "price_usd": 36200,
+      "location": "McClellan Park, CA",
+      "exterior": "Grey",
+      "interior": "Black",
+      "tesla_cpo": true,
+      "autocheck_score": 94,
+      "title_status": "clean",
+      "accident_or_damage": false,
+      "prior_use": "lease",
+      "battery_health": "unknown",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": 2500,
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": true,
+      "option_codes": [],
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE2PF864217?titleStatus=used&redirect=no#overview",
+      "first_seen_at": "2026-08-24T18:07:59.372Z",
+      "last_seen_at": "2026-09-02T07:08:00Z",
+      "source_first_seen_at": "2026-08-24T18:07:59.372Z",
+      "source_last_seen_at": "2026-09-02T06:07:00Z",
+      "source_previous_price_usd": 36900,
+      "previous_price_usd": 36900,
+      "price_change_usd": -700,
+      "first_observed_price_usd": 38400,
+      "history_source": "AutoCheck report",
+      "history_verified_at": "2026-09-02T07:08:00Z",
+      "history_evidence_status": "current_source",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "raw_rewards": [],
+      "rewards_source": null,
+      "rewards_verified_at": null,
+      "rewards_evidence_status": "unverified",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "EXCLUDE",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "EXCLUDE",
+      "verification": "FAIL",
+      "evaluation": {
+        "tier": "EXCLUDE",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "not 19-inch wheels"
+        ],
+        "pending": [
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "not 19-inch wheels"
+        ],
+        "otd": {
+          "low": 40193.75,
+          "high": 40393.75
+        },
+        "direct_pickup_otd": {
+          "low": 40193.75,
+          "high": 40393.75
+        },
+        "listing_price_target_usd": null
+      }
+    },
+    "7SAYGDEE9RF043246": {
+      "vin": "7SAYGDEE9RF043246",
+      "available": true,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2024,
+      "hardware": "HW4",
+      "wheel_inches": 19,
+      "mileage": 37500,
+      "price_usd": 36800,
+      "location": "Gilroy, CA",
+      "exterior": "Grey",
+      "interior": "Black",
+      "tesla_cpo": true,
+      "autocheck_score": null,
+      "title_status": "clean",
+      "accident_or_damage": true,
+      "accident_date": "2026-07-09",
+      "accident_severity": "unknown",
+      "prior_use": null,
+      "battery_health": "unknown",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": 2500,
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": true,
+      "option_codes": [],
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE9RF043246?titleStatus=used&redirect=no#overview",
+      "first_seen_at": "2026-08-28T20:09:28.702Z",
+      "last_seen_at": "2026-09-02T07:08:00Z",
+      "source_first_seen_at": "2026-08-28T20:09:28.702Z",
+      "source_last_seen_at": "2026-09-02T06:07:00Z",
+      "source_previous_price_usd": 37100,
+      "previous_price_usd": 37100,
+      "price_change_usd": -300,
+      "first_observed_price_usd": 37800,
+      "history_source": "AutoCheck report",
+      "history_verified_at": "2026-09-02T07:08:00Z",
+      "history_evidence_status": "partial_current_source",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "raw_rewards": [],
+      "rewards_source": null,
+      "rewards_verified_at": null,
+      "rewards_evidence_status": "unverified",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "EXCLUDE",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "EXCLUDE",
+      "verification": "FAIL",
+      "evaluation": {
+        "tier": "EXCLUDE",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "reported accident/damage"
+        ],
+        "pending": [
+          "prior use",
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "reported accident/damage"
+        ],
+        "otd": {
+          "low": 40850.0,
+          "high": 41050.0
+        },
+        "direct_pickup_otd": {
+          "low": 40850.0,
+          "high": 41050.0
+        },
+        "listing_price_target_usd": null
+      }
+    },
+    "7SAYGDEE5PF873395": {
+      "vin": "7SAYGDEE5PF873395",
+      "available": false,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 19,
+      "mileage": 33747,
+      "price_usd": 35200,
+      "first_observed_price_usd": 38200,
+      "price_change_usd": -3000,
+      "price_change_basis": "first_seen",
+      "location": "Fresno, CA",
+      "exterior": "Grey",
+      "interior": "White",
+      "tesla_cpo": true,
+      "first_seen_at": "2026-08-21T22:11:52.136Z",
+      "last_seen_at": "2026-09-02T02:07:39.960Z",
+      "otd": {
+        "low": 39100,
+        "high": 39300,
+        "transport_assumption_usd": 0
+      },
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE5PF873395?titleStatus=used&redirect=no#overview",
+      "legacy_classification": {
+        "tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "현재 활성 재고에서 이탈"
+        ],
+        "reasons": [
+          "판매 완료 또는 unavailable일 수 있으나 상태를 단정하지 않음"
+        ]
+      },
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": true,
+      "title_status": null,
+      "accident_or_damage": null,
+      "prior_use": null,
+      "battery_health": "unknown",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": null,
+      "option_codes": [],
+      "previous_price_usd": null,
+      "source_previous_price_usd": null,
+      "source_first_seen_at": "2026-08-21T22:11:52.136Z",
+      "source_last_seen_at": "2026-09-02T02:07:39.960Z",
+      "history_source": null,
+      "history_verified_at": null,
+      "history_evidence_status": "unverified",
+      "raw_rewards": [],
+      "rewards_evidence_status": "unverified",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "EXCLUDE",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "EXCLUDE",
+      "verification": "FAIL",
+      "evaluation": {
+        "tier": "EXCLUDE",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "not currently available"
+        ],
+        "pending": [
+          "title status",
+          "accident/damage history",
+          "prior use",
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "not currently available"
+        ],
+        "otd": {
+          "low": 39100.0,
+          "high": 39300.0
+        },
+        "direct_pickup_otd": {
+          "low": 39100.0,
+          "high": 39300.0
+        },
+        "listing_price_target_usd": null
+      }
+    },
+    "7SAYGDEE0PF875376": {
+      "vin": "7SAYGDEE0PF875376",
+      "available": false,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 19,
+      "mileage": 25738,
+      "price_usd": 36300,
+      "first_observed_price_usd": 39200,
+      "price_change_usd": -2900,
+      "price_change_basis": "first_seen",
+      "location": "Gilroy, CA",
+      "exterior": "Blue",
+      "interior": "Black",
+      "tesla_cpo": true,
+      "first_seen_at": "2026-08-21T22:12:05.356Z",
+      "last_seen_at": "2026-09-01T00:07:48.478Z",
+      "otd": {
+        "low": 40303,
+        "high": 40503,
+        "transport_assumption_usd": 0
+      },
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE0PF875376?titleStatus=used&redirect=no#overview",
+      "legacy_classification": {
+        "tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "현재 활성 재고에서 이탈"
+        ]
+      },
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": false,
+      "title_status": null,
+      "accident_or_damage": null,
+      "prior_use": null,
+      "battery_health": "unknown",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": null,
+      "option_codes": [],
+      "previous_price_usd": null,
+      "source_previous_price_usd": null,
+      "source_first_seen_at": "2026-08-21T22:12:05.356Z",
+      "source_last_seen_at": "2026-09-01T00:07:48.478Z",
+      "history_source": null,
+      "history_verified_at": null,
+      "history_evidence_status": "unverified",
+      "raw_rewards": [],
+      "rewards_evidence_status": "unverified",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "EXCLUDE",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "EXCLUDE",
+      "verification": "FAIL",
+      "evaluation": {
+        "tier": "EXCLUDE",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "not currently available",
+          "excluded exterior color"
+        ],
+        "pending": [
+          "title status",
+          "accident/damage history",
+          "prior use",
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "not currently available",
+          "excluded exterior color"
+        ],
+        "otd": {
+          "low": 40303.12,
+          "high": 40503.12
+        },
+        "direct_pickup_otd": {
+          "low": 40303.12,
+          "high": 40503.12
+        },
+        "listing_price_target_usd": null
+      }
+    },
+    "7SAYGDEE4PA151462": {
+      "vin": "7SAYGDEE4PA151462",
+      "available": false,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 19,
+      "mileage": 32172,
+      "price_usd": 34600,
+      "first_observed_price_usd": 38300,
+      "price_change_usd": -3700,
+      "price_change_basis": "first_seen",
+      "location": "Gilroy, CA",
+      "exterior": "White",
+      "interior": "Black",
+      "tesla_cpo": true,
+      "first_seen_at": "2026-08-17T18:08:50.267Z",
+      "last_seen_at": "2026-08-31T16:07:40.036Z",
+      "otd": {
+        "low": 38116,
+        "high": 38316,
+        "transport_assumption_usd": 0
+      },
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE4PA151462?titleStatus=used&redirect=no#overview",
+      "legacy_classification": {
+        "tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "현재 활성 재고에서 이탈"
+        ],
+        "reasons": [
+          "좋은 역사적 Buy Box 사례지만 현재 주문 대상은 아님"
+        ]
+      },
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": true,
+      "title_status": null,
+      "accident_or_damage": null,
+      "prior_use": null,
+      "battery_health": "unknown",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": null,
+      "option_codes": [],
+      "previous_price_usd": null,
+      "source_previous_price_usd": null,
+      "source_first_seen_at": "2026-08-17T18:08:50.267Z",
+      "source_last_seen_at": "2026-08-31T16:07:40.036Z",
+      "history_source": null,
+      "history_verified_at": null,
+      "history_evidence_status": "unverified",
+      "raw_rewards": [],
+      "rewards_evidence_status": "unverified",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "EXCLUDE",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "EXCLUDE",
+      "verification": "FAIL",
+      "evaluation": {
+        "tier": "EXCLUDE",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "not currently available"
+        ],
+        "pending": [
+          "title status",
+          "accident/damage history",
+          "prior use",
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "not currently available"
+        ],
+        "otd": {
+          "low": 38443.75,
+          "high": 38643.75
+        },
+        "direct_pickup_otd": {
+          "low": 38443.75,
+          "high": 38643.75
+        },
+        "listing_price_target_usd": null
+      }
+    },
+    "7SAYGDEE6PF853205": {
+      "vin": "7SAYGDEE6PF853205",
+      "available": false,
+      "model": "Model Y",
+      "trim": "Long Range AWD",
+      "year": 2023,
+      "hardware": "HW4",
+      "wheel_inches": 20,
+      "mileage": 36030,
+      "price_usd": 36500,
+      "first_observed_price_usd": 38000,
+      "price_change_usd": -1500,
+      "price_change_basis": "first_seen",
+      "location": "McClellan Park, CA",
+      "exterior": "Red",
+      "interior": "Black",
+      "tesla_cpo": true,
+      "first_seen_at": "2026-08-24T16:07:58.585Z",
+      "last_seen_at": "2026-08-31T06:07:21.610Z",
+      "otd": {
+        "low": 40522,
+        "high": 40722,
+        "transport_assumption_usd": 0
+      },
+      "tesla_url": "https://www.tesla.com/my/order/7SAYGDEE6PF853205?titleStatus=used&redirect=no#overview",
+      "legacy_classification": {
+        "tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "현재 추적 활성 후보에서 이탈",
+          "19인치 휠 hard gate 실패"
+        ],
+        "reasons": [
+          "판매 완료로 단정하지 않고 다음 feed에서 상태 재확인"
+        ]
+      },
+      "seat_count": null,
+      "has_fsd": null,
+      "neutral_color": false,
+      "title_status": null,
+      "accident_or_damage": null,
+      "prior_use": null,
+      "battery_health": "unknown",
+      "battery_health_source": null,
+      "battery_health_checked_at": null,
+      "battery_evidence_status": "unverified",
+      "transport_fee_usd": null,
+      "cached_transfer_fee_usd": null,
+      "option_codes": [],
+      "previous_price_usd": null,
+      "source_previous_price_usd": null,
+      "source_first_seen_at": "2026-08-24T16:07:58.585Z",
+      "source_last_seen_at": "2026-08-31T06:07:21.610Z",
+      "history_source": null,
+      "history_verified_at": null,
+      "history_evidence_status": "unverified",
+      "raw_rewards": [],
+      "rewards_evidence_status": "unverified",
+      "observed_at": "2026-09-02T07:08:00Z",
+      "tier": "EXCLUDE",
+      "strength": null,
+      "opportunity_tier": null,
+      "monitor_tier": "EXCLUDE",
+      "verification": "FAIL",
+      "evaluation": {
+        "tier": "EXCLUDE",
+        "strength": null,
+        "opportunity_tier": null,
+        "monitor_tier": "EXCLUDE",
+        "verification": "FAIL",
+        "failures": [
+          "not currently available",
+          "not 19-inch wheels",
+          "excluded exterior color"
+        ],
+        "pending": [
+          "title status",
+          "accident/damage history",
+          "prior use",
+          "Battery Health/SOH",
+          "final Transport fee"
+        ],
+        "reasons": [
+          "not currently available",
+          "not 19-inch wheels",
+          "excluded exterior color"
+        ],
+        "otd": {
+          "low": 40521.88,
+          "high": 40721.88
+        },
+        "direct_pickup_otd": {
+          "low": 40521.88,
+          "high": 40721.88
+        },
+        "listing_price_target_usd": null
+      }
+    }
+  },
+  "next_due_at": "2026-09-02T07:23:00Z",
+  "seed_source": "data/snapshots/2026-09-02.json plus prior dashboard disappeared history"
+}

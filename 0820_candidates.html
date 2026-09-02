@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="2026-08-20 기준 Foster City Tesla Model Y Long Range AWD HW4 중고 매물 Top 5와 2026 Premium AWD 신차 비교">
+  <title>Model Y LR AWD HW4 Top 5 · 2026-08-20</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #657188;
+      --paper: #fff;
+      --soft: #f4f6f9;
+      --line: #dde3eb;
+      --night: #0d1421;
+      --night2: #202b40;
+      --red: #d7272e;
+      --red2: #a8141a;
+      --green: #087a58;
+      --green-bg: #e9f8f1;
+      --amber: #925808;
+      --amber-bg: #fff4de;
+      --blue: #225fa8;
+      --blue-bg: #edf6ff;
+      --shadow: 0 18px 46px rgba(25, 34, 50, .10);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 9% 0%, rgba(215,39,46,.09), transparent 31rem),
+        linear-gradient(#f8f9fb, #eef1f5 50rem, #f8f9fb);
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
+      line-height: 1.58;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+    button { font: inherit; }
+    code { padding: .1em .32em; border-radius: 5px; background: #eef1f5; font-size: .92em; }
+    .shell { width: min(1160px, calc(100% - 32px)); margin: 0 auto; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      background: linear-gradient(125deg, #0b111c, #202c41);
+      border-radius: 0 0 34px 34px;
+      box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: -300px;
+      right: -170px;
+      width: 540px;
+      height: 540px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 50%;
+      box-shadow: 0 0 0 75px rgba(255,255,255,.025), 0 0 0 150px rgba(255,255,255,.016);
+    }
+    .hero-inner { position: relative; z-index: 1; padding: 30px 0 44px; }
+    .topline { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-bottom: 46px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-size: 13px; font-weight: 850; letter-spacing: .045em; }
+    .mark { display: grid; place-items: center; width: 35px; height: 35px; border-radius: 10px; background: var(--red); font-size: 17px; font-weight: 900; }
+    .stamp { color: #c7d0df; font-size: 12px; text-align: right; }
+    .eyebrow { margin-bottom: 15px; color: #ffb7ba; font-size: 12px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { max-width: 900px; margin: 0; font-size: clamp(37px, 6vw, 67px); line-height: 1.04; letter-spacing: -.052em; }
+    .hero p { max-width: 850px; margin: 20px 0 0; color: #c8d0dd; font-size: clamp(16px, 2vw, 19px); }
+    .search-criteria { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 19px; }
+    .search-chip { padding: 6px 10px; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; color: #d8e0ec; background: rgba(255,255,255,.07); font-size: 12px; font-weight: 800; }
+    .search-chip.required { color: #fff; border-color: #ef6268; background: var(--red); }
+    .hero-actions, .actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 25px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 15px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      cursor: pointer;
+      font-weight: 790;
+      text-decoration: none;
+      transition: .16s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-red { color: #fff; background: var(--red); }
+    .btn-red:hover { background: var(--red2); }
+    .btn-ghost { color: #fff; border-color: rgba(255,255,255,.23); background: rgba(255,255,255,.06); }
+    .btn-light { color: var(--ink); border-color: var(--line); background: #fff; }
+    .btn-light:hover { border-color: #b8c1cf; background: #fafbfc; }
+
+    main { padding: 30px 0 70px; }
+    .alert {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      margin-bottom: 22px;
+      padding: 16px 18px;
+      border: 1px solid #efdaa7;
+      border-radius: 14px;
+      color: #694a11;
+      background: #fff8e9;
+      font-size: 13px;
+    }
+    .alert > b:first-child { display: grid; place-items: center; width: 23px; height: 23px; border-radius: 50%; color: #fff; background: #e1a126; }
+    .alert.info { border-color: #b9d5f3; color: #214f7e; background: #eef7ff; }
+    .alert.info > b:first-child { background: var(--blue); }
+    .alert.good { border-color: #b8dfd0; color: #145c47; background: #eefaf6; }
+    .alert.good > b:first-child { background: var(--green); }
+    .section { margin-top: 45px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 17px; }
+    .section-head h2 { margin: 0; font-size: clamp(25px, 3.5vw, 37px); line-height: 1.14; letter-spacing: -.04em; }
+    .section-head p { max-width: 760px; margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+    .subsection-title { margin: 29px 0 12px; font-size: 22px; letter-spacing: -.025em; }
+
+    .decision-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+    .decision-card { padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 8px 22px rgba(28,37,54,.045); }
+    .decision-card .case { color: var(--red); font-size: 11px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+    .decision-card strong { display: block; margin: 7px 0 5px; font-size: 18px; }
+    .decision-card p { margin: 0; color: var(--muted); font-size: 12px; }
+
+    .price-truth {
+      display: grid;
+      grid-template-columns: .86fr 1.14fr;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 21px;
+      background: #fff;
+      box-shadow: 0 10px 25px rgba(28,37,54,.05);
+    }
+    .truth-math { padding: 25px; color: #fff; background: linear-gradient(145deg, #b5171e, #741015); }
+    .truth-label { color: #ffd1d3; font-size: 11px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    .truth-price { display: block; margin: 7px 0 14px; font-size: clamp(35px,5vw,53px); line-height: 1; letter-spacing: -.05em; }
+    .truth-line { display: flex; justify-content: space-between; gap: 14px; padding: 7px 0; border-top: 1px solid rgba(255,255,255,.16); color: #ffe7e8; font-size: 13px; }
+    .truth-line.total { margin-top: 3px; color: #fff; font-size: 16px; font-weight: 880; }
+    .truth-note { padding: 25px; }
+    .truth-note h3 { margin: 0 0 10px; font-size: 22px; }
+    .truth-note ul { margin: 0; padding-left: 20px; color: #4e5a70; font-size: 13px; }
+    .truth-note li { margin: 8px 0; }
+
+    .method { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 8px; margin-bottom: 16px; }
+    .method-item { padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.82); text-align: center; }
+    .method-item strong { display: block; color: var(--red); font-size: 18px; }
+    .method-item span { color: var(--muted); font-size: 11px; }
+
+    .winner {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      overflow: hidden;
+      margin-bottom: 16px;
+      color: #fff;
+      border-radius: 23px;
+      background: linear-gradient(140deg, #c91d24, #8e0e14);
+      box-shadow: 0 18px 38px rgba(173,23,29,.20);
+    }
+    .winner-copy { padding: 28px; }
+    .winner-label { color: #ffd8d9; font-size: 12px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+    .winner h2 { margin: 10px 0 4px; font-size: clamp(30px,4vw,46px); line-height: 1.08; letter-spacing: -.04em; }
+    .winner-sub { color: #ffe7e8; font-size: 15px; }
+    .winner-reason { max-width: 650px; margin: 17px 0 20px; color: #ffe7e8; font-size: 14px; }
+    .winner-stats { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1px; background: rgba(255,255,255,.11); }
+    .winner-stat { display: flex; flex-direction: column; justify-content: center; min-height: 112px; padding: 20px; background: rgba(56,5,8,.16); }
+    .winner-stat span { color: #ffc9cb; font-size: 11px; font-weight: 750; text-transform: uppercase; letter-spacing: .05em; }
+    .winner-stat strong { margin-top: 4px; font-size: 19px; }
+
+    .cards { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+    .card { display: flex; flex-direction: column; min-height: 485px; padding: 20px; border: 1px solid var(--line); border-radius: 19px; background: var(--paper); box-shadow: 0 10px 26px rgba(28,37,54,.055); }
+    .card-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .rank { display: grid; place-items: center; width: 33px; height: 33px; border-radius: 10px; color: #fff; background: var(--night); font-weight: 880; }
+    .pick { padding: 5px 9px; border-radius: 999px; color: var(--blue); background: var(--blue-bg); font-size: 11px; font-weight: 830; }
+    .card h3 { margin: 16px 0 3px; font-size: 23px; line-height: 1.2; letter-spacing: -.03em; }
+    .location { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+    .price-line { display: flex; justify-content: space-between; align-items: end; gap: 12px; margin: 18px 0 13px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .price { font-size: 28px; font-weight: 900; line-height: 1; letter-spacing: -.04em; }
+    .miles { color: var(--muted); font-size: 13px; font-weight: 750; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
+    .tag { padding: 5px 8px; border-radius: 8px; color: #4f5c70; background: var(--soft); font-size: 11px; font-weight: 760; }
+    .tag.good { color: var(--green); background: var(--green-bg); }
+    .tag.warn { color: var(--amber); background: var(--amber-bg); }
+    .facts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; margin: 0 0 14px; }
+    .fact { padding: 10px; border-radius: 10px; background: #f7f8fa; }
+    .fact dt { margin: 0 0 3px; color: var(--muted); font-size: 10px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+    .fact dd { margin: 0; font-size: 12px; font-weight: 780; }
+    .tradeoff { margin: 0 0 15px; color: #5d697d; font-size: 13px; }
+    .tradeoff span { display: block; }
+    .tradeoff span + span { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line); }
+    .tradeoff .pros strong { color: var(--green); }
+    .tradeoff .cons strong { color: var(--amber); }
+    .card .actions { margin-top: auto; }
+    .actions .btn { flex: 1; min-height: 40px; padding: 0 11px; font-size: 12px; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: 0 10px 25px rgba(28,37,54,.05); }
+    table { width: 100%; min-width: 1120px; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 14px 15px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: #4e5a70; background: #f6f7f9; font-size: 11px; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #fafbfc; }
+    .vin { display: block; margin-top: 4px; color: var(--muted); font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .link { color: var(--blue); font-weight: 820; text-underline-offset: 3px; }
+    .yes { color: var(--green); font-weight: 820; }
+    .no { color: var(--red); font-weight: 820; }
+
+    .alternatives { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+    .alt { padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+    .alt-label { color: var(--red); font-size: 11px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+    .alt h3 { margin: 9px 0 6px; font-size: 18px; line-height: 1.25; }
+    .alt p { margin: 0 0 13px; color: var(--muted); font-size: 12px; }
+
+    .explain { display: grid; grid-template-columns: .9fr 1.1fr; overflow: hidden; border: 1px solid var(--line); border-radius: 21px; background: #fff; }
+    .explain-dark { padding: 24px; color: #fff; background: linear-gradient(145deg,var(--night),var(--night2)); }
+    .explain-dark h3, .explain-body h3 { margin: 0 0 10px; font-size: 21px; }
+    .explain-dark p { margin: 0 0 11px; color: #c8d0dd; font-size: 13px; }
+    .explain-body { padding: 24px; }
+    .explain-body ol, .explain-body ul { margin: 0; padding-left: 20px; color: #4e5a70; font-size: 13px; }
+    .explain-body li { margin: 8px 0; padding-left: 3px; }
+
+    .footnotes { padding: 21px; border: 1px solid var(--line); border-radius: 17px; background: rgba(255,255,255,.80); }
+    .footnotes h2 { margin: 0 0 9px; font-size: 20px; }
+    .footnotes ul { margin: 0; padding-left: 18px; }
+    .footnotes li { margin: 7px 0; color: var(--muted); font-size: 12px; }
+    .footnotes a { color: var(--blue); text-underline-offset: 3px; }
+    footer { padding: 25px 0 35px; color: var(--muted); font-size: 11px; text-align: center; }
+
+    @media (max-width: 920px) {
+      .method { grid-template-columns: repeat(4,minmax(0,1fr)); }
+      .winner, .explain, .price-truth { grid-template-columns: 1fr; }
+      .alternatives { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      .shell { width: calc(100% - 22px); }
+      .hero { border-radius: 0 0 23px 23px; }
+      .topline { align-items: flex-start; margin-bottom: 35px; }
+      .stamp { max-width: 155px; }
+      .method, .cards, .decision-grid { grid-template-columns: 1fr; }
+      .winner-stats { grid-template-columns: 1fr 1fr; }
+      .section-head { align-items: flex-start; flex-direction: column; }
+      .card { min-height: 0; }
+      .facts { grid-template-columns: 1fr; }
+    }
+    @media print {
+      body { background: #fff; }
+      .hero { border-radius: 0; box-shadow: none; }
+      .hero-actions, .actions { display: none !important; }
+      .shell { width: 100%; }
+      main { padding: 18px 22px; }
+      .cards { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .table-wrap { overflow: visible; }
+      table { min-width: 0; table-layout: fixed; font-size: 8.5px; }
+      th, td { padding: 6px; overflow-wrap: anywhere; }
+      .card, .winner, .section { break-inside: avoid; box-shadow: none; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="shell hero-inner">
+      <div class="topline">
+        <div class="brand"><span class="mark">Y</span> TESLA USED INVENTORY</div>
+        <div class="stamp">재고 스냅샷 2026-08-20 03:39 PDT<br>ZIP 94404 · 반경 200mi · Foster City</div>
+      </div>
+      <div class="eyebrow">Long Range AWD · HW4 · History first · SOH pending</div>
+      <h1>$40k OTD 안의<br>오늘 기준 Top 5</h1>
+      <p>사고 표시가 있는 차량은 가격이 좋아도 즉시 제외했습니다. 현재 다섯 대 모두 2023 Long Range AWD, HW4, 중립색, 50,000mi 미만이며, 표시된 픽업 지점에서 차량 이동 없이 받는 시나리오에서는 $40,000 OTD 상단을 통과합니다.</p>
+      <div class="search-criteria" aria-label="검색 및 선정 조건">
+        <span class="search-chip">2023+ · &lt;50,000mi</span>
+        <span class="search-chip required">Long Range AWD · HW4</span>
+        <span class="search-chip required">CLEAN 표시 · 중립색</span>
+        <span class="search-chip">사고 1순위 · SOH 실측 Pending</span>
+        <span class="search-chip">픽업 위치 가중치 1%</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-red" href="#top5">Top 5 바로 보기</a>
+        <a class="btn btn-ghost" href="#new">Premium AWD 신차 비교</a>
+        <a class="btn btn-ghost" href="https://teslatracker.com/inventory?source=tesla&amp;model=Model%20Y&amp;condition=used&amp;lat=37.5538&amp;lng=-122.27&amp;zip=94404&amp;radius=200&amp;minPrice=3000000&amp;maxPrice=3700000&amp;minYear=2023&amp;maxMileage=50000&amp;hardwareVersion=HW4&amp;category=MY_LR_AWD&amp;sortBy=price_asc" target="_blank" rel="noopener noreferrer">오늘의 후보 풀 ↗</a>
+        <a class="btn btn-ghost" href="https://www.tesla.com/inventory/used/my?arrangeby=plh&amp;zip=94404&amp;range=0&amp;TRIM=MY_RWD,MY_AWD,MY_LR_RWD,MY_LR_AWD&amp;PAINT=DIAMOND_BLACK,BLACK,WHITE,GREY,SILVER" target="_blank" rel="noopener noreferrer">Tesla 공식 검색 ↗</a>
+        <button class="btn btn-ghost" type="button" onclick="window.print()">인쇄 / PDF 저장</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <div class="alert good" role="note">
+      <b>✓</b>
+      <div><strong>오늘의 결론:</strong> 경제성 1순위는 <strong>PF855716</strong>입니다. $32,800, 19인치, Acceleration Boost·Tow, CLEAN 표시이며, 운송비가 최악의 $2,500으로 붙고 그 운송비에도 세금이 붙는다고 가정해도 예상 OTD 상단이 약 <strong>$39,409</strong>입니다. 단, 주행거리 46,253mi라 Original Basic 보증은 3,747mi만 남고 <strong>실측 SOH와 AutoCheck 원문은 아직 확인 전</strong>입니다.</div>
+    </div>
+
+    <div class="alert" role="note">
+      <b>!</b>
+      <div><strong>다섯 대가 모두 똑같이 안전한 예산은 아닙니다.</strong> PF855716과 PA143916은 Transport Fee가 $2,500까지 붙어도 $40k 안쪽입니다. PF862583, PF901913, PF844131은 현재 표시된 Colma/Gilroy/McClellan 픽업 지점에서 차량을 이동하지 않고 받고, 주문화면의 Transport Fee가 $0일 때만 확실히 통과합니다. $500만 붙어도 상단이 각각 약 $40,175, $40,284, $40,284가 됩니다.</div>
+    </div>
+
+    <section aria-labelledby="today-title">
+      <div class="section-head">
+        <div>
+          <h2 id="today-title">예산을 지키는 세 가지 경우</h2>
+          <p>픽업 장소 자체는 순위에 1%만 반영했지만, Transport Fee는 OTD에 직접 들어가므로 주문 직전에 반드시 확인해야 합니다.</p>
+        </div>
+      </div>
+      <div class="decision-grid">
+        <article class="decision-card"><div class="case">Robust $40k</div><strong>PF855716 · PA143916</strong><p>최대 $2,500 Transport가 과세된다는 보수적 계산에서도 상단이 각각 약 $39.41k, $39.96k입니다.</p></article>
+        <article class="decision-card"><div class="case">$0 Transport only</div><strong>PF844131 · PF901913 · PF862583</strong><p>직접 픽업 OTD는 $39.43–39.74k. 주문화면에 $500가 나타나면 strict cap을 넘거나 상단이 넘습니다.</p></article>
+        <article class="decision-card"><div class="case">Best near-miss</div><strong>2024 RF133570</strong><p>$36,400 · 29,386mi · 19인치. $0 Transport OTD도 $40.41–40.61k지만 약 $613만 늘릴 수 있다면 품질 우선 대안입니다.</p></article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="method-title">
+      <div class="section-head">
+        <div>
+          <h2 id="method-title">선정 기준</h2>
+          <p>사고·손상 표시는 점수가 아니라 hard gate입니다. CLEAN과 HW4를 통과한 뒤 SOH, 보증, 마일리지, OTD, 19인치 순으로 판단했습니다. SOH가 공개되지 않았기 때문에 아래 순위는 구매 전 검증이 필요한 임시 순위입니다.</p>
+        </div>
+      </div>
+      <div class="method">
+        <div class="method-item"><strong>Gate</strong><span>사고·타이틀 문제 없음</span></div>
+        <div class="method-item"><strong>30%</strong><span>실측 SOH · Pending</span></div>
+        <div class="method-item"><strong>20%</strong><span>Original Basic 잔여</span></div>
+        <div class="method-item"><strong>18%</strong><span>낮은 마일리지</span></div>
+        <div class="method-item"><strong>16%</strong><span>OTD 여유</span></div>
+        <div class="method-item"><strong>15%</strong><span>19인치·구성</span></div>
+        <div class="method-item"><strong>1%</strong><span>픽업 접근성</span></div>
+      </div>
+      <div class="alert info" role="note">
+        <b>B</b>
+        <div><strong>SOH = State of Health</strong>, 즉 신차 때와 비교해 배터리가 실제로 얼마나 에너지를 저장할 수 있는지 나타내는 건강도입니다. 이 재고 데이터에는 실측 SOH가 없습니다. 표의 “listing range proxy”는 매물의 표시 range를 데이터상 기준 range로 나눈 단순 관찰값일 뿐이며, 온도·휠·소프트웨어·보정 영향을 받으므로 <strong>SOH로 해석하거나 순위 점수에 넣지 않았습니다.</strong></div>
+      </div>
+    </section>
+
+    <section id="top5" class="section" aria-labelledby="top5-title">
+      <div class="section-head">
+        <div>
+          <h2 id="top5-title">SOH 확인 전 Top 5</h2>
+          <p>모두 2026-08-20 스냅샷에서 판매 중, Long Range AWD, HW4, CLEAN 표시, 중립색입니다. “CLEAN”은 독립적인 무사고 증명서가 아니므로 주문 전 AutoCheck 원문과 실차 검사가 필수입니다.</p>
+        </div>
+      </div>
+
+      <article class="winner">
+        <div class="winner-copy">
+          <div class="winner-label">#1 Value pick · Robust $40k · 19-inch</div>
+          <h2>2023 Long Range AWD</h2>
+          <div class="winner-sub">$32,800 · 46,253mi · Tesla Colma · Black / White</div>
+          <div class="tags"><span class="tag good">CLEAN 표시</span><span class="tag">HW4</span><span class="tag">19인치</span><span class="tag">Acceleration Boost</span><span class="tag">Tow</span><span class="tag warn">실측 SOH 미공개</span></div>
+          <p class="winner-reason">다섯 대 중 19인치와 가장 낮은 가격을 함께 만족합니다. 최대 $2,500 운송비를 과세 대상으로 넣어도 OTD 상단이 약 $39.41k라 주문화면 변동에 가장 강합니다. 단점은 Original Basic 보증이 3,747mi뿐이라는 점입니다. AutoCheck·도막·하부·Battery Health가 모두 통과할 때만 최종 1순위입니다.</p>
+          <div class="hero-actions">
+            <a class="btn btn-ghost" href="https://www.tesla.com/my/order/7SAYGDEE8PF855716?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">Tesla 공식 매물 ↗</a>
+            <a class="btn btn-ghost" href="https://teslatracker.com/inventory/7SAYGDEE8PF855716" target="_blank" rel="noopener noreferrer">가격·Days 이력 ↗</a>
+          </div>
+        </div>
+        <div class="winner-stats">
+          <div class="winner-stat"><span>VIN</span><strong>PF855716</strong></div>
+          <div class="winner-stat"><span>직접 픽업 예상 OTD</span><strong>$36.48–36.68k</strong></div>
+          <div class="winner-stat"><span>Transport $2.5k 예상 OTD</span><strong>$39.21–39.41k</strong></div>
+          <div class="winner-stat"><span>Original Basic</span><strong>2027-08-13 / 3,747mi</strong></div>
+          <div class="winner-stat"><span>Battery / Drive</span><strong>2031-08-13 / 120k</strong></div>
+          <div class="winner-stat"><span>Days on Lot</span><strong>약 15일</strong></div>
+        </div>
+      </article>
+
+      <div class="cards">
+        <article class="card">
+          <div class="card-top"><span class="rank">2</span><span class="pick">Condition-first · Fee-sensitive</span></div>
+          <h3>2023 Long Range AWD</h3>
+          <div class="location">Tesla McClellan Park · Black / White · VIN 7SAYGDEE2PF844131</div>
+          <div class="price-line"><span class="price">$35,600</span><span class="miles">39,358 mi</span></div>
+          <div class="tags"><span class="tag good">CLEAN 표시</span><span class="tag">HW4</span><span class="tag">20인치</span><span class="tag">Boost · Tow</span><span class="tag warn">SOH Pending</span></div>
+          <dl class="facts">
+            <div class="fact"><dt>직접 픽업 OTD</dt><dd>$39.54–39.74k</dd></div>
+            <div class="fact"><dt>Transport $500</dt><dd>$40.08–40.28k</dd></div>
+            <div class="fact"><dt>Original Basic</dt><dd>2027-08-09 / 10,642mi</dd></div>
+            <div class="fact"><dt>Battery / Drive</dt><dd>2031-08-09 / 120k</dd></div>
+            <div class="fact"><dt>Listing range*</dt><dd>290 / 318 · SOH 아님</dd></div>
+            <div class="fact"><dt>Days / 가격변화</dt><dd>약 7일 / $35.9k→$35.6k</dd></div>
+          </dl>
+          <p class="tradeoff"><span class="pros"><strong>장점:</strong> Top 5 중 마일리지가 가장 낮고 Original Basic도 10,642mi로 가장 많이 남았습니다. Tow와 White 인테리어도 있습니다.</span><span class="cons"><strong>단점:</strong> 20인치라 승차감·효율·타이어 비용이 19인치보다 불리하고, Transport $500만 붙어도 $40k OTD를 넘습니다.</span></p>
+          <div class="actions"><a class="btn btn-red" href="https://www.tesla.com/my/order/7SAYGDEE2PF844131?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">공식 매물</a><a class="btn btn-light" href="https://teslatracker.com/inventory/7SAYGDEE2PF844131" target="_blank" rel="noopener noreferrer">재고 이력</a></div>
+        </article>
+
+        <article class="card">
+          <div class="card-top"><span class="rank">3</span><span class="pick">Warranty balance · Fee-sensitive</span></div>
+          <h3>2023 Long Range AWD</h3>
+          <div class="location">Tesla McClellan Park · Black / Black · VIN 7SAYGDEE0PF901913</div>
+          <div class="price-line"><span class="price">$35,600</span><span class="miles">40,438 mi</span></div>
+          <div class="tags"><span class="tag good">CLEAN 표시</span><span class="tag">HW4</span><span class="tag">20인치</span><span class="tag">Acceleration Boost</span><span class="tag warn">SOH Pending</span></div>
+          <dl class="facts">
+            <div class="fact"><dt>직접 픽업 OTD</dt><dd>$39.54–39.74k</dd></div>
+            <div class="fact"><dt>Transport $500</dt><dd>$40.08–40.28k</dd></div>
+            <div class="fact"><dt>Original Basic</dt><dd>2027-10-23 / 9,562mi</dd></div>
+            <div class="fact"><dt>Battery / Drive</dt><dd>2031-10-23 / 120k</dd></div>
+            <div class="fact"><dt>Listing range*</dt><dd>292 / 318 · SOH 아님</dd></div>
+            <div class="fact"><dt>Days / 가격변화</dt><dd>약 8일 / $36.0k→$35.6k</dd></div>
+          </dl>
+          <p class="tradeoff"><span class="pros"><strong>장점:</strong> 마일리지와 Original Basic 잔여가 균형 잡혀 있고, 보증 날짜는 Top 5 중 가장 늦습니다.</span><span class="cons"><strong>단점:</strong> #2와 같은 가격인데 1,080mi 더 탔고 Tow가 없으며 역시 20인치·Transport Fee 민감 후보입니다.</span></p>
+          <div class="actions"><a class="btn btn-red" href="https://www.tesla.com/my/order/7SAYGDEE0PF901913?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">공식 매물</a><a class="btn btn-light" href="https://teslatracker.com/inventory/7SAYGDEE0PF901913" target="_blank" rel="noopener noreferrer">재고 이력</a></div>
+        </article>
+
+        <article class="card">
+          <div class="card-top"><span class="rank">4</span><span class="pick">Budget backup · Robust $40k</span></div>
+          <h3>2023 Long Range AWD</h3>
+          <div class="location">Tesla Gilroy · Grey / Black · VIN 7SAYGDEEXPA143916</div>
+          <div class="price-line"><span class="price">$33,300</span><span class="miles">44,735 mi</span></div>
+          <div class="tags"><span class="tag good">CLEAN 표시</span><span class="tag">HW4</span><span class="tag">20인치</span><span class="tag">Acceleration Boost</span><span class="tag warn">SOH Pending</span></div>
+          <dl class="facts">
+            <div class="fact"><dt>직접 픽업 OTD</dt><dd>$37.02–37.22k</dd></div>
+            <div class="fact"><dt>Transport $2,500</dt><dd>$39.76–39.96k</dd></div>
+            <div class="fact"><dt>Original Basic</dt><dd>2027-07-13 / 5,265mi</dd></div>
+            <div class="fact"><dt>Battery / Drive</dt><dd>2031-07-13 / 120k</dd></div>
+            <div class="fact"><dt>Listing range*</dt><dd>275 / 326 · SOH 아님</dd></div>
+            <div class="fact"><dt>Days / 가격변화</dt><dd>약 23일 / $33.7k→$33.3k</dd></div>
+          </dl>
+          <p class="tradeoff"><span class="pros"><strong>장점:</strong> #1 다음으로 가격이 낮고, 최대 Transport Fee를 과세해도 $40k 상단을 약 $44 남겨 둡니다.</span><span class="cons"><strong>단점:</strong> 20인치이고 44,735mi라 Original Basic 잔여가 5,265mi뿐입니다. Listing range가 낮아 보이지만 SOH 판단에는 쓰지 말고 실측 확인이 필요합니다.</span></p>
+          <div class="actions"><a class="btn btn-red" href="https://www.tesla.com/my/order/7SAYGDEEXPA143916?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">공식 매물</a><a class="btn btn-light" href="https://teslatracker.com/inventory/7SAYGDEEXPA143916" target="_blank" rel="noopener noreferrer">재고 이력</a></div>
+        </article>
+
+        <article class="card">
+          <div class="card-top"><span class="rank">5</span><span class="pick">19-inch · 7-seat · Fee-sensitive</span></div>
+          <h3>2023 Long Range AWD</h3>
+          <div class="location">Tesla McClellan Park · Black / Black · VIN 7SAYGAEE8PF862583</div>
+          <div class="price-line"><span class="price">$35,500</span><span class="miles">43,606 mi</span></div>
+          <div class="tags"><span class="tag good">CLEAN 표시</span><span class="tag">HW4</span><span class="tag">19인치</span><span class="tag">7인승</span><span class="tag">Acceleration Boost</span><span class="tag warn">SOH Pending</span></div>
+          <dl class="facts">
+            <div class="fact"><dt>직접 픽업 OTD</dt><dd>$39.43–39.63k</dd></div>
+            <div class="fact"><dt>Transport $500</dt><dd>$39.98–40.18k</dd></div>
+            <div class="fact"><dt>Original Basic</dt><dd>2027-08-19 / 6,394mi</dd></div>
+            <div class="fact"><dt>Battery / Drive</dt><dd>2031-08-19 / 120k</dd></div>
+            <div class="fact"><dt>Listing range*</dt><dd>285 / 330 · SOH 아님</dd></div>
+            <div class="fact"><dt>Days / 가격변화</dt><dd>약 6일 / $36.0k→$35.5k</dd></div>
+          </dl>
+          <p class="tradeoff"><span class="pros"><strong>장점:</strong> 19인치와 7인승을 함께 원하는 경우 Top 5에서 유일합니다. 가격도 #2·#3보다 $100 낮습니다.</span><span class="cons"><strong>단점:</strong> #1보다 $2,700 비싼데 마일은 2,647mi만 적고, Transport $500 시 OTD 상단이 $40k를 넘습니다. 3열이 필요 없다면 경제성은 약합니다.</span></p>
+          <div class="actions"><a class="btn btn-red" href="https://www.tesla.com/my/order/7SAYGAEE8PF862583?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">공식 매물</a><a class="btn btn-light" href="https://teslatracker.com/inventory/7SAYGAEE8PF862583" target="_blank" rel="noopener noreferrer">재고 이력</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="compare-title">
+      <div class="section-head">
+        <div><h2 id="compare-title">Top 5 한눈에 비교</h2><p>OTD는 Foster City 세율 9.375%와 DMV·타이틀·등록비 $600–800을 적용한 추정치입니다. 직접 픽업은 주문화면 Transport Fee가 $0임을 확인해야 성립합니다.</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>순위</th><th>차량 / 링크</th><th>사고 표시 / SOH</th><th>가격</th><th>$0 Transport OTD</th><th>마일</th><th>휠 / 구성</th><th>Original Basic</th><th>예산 성격</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><a class="link" href="https://www.tesla.com/my/order/7SAYGDEE8PF855716?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">PF855716 · Colma</a><span class="vin">7SAYGDEE8PF855716</span></td><td><span class="yes">CLEAN 표시</span><br>SOH 미공개</td><td>$32,800</td><td><strong>$36.48–36.68k</strong></td><td>46,253</td><td>19” · Boost · Tow</td><td>2027-08-13<br>3,747mi</td><td>Robust · 최종 value #1</td></tr>
+            <tr><td>2</td><td><a class="link" href="https://www.tesla.com/my/order/7SAYGDEE2PF844131?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">PF844131 · McClellan</a><span class="vin">7SAYGDEE2PF844131</span></td><td><span class="yes">CLEAN 표시</span><br>SOH 미공개</td><td>$35,600</td><td><strong>$39.54–39.74k</strong></td><td>39,358</td><td>20” · Boost · Tow</td><td>2027-08-09<br>10,642mi</td><td>$0 Transport 필수</td></tr>
+            <tr><td>3</td><td><a class="link" href="https://www.tesla.com/my/order/7SAYGDEE0PF901913?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">PF901913 · McClellan</a><span class="vin">7SAYGDEE0PF901913</span></td><td><span class="yes">CLEAN 표시</span><br>SOH 미공개</td><td>$35,600</td><td><strong>$39.54–39.74k</strong></td><td>40,438</td><td>20” · Boost</td><td>2027-10-23<br>9,562mi</td><td>$0 Transport 필수</td></tr>
+            <tr><td>4</td><td><a class="link" href="https://www.tesla.com/my/order/7SAYGDEEXPA143916?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">PA143916 · Gilroy</a><span class="vin">7SAYGDEEXPA143916</span></td><td><span class="yes">CLEAN 표시</span><br>SOH 미공개</td><td>$33,300</td><td><strong>$37.02–37.22k</strong></td><td>44,735</td><td>20” · Boost</td><td>2027-07-13<br>5,265mi</td><td>Robust · 저가 backup</td></tr>
+            <tr><td>5</td><td><a class="link" href="https://www.tesla.com/my/order/7SAYGAEE8PF862583?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">PF862583 · McClellan</a><span class="vin">7SAYGAEE8PF862583</span></td><td><span class="yes">CLEAN 표시</span><br>SOH 미공개</td><td>$35,500</td><td><strong>$39.43–39.63k</strong></td><td>43,606</td><td>19” · 7-seat · Boost</td><td>2027-08-19<br>6,394mi</td><td>$0 Transport 권장</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="excluded-title">
+      <div class="section-head">
+        <div><h2 id="excluded-title">싸지만 제외한 매물 · near-miss</h2><p>Top 5가 누락한 것이 아니라, 사용자가 정한 사고·색상·OTD 조건 때문에 뺀 차량입니다.</p></div>
+      </div>
+      <div class="alternatives">
+        <article class="alt">
+          <div class="alt-label">Hard exclude · Accident</div>
+          <h3>PF850586 · $32,500</h3>
+          <p>46,682mi · Grey · 20인치 · 직접 픽업 OTD $36.15–36.35k. 가장 싸지만 재고 이력에 <strong>PREVIOUS ACCIDENT(S)</strong>가 표시되어 가격과 무관하게 제외했습니다.</p>
+          <a class="link" href="https://www.tesla.com/my/order/7SAYGDEE7PF850586?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">공식 상태 재확인 ↗</a>
+        </article>
+        <article class="alt">
+          <div class="alt-label">Hard exclude · Accident</div>
+          <h3>PF886553 · $34,300</h3>
+          <p>40,522mi · White · 19인치 · 직접 픽업 OTD $38.12–38.32k. 구성은 좋아 보이지만 <strong>PREVIOUS ACCIDENT(S)</strong> 표시 때문에 제외했습니다.</p>
+          <a class="link" href="https://www.tesla.com/my/order/7SAYGDEE7PF886553?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">공식 상태 재확인 ↗</a>
+        </article>
+        <article class="alt">
+          <div class="alt-label">Color exception · Best spec</div>
+          <h3>PF913800 · $35,200</h3>
+          <p>32,761mi · Red · 19인치 · CLEAN 표시 · Basic 17,239mi 잔여. 직접 픽업 OTD $39.10–39.30k로 차량 조건은 강하지만 요청한 중립색 범위 밖이라 제외했습니다. 빨간색을 허용하면 즉시 재검토할 1순위 예외입니다.</p>
+          <a class="link" href="https://www.tesla.com/my/order/7SAYGDEE3PF913800?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">공식 매물 ↗</a>
+        </article>
+        <article class="alt">
+          <div class="alt-label">Near-miss · +$413–613</div>
+          <h3>2024 RF133570 · $36,400</h3>
+          <p>29,386mi · Grey · 19인치 · Tow · CLEAN 표시 · Basic 20,614mi 잔여. $0 Transport OTD도 $40.41–40.61k라 strict cap에서는 제외했지만, 예산을 약 $613 늘리면 2024년식 품질 우선 후보 중 가장 좋습니다.</p>
+          <a class="link" href="https://www.tesla.com/my/order/7SAYGDEE8RF133570?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">공식 매물 ↗</a>
+        </article>
+        <article class="alt">
+          <div class="alt-label">Hard exclude · Accident + over budget</div>
+          <h3>PF903730 · $36,700</h3>
+          <p>34,545mi · Grey · 19인치이지만 <strong>PREVIOUS ACCIDENT(S)</strong> 표시가 있고, $0 Transport OTD도 $40.74–40.94k입니다. 두 조건 모두 탈락입니다.</p>
+          <a class="link" href="https://www.tesla.com/my/order/7SAYGDEE2PF903730?titleStatus=used&amp;redirect=no#overview" target="_blank" rel="noopener noreferrer">공식 상태 재확인 ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="new" class="section" aria-labelledby="new-title">
+      <div class="section-head">
+        <div>
+          <h2 id="new-title">맞습니다: 동급 신차 비교는 Premium AWD</h2>
+          <p>2023 Long Range AWD와 실질적으로 같은 계열의 2026 신차는 Standard가 아니라 <strong>Premium AWD</strong>입니다. 이름이 바뀌었을 뿐 아니라 신형 차체·실내가 적용되어 정확한 동급 비교 기준은 약 $57.1k OTD입니다.</p>
+        </div>
+      </div>
+
+      <div class="price-truth">
+        <div class="truth-math">
+          <div class="truth-label">2026 Model Y Premium AWD · base configuration</div>
+          <strong class="truth-price">$49,990</strong>
+          <div class="truth-line"><span>Destination + Order Fee</span><strong>+$1,640</strong></div>
+          <div class="truth-line"><span>Foster City 세금 9.375%</span><strong>+$4,840</strong></div>
+          <div class="truth-line"><span>DMV·타이틀·등록비 · 추정</span><strong>+$600–800</strong></div>
+          <div class="truth-line total"><span>예상 OTD</span><strong>$57,070–57,270</strong></div>
+        </div>
+        <div class="truth-note">
+          <h3>$39,990 신차가 더 싸 보였던 이유</h3>
+          <ul>
+            <li><strong>$39,990은 Standard RWD의 차량 MSRP</strong>입니다. 세금까지 낸 OTD가 아니며, Long Range AWD의 동급 트림도 아닙니다.</li>
+            <li>2026 Premium AWD는 Dual Motor AWD, 19인치, EPA 327mi, 0–60 mph 4.6초, Premium 사양이며 2023 Long Range AWD의 실질적 후속입니다.</li>
+            <li>Top #1의 직접 픽업 OTD보다 신차 Premium AWD는 약 <strong>$20.6k</strong> 높습니다. #1에 최대 $2,500 운송비를 넣어도 차이는 약 <strong>$17.7k</strong>입니다.</li>
+            <li>신차의 장점은 완전한 Basic 4년/50k 보증, 새 배터리, prior use·사고 이력 불확실성 제거, 신형 승차감·정숙성입니다.</li>
+            <li>화면의 “up to $6,600 potential savings”는 예상 유류비 절감액이지 현금 할인이 아닙니다. 과거 연방 $7,500 EV credit도 현재 구매에는 없습니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="subsection-title">2026 Model Y 신차 가격표 · 8월 20일</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>기본 구성</th><th>MSRP</th><th>Order + Destination 포함 세전</th><th>Foster City 예상 OTD*</th><th>구동 / EPA / 휠</th><th>Battery / Drive 보증</th><th>중고 LR AWD와의 관계</th></tr></thead>
+          <tbody>
+            <tr><td><a class="link" href="https://www.tesla.com/modely/design#overview" target="_blank" rel="noopener noreferrer">RWD</a></td><td>$39,990</td><td>$41,630</td><td>$46.13–46.33k</td><td>RWD · 321mi · 18”</td><td>8y / 100k</td><td>가장 싼 Standard; 동급 아님</td></tr>
+            <tr><td><a class="link" href="https://www.tesla.com/modely/design#overview" target="_blank" rel="noopener noreferrer">AWD</a></td><td>$41,990</td><td>$43,630</td><td>$48.32–48.52k</td><td>AWD · 294mi · 18”</td><td>8y / 100k</td><td>AWD지만 Standard 사양; 동급 아님</td></tr>
+            <tr><td><a class="link" href="https://www.tesla.com/modely/design#overview" target="_blank" rel="noopener noreferrer">Premium RWD</a></td><td>$45,990</td><td>$47,630</td><td>$52.70–52.90k</td><td>RWD · 357mi · 19”</td><td>8y / 120k</td><td>Premium·장거리지만 RWD</td></tr>
+            <tr><td><a class="link" href="https://www.tesla.com/modely/design#overview" target="_blank" rel="noopener noreferrer"><strong>Premium AWD</strong></a></td><td><strong>$49,990</strong></td><td><strong>$51,630</strong></td><td><strong>$57.07–57.27k</strong></td><td>AWD · 327mi · 19”</td><td>8y / 120k · 70% minimum</td><td><strong>2023 Long Range AWD의 실질적 후속</strong></td></tr>
+            <tr><td><a class="link" href="https://www.tesla.com/modely/design#overview" target="_blank" rel="noopener noreferrer">Performance AWD</a></td><td>$57,990</td><td>$59,630</td><td>$65.82–66.02k</td><td>AWD · 306mi · 21”</td><td>8y / 120k</td><td>성능형; 경제성 비교 대상 아님</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert info" role="note" style="margin-top:16px">
+        <b>%</b>
+        <div><strong>금융 업데이트:</strong> 2026-08-20 현재 Tesla는 자격을 갖춘 excellent-credit 구매자에게 RWD·AWD·Premium RWD·Premium AWD를 최대 72개월 <strong>0.99% APR</strong>로 안내합니다. 최소 5% down과 세금·비용 조건이 있고 예고 없이 종료될 수 있습니다. 7월에 보였던 RWD 0%는 끝났습니다. 중고 승인금리가 높다면 신차와 반드시 같은 날 APR·다운페이먼트·총이자를 비교하되, 0.99%는 OTD 할인 자체가 아닙니다.</div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="clean-title">
+      <div class="explain">
+        <div class="explain-dark">
+          <h3 id="clean-title">“Tesla CLEAN · prior use 확인 필요” 뜻</h3>
+          <p><strong>CLEAN:</strong> 오늘 재고 피드에 이전 사고 표시가 없다는 뜻입니다. 별도 AutoCheck 원문까지 완전히 검증됐다는 뜻도, 미보고 수리가 전혀 없다는 보증도 아닙니다.</p>
+          <p><strong>Prior use:</strong> 이전 소유자가 Personal/Lease로 썼는지, Rental/Fleet/Commercial/Taxi/Rideshare로 썼는지 확인하라는 뜻입니다. 렌터카·상업용은 운전자 수와 충전·사용 패턴이 불명확해 같은 가격이면 제외하는 편이 안전합니다.</p>
+          <p><strong>Days on Lot:</strong> 추적기가 이 VIN을 처음 포착한 뒤 지난 시간입니다. Tesla 주차장에 있었던 총기간이나 차량 품질 점수가 아닙니다.</p>
+        </div>
+        <div class="explain-body">
+          <h3>주문금 결제 전에 실제로 할 일</h3>
+          <ol>
+            <li>Tesla 매물의 <strong>Condition → AutoCheck History</strong>를 열고 VIN이 이 문서와 같은지 확인합니다.</li>
+            <li><strong>Accident/Damage, Title Brand, Odometer</strong> 세 항목에 문제 표시가 하나라도 있으면 제외합니다.</li>
+            <li><strong>Vehicle Use</strong>에서 Personal 또는 Lease는 허용하고, Rental/Fleet/Commercial/Taxi/Rideshare는 원칙적으로 제외합니다.</li>
+            <li>미보고 수리에 대비해 인수 시 패널 갭, 페인트 색 차이, 도막 두께, 유리 제조일, 휠·타이어, 하부 배터리팩 눌림·긁힘을 확인합니다.</li>
+            <li><strong>Controls → Service → Battery Health</strong>의 BMS 평가와 BMS/VCFRONT/열관리 경고 유무를 확인합니다. 직원이 실측 결과를 제공하지 않으면 SOH는 계속 “미확인”으로 가격에 반영합니다.</li>
+            <li>주문 화면에서 <strong>Transport Fee, 세금, 등록비, 최종 OTD</strong>를 확인합니다. Top 5 중 fee-sensitive 세 대는 Transport가 $0이 아니면 일단 멈춥니다.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="warranty-title">
+      <div class="section-head">
+        <div><h2 id="warranty-title">보증을 읽는 방법</h2><p>날짜와 누적 마일리지 중 먼저 도달하는 시점에 끝납니다. 아래 추가 보증도 제조결함 대상이며 사고·외부충격·정상마모는 포함하지 않습니다.</p></div>
+      </div>
+      <div class="decision-grid">
+        <article class="decision-card"><div class="case">Original Basic</div><strong>4년 / 50,000mi 잔여</strong><p>각 카드의 날짜 또는 잔여 마일 중 먼저 끝납니다. 화면·HVAC·서스펜션·전자장치 등 제조결함을 다룹니다.</p></article>
+        <article class="decision-card"><div class="case">Tesla Used Limited</div><strong>추가 1년 / 10,000mi</strong><p>Tesla 직판 중고는 Original Basic 종료 뒤 추가 제한보증이 이어집니다. 정확한 시작점은 구매계약서가 최종입니다.</p></article>
+        <article class="decision-card"><div class="case">Battery / Drive</div><strong>8년 / 120,000mi</strong><p>2023 Long Range AWD는 고전압 배터리·구동장치 보증 잔여가 승계되며 최소 70% 용량 조건이 적용됩니다.</p></article>
+      </div>
+    </section>
+
+    <section class="section footnotes" aria-labelledby="source-title">
+      <h2 id="source-title">계산·자료 출처와 주의사항</h2>
+      <ul>
+        <li><strong>재고 시점:</strong> Tesla 공식 재고를 추적하는 피드의 최신 확인은 2026-08-20 03:37:50 PDT, 검색 페이지 스냅샷은 03:39:17 PDT입니다. 16대 모두 당시 <code>isAvailable=true</code>였고, strict 후보는 Tesla source · 2023+ · &lt;50kmi · HW4 · Long Range AWD · $30–37k · 중립색 · CLEAN을 적용했습니다. 재고는 수시로 바뀝니다.</li>
+        <li><a href="https://teslatracker.com/inventory?source=tesla&amp;model=Model%20Y&amp;condition=used&amp;lat=37.5538&amp;lng=-122.27&amp;zip=94404&amp;radius=200&amp;minPrice=3000000&amp;maxPrice=3700000&amp;minYear=2023&amp;maxMileage=50000&amp;hardwareVersion=HW4&amp;category=MY_LR_AWD&amp;sortBy=price_asc" target="_blank" rel="noopener noreferrer">사용한 HW4/LR AWD 라이브 후보 풀</a>과 <a href="https://www.tesla.com/inventory/used/my?arrangeby=plh&amp;zip=94404&amp;range=0&amp;TRIM=MY_RWD,MY_AWD,MY_LR_RWD,MY_LR_AWD&amp;PAINT=DIAMOND_BLACK,BLACK,WHITE,GREY,SILVER" target="_blank" rel="noopener noreferrer">Tesla 공식 중고 검색</a>을 VIN 단위로 교차확인했습니다. Tesla 공식 검색에는 HW 세대 필터가 없어 HW4는 후처리했습니다.</li>
+        <li><strong>중고 $0 Transport OTD = 매물가 × 1.09375 + $600–800.</strong> 이동비가 있으면 보수적으로 <strong>(매물가 + Transport Fee) × 1.09375 + $600–800</strong>로 계산했습니다. Tesla checkout이 Transport를 비과세 처리하면 실제 값은 조금 낮아질 수 있습니다. 보험료·금융이자는 제외했습니다.</li>
+        <li><a href="https://www.cdtfa.ca.gov/taxes-and-fees/rates.aspx" target="_blank" rel="noopener noreferrer">California CDTFA</a>의 Foster City 9.375%를 사용했습니다. DMV·타이틀·등록비 $600–800은 단순 추정이므로 주문서가 최종입니다. $0 Transport와 “직접 픽업”도 checkout에서 확인하기 전에는 보장되지 않습니다.</li>
+        <li><a href="https://www.tesla.com/support/ordering-pre-owned-tesla" target="_blank" rel="noopener noreferrer">Tesla 중고차 주문 안내</a>: 현재 픽업 지점에서 받지 않고 더 가까운 Delivery Center로 이동시키면 거리에 따라 환불 불가 Transport Fee $500–2,500이 생길 수 있습니다. Tesla는 중고차에 119-point inspection과 AutoCheck를 안내하지만, 이것이 독립적인 무사고 보증이나 실측 SOH 공개를 의미하지는 않습니다.</li>
+        <li><a href="https://www.tesla.com/ownersmanual/modely/en_us/GUID-B9807218-7291-4F68-9AFF-7C525CF498F3.html" target="_blank" rel="noopener noreferrer">Tesla Battery Health 공식 안내</a>: BMS 평가와 선택적 Battery Health Test는 Controls → Service → Battery Health에서 확인합니다. 완전한 테스트는 조건에 따라 최대 24시간 걸릴 수 있습니다.</li>
+        <li><a href="https://www.tesla.com/support/vehicle-warranty" target="_blank" rel="noopener noreferrer">Tesla 보증 안내</a>: 직판 중고 제한보증은 남은 Basic 보증 뒤 1년/10,000mi 추가되고, 원래의 배터리·구동장치 보증 잔여는 계속 적용됩니다. 실제 VIN별 계약서가 최종입니다.</li>
+        <li><a href="https://www.tesla.com/modely" target="_blank" rel="noopener noreferrer">Tesla Model Y 사양</a>, <a href="https://www.tesla.com/modely/design#overview" target="_blank" rel="noopener noreferrer">Design Studio</a>, <a href="https://www.tesla.com/current-offers?redirect=no" target="_blank" rel="noopener noreferrer">Current Offers</a>: 2026-08-20 기본 가격·사양과 0.99% APR 조건을 확인했습니다. Destination + Order $1,640은 Tesla의 RWD MSRP $39,990와 공식 세전 시작가 $41,630의 차이입니다.</li>
+        <li><a href="https://www.tesla.com/support/ordering-new-vehicle" target="_blank" rel="noopener noreferrer">Tesla 신차 주문 안내</a>: Destination Fee는 모든 신차 주문에 적용되는 비협상 비용이고, Order Fee는 일회성·환불 불가입니다. 세금과 등록비는 Tesla 앱의 최종 문서가 기준입니다.</li>
+        <li><a href="https://www.irs.gov/clean-vehicle-tax-credits" target="_blank" rel="noopener noreferrer">IRS Clean Vehicle Credits</a>: 2025-09-30 이후 취득 차량에는 과거 연방 신차 $7,500·중고 $4,000 credit이 적용되지 않습니다. 지금 보는 $33–36k 중고는 과거에도 중고 credit의 $25k 가격 상한을 넘었습니다.</li>
+        <li><a href="https://evrebates.pge.com/program-requirements" target="_blank" rel="noopener noreferrer">PG&amp;E Pre-Owned EV Rebate</a>: 현재 일반 $1,000 또는 소득요건형 $4,000이 가능할 수 있고 구매 후 90일 내 신청해야 합니다. Standard 신청 마감은 2026-09-30으로 연장됐으며 10월 1일부터는 income-qualified만 가능합니다. 자격이 확정되지 않아 OTD에서 차감하지 않았습니다.</li>
+        <li><a href="https://www.westlightenergy.org/residential/rebates-offers/ev-rebate-program/" target="_blank" rel="noopener noreferrer">WestLight Energy Used EV Rebate</a>의 소득요건형 $2,000은 <a href="https://www.westlightenergy.org/residential/rebates-offers/ev-rebate-program/used-ev-rebate-participating-dealerships/" target="_blank" rel="noopener noreferrer">지정 참여 딜러</a>에서 즉시 할인받는 방식입니다. Tesla/CarMax가 현재 참여 목록에 없어 이 보고서에서는 $0으로 계산했습니다.</li>
+        <li>DCAP·Clean Cars for All처럼 소득요건·사전승인·노후차 폐차 조건이 있는 프로그램은 일반 가격에서 차감하지 않았습니다. Tesla/MyFirstEV $3,500은 2026-08-03~08-07 한정이었고 자금 소진으로 종료되어 차감하지 않았습니다.</li>
+        <li><strong>Range proxy는 SOH가 아닙니다.</strong> 모든 후보의 실제 Battery Health, AutoCheck prior use, 미보고 수리 여부는 현재 미확인입니다. 이 세 가지를 통과하기 전에는 어떤 후보도 “확정 무사고·배터리 양호”로 부르지 않습니다.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="shell">2026-08-20 · Model Y Long Range AWD · HW4 · 사고·SOH 우선 · $40k OTD · 최종 가격과 판매상태는 Tesla 주문화면이 기준입니다.</footer>
+</body>
+</html>

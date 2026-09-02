@@ -1,0 +1,149 @@
+name: Tesla inventory monitor
+
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"
+  workflow_dispatch:
+    inputs:
+      force_crawl:
+        description: Bypass the normal crawl guard for this run
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: tesla-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    name: Test, crawl and package dashboard
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      publish: ${{ steps.publish-decision.outputs.publish }}
+
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install Python dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -f requirements.txt ]]; then
+            python -m pip install --requirement requirements.txt
+          fi
+
+      - name: Run tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm test
+          python -m pytest -q
+
+      - name: Crawl Tesla inventory
+        env:
+          FORCE_CRAWL: ${{ inputs.force_crawl || false }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=()
+          if [[ "$FORCE_CRAWL" == "true" ]]; then
+            args+=(--force)
+          fi
+          python -m tesla_monitor.cli "${args[@]}"
+
+      - name: Commit refreshed data
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          paths=()
+          [[ -d data ]] && paths+=(data/)
+          [[ -d dashboard/data ]] && paths+=(dashboard/data/)
+
+          if (( ${#paths[@]} == 0 )); then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No generated data directories were found."
+            exit 0
+          fi
+
+          git add -A -- "${paths[@]}"
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "The crawl produced no data changes."
+            exit 0
+          fi
+
+          git config user.name "tesla-monitor-bot"
+          git config user.email "actions@users.noreply.github.com"
+          timestamp="$(python -c 'import json; s=json.load(open("data/state.json", encoding="utf-8")); print(s.get("last_run_at") or s.get("last_attempt_at") or "unknown-time")')"
+          git commit -m "Update Tesla inventory ${timestamp}"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+          git push origin "HEAD:${{ github.event.repository.default_branch }}"
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Decide whether Pages needs a new artifact
+        id: publish-decision
+        shell: bash
+        env:
+          DATA_CHANGED: ${{ steps.commit.outputs.changed }}
+          MANUAL_RUN: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          if [[ "$DATA_CHANGED" == "true" || "$MANUAL_RUN" == "true" ]]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Configure GitHub Pages
+        if: steps.publish-decision.outputs.publish == 'true'
+        uses: actions/configure-pages@v6.0.0
+
+      - name: Upload dashboard artifact
+        if: steps.publish-decision.outputs.publish == 'true'
+        uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: dashboard
+
+  deploy:
+    name: Deploy dashboard to GitHub Pages
+    needs: monitor
+    if: needs.monitor.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5.0.1
