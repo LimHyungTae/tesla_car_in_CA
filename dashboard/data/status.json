@@ -3,13 +3,13 @@
   "status": "degraded",
   "failure_reason": "Tesla inventory request failed after 3 attempt(s): HTTP Error 403: Forbidden",
   "last_successful_crawl": "2026-09-02T07:08:00Z",
-  "last_attempted_crawl": "2026-09-03T01:05:10Z",
+  "last_attempted_crawl": "2026-09-03T19:16:14Z",
   "stale": true,
   "current_candidates": 8,
   "last_internal_status": "source_error",
-  "last_run_at": "2026-09-03T01:05:10Z",
-  "next_due_at": "2026-09-03T01:05:10Z",
-  "consecutive_failures": 1,
+  "last_run_at": "2026-09-03T19:16:14Z",
+  "next_due_at": "2026-09-03T19:16:14Z",
+  "consecutive_failures": 2,
   "last_event_count": 12,
   "last_alert_count": 6
 }
