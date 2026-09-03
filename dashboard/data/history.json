@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-02T07:08:00Z",
+  "updated_at": "2026-09-03T01:05:10Z",
   "runs": [
     {
       "observed_at": "2026-08-31T07:39:00Z",
@@ -36,6 +36,12 @@
         "report_url": "../0902_candidates_v2.html",
         "note": "확정 BUY 0대. PF886407, PF971563, PA154636을 목표가 도달 시 우선 검증합니다."
       }
+    },
+    {
+      "observed_at": "2026-09-03T01:05:10Z",
+      "status": "source_error",
+      "error": "Tesla inventory request failed after 3 attempt(s): HTTP Error 403: Forbidden",
+      "inventory_count_preserved": 8
     }
   ],
   "events": [

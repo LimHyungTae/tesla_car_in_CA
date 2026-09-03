@@ -1,15 +1,12 @@
 {
   "schema_version": 1,
-  "last_run_at": "2026-09-02T07:08:00Z",
-  "last_attempt_at": "2026-09-02T07:08:00Z",
+  "last_run_at": "2026-09-03T01:05:10Z",
+  "last_attempt_at": "2026-09-03T01:05:10Z",
   "last_successful_at": "2026-09-02T07:08:00Z",
-  "last_status": "success",
-  "last_error": null,
-  "consecutive_failures": 0,
-  "stale": false,
-  "inventory_count": 8,
-  "last_event_count": 12,
-  "last_alert_count": 6,
+  "last_status": "source_error",
+  "last_error": "Tesla inventory request failed after 3 attempt(s): HTTP Error 403: Forbidden",
+  "consecutive_failures": 1,
+  "stale": true,
   "known_vins": [
     "7SAYGDEE0PF875376",
     "7SAYGDEE2PF864217",
@@ -1044,6 +1041,9 @@
       }
     }
   },
-  "next_due_at": "2026-09-02T07:23:00Z",
+  "inventory_count": 8,
+  "last_event_count": 12,
+  "last_alert_count": 6,
+  "next_due_at": "2026-09-03T01:05:10Z",
   "seed_source": "data/snapshots/2026-09-02.json plus prior dashboard disappeared history"
 }
