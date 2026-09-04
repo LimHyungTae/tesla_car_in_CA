@@ -7,7 +7,14 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Mapping, Protocol
 
-from .cadence import is_due, is_stale, next_due_at, parse_instant, utc_iso
+from .cadence import (
+    is_due,
+    is_stale,
+    next_due_at,
+    parse_instant,
+    source_failure_next_due_at,
+    utc_iso,
+)
 from .changes import TIER_RANK, detect_changes
 from .config import configured_paths, load_configs
 from .evaluation import evaluate_vehicle, neutral_color_status, normalize_vehicle
@@ -43,7 +50,10 @@ def _default_state() -> dict[str, Any]:
         "last_successful_at": None,
         "last_status": "never_run",
         "last_error": None,
+        "last_error_code": None,
+        "last_http_status": None,
         "consecutive_failures": 0,
+        "next_due_at": None,
         "stale": True,
         "known_vins": [],
         "inactive_vins": [],
@@ -61,6 +71,19 @@ def _inventory_vehicles(document: Any) -> list[dict[str, Any]]:
     if isinstance(document, dict) and isinstance(document.get("vehicles"), list):
         return [item for item in document["vehicles"] if isinstance(item, dict)]
     return []
+
+
+def _last_source_error_code(state: Mapping[str, Any]) -> str | None:
+    """Read typed state while recognizing the pre-typed 403 state format."""
+
+    value = state.get("last_error_code")
+    if value:
+        return str(value)
+    if state.get("last_http_status") == 403:
+        return "http_403"
+    if "403" in str(state.get("last_error") or ""):
+        return "http_403"
+    return None
 
 
 def _append_run(history: dict[str, Any], run: Mapping[str, Any], monitor: Mapping[str, Any]) -> None:
@@ -260,7 +283,15 @@ def run_monitor(
     if not isinstance(catalog, Mapping):
         catalog = {}
 
-    if not is_due(current_time, state.get("last_successful_at"), monitor, force=force):
+    if not is_due(
+        current_time,
+        state.get("last_successful_at"),
+        monitor,
+        force=force,
+        last_attempt_at=state.get("last_attempt_at"),
+        last_error_code=_last_source_error_code(state),
+        consecutive_failures=int(state.get("consecutive_failures", 0) or 0),
+    ):
         stale = is_stale(current_time, state.get("last_successful_at"), monitor)
         # A scheduler wake-up is not a source attempt. Leave persisted state
         # byte-for-byte unchanged so cadence guards do not create noisy bot
@@ -349,6 +380,8 @@ def run_monitor(
                 "last_successful_at": observed_at,
                 "last_status": "success",
                 "last_error": None,
+                "last_error_code": None,
+                "last_http_status": None,
                 "consecutive_failures": 0,
                 "stale": False,
                 "inventory_count": len(normalized),
@@ -365,22 +398,36 @@ def run_monitor(
         _write_status_and_history(paths, state, history, observed_at)
         return RunResult("success", True, True, observed_at, len(normalized), len(events), alert_count, False)
     except SourceError as exc:
+        error_code = str(getattr(exc, "error_code", None) or "source_error")
+        http_status = getattr(exc, "http_status", None)
+        consecutive_failures = int(state.get("consecutive_failures", 0) or 0) + 1
+        retry_at = source_failure_next_due_at(
+            observed_at,
+            monitor,
+            error_code=error_code,
+            consecutive_failures=consecutive_failures,
+        )
         state.update(
             {
                 "last_run_at": observed_at,
                 "last_attempt_at": observed_at,
                 "last_status": "source_error",
                 "last_error": str(exc),
-                "consecutive_failures": int(state.get("consecutive_failures", 0)) + 1,
+                "last_error_code": error_code,
+                "last_http_status": http_status,
+                "consecutive_failures": consecutive_failures,
                 "stale": True,
                 "inventory_count": len(previous_vehicles),
-                "next_due_at": observed_at,
+                "next_due_at": retry_at,
             }
         )
         run = {
             "observed_at": observed_at,
             "status": "source_error",
             "error": str(exc),
+            "error_code": error_code,
+            "http_status": http_status,
+            "next_due_at": retry_at,
             "inventory_count_preserved": len(previous_vehicles),
         }
         _append_run(history, run, monitor)

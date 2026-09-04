@@ -26,11 +26,11 @@
 
       <section class="crawl-strip" aria-label="크롤러 소스 상태">
         <article>
-          <span>Last successful crawl</span>
+          <span>Last verified snapshot</span>
           <strong id="last-successful-crawl">—</strong>
         </article>
         <article>
-          <span>Last attempted crawl</span>
+          <span>Last attempted refresh</span>
           <strong id="last-attempted-crawl">—</strong>
         </article>
         <article>
@@ -54,7 +54,7 @@
 
         <aside class="decision-panel" aria-labelledby="decision-title">
           <p class="decision-panel__label">오늘의 결론</p>
-          <div class="decision-panel__value"><strong id="decision-count">—</strong><span>confirmed BUY</span></div>
+          <div class="decision-panel__value"><strong id="decision-count">—</strong><span id="decision-count-label">confirmed BUY</span></div>
           <h2 id="decision-title">조건을 모두 통과한 차량만 BUY입니다.</h2>
           <p id="decision-copy">가격, 19인치 휠, 이력, SOH와 최종 Transport를 함께 확인합니다.</p>
           <div class="decision-panel__rule">
@@ -66,17 +66,17 @@
 
       <section class="metrics" aria-label="재고 핵심 지표">
         <article class="metric">
-          <span class="metric__label">Current candidates</span>
+          <span class="metric__label" id="metric-active-label">Current candidates</span>
           <strong class="metric__value" id="metric-active">—</strong>
-          <span class="metric__hint">tracked now</span>
+          <span class="metric__hint" id="metric-active-hint">tracked now</span>
         </article>
         <article class="metric metric--priority">
-          <span class="metric__label">HIGH PRIORITY count</span>
+          <span class="metric__label" id="metric-priority-label">HIGH PRIORITY count</span>
           <strong class="metric__value" id="metric-priority">—</strong>
-          <span class="metric__hint">next action</span>
+          <span class="metric__hint" id="metric-priority-hint">next action</span>
         </article>
         <article class="metric metric--buy">
-          <span class="metric__label">BUY count</span>
+          <span class="metric__label" id="metric-buy-label">BUY count</span>
           <strong class="metric__value" id="metric-buy">—</strong>
           <span class="metric__hint" id="metric-buy-hint">confirmed + conditional</span>
         </article>
@@ -107,7 +107,7 @@
       <a href="#buy">BUY</a>
       <a href="#new-listings">신규</a>
       <a href="#price-drops">가격 인하</a>
-      <a href="#all-active">전체 활성</a>
+      <a href="#all-active" id="active-nav-label">후보 전체</a>
       <a href="#disappeared">사라짐</a>
       <a href="#history">History</a>
     </div>
@@ -121,7 +121,7 @@
         <div>
           <p class="section-kicker">Act first</p>
           <h2 id="priority-title">HIGH PRIORITY</h2>
-          <p><code>monitor_tier</code>가 HIGH PRIORITY 또는 ULTRA VALUE인 활성 차량입니다.</p>
+          <p id="priority-copy"><code>monitor_tier</code>가 HIGH PRIORITY 또는 ULTRA VALUE인 후보입니다.</p>
         </div>
         <span class="section-count" id="priority-count">—</span>
       </div>
@@ -135,7 +135,7 @@
         <div>
           <p class="section-kicker section-kicker--buy">Ready band</p>
           <h2 id="buy-title">BUY</h2>
-          <p>Buy Box와 OTD를 통과한 차량입니다. 미확인 gate가 있으면 조건부로 구분합니다.</p>
+          <p id="buy-copy">Buy Box와 OTD를 통과한 차량입니다. 미확인 gate가 있으면 조건부로 구분합니다.</p>
         </div>
         <span class="section-count" id="buy-count">—</span>
       </div>
@@ -146,7 +146,7 @@
       <div class="section-heading">
         <div>
           <p class="section-kicker">What changed</p>
-          <h2 id="new-title">NEW SINCE LAST CRAWL</h2>
+          <h2 id="new-title">NEW SINCE LAST SNAPSHOT</h2>
           <p>직전 저장 스냅샷과 비교해 새 후보 풀에 들어온 차량입니다.</p>
         </div>
         <span class="section-count" id="new-count">—</span>
@@ -159,7 +159,7 @@
         <div>
           <p class="section-kicker section-kicker--drop">Momentum</p>
           <h2 id="drops-title">PRICE DROPS</h2>
-          <p>직전 crawl 대비 <span id="price-drop-threshold">설정값</span> 이상 내려간 활성 차량입니다. 누적 인하와 구분합니다.</p>
+          <p>직전 확인 스냅샷 대비 <span id="price-drop-threshold">설정값</span> 이상 내려간 차량입니다. 누적 인하와 구분합니다.</p>
         </div>
         <span class="section-count" id="drops-count">—</span>
       </div>
@@ -171,7 +171,7 @@
         <div>
           <p class="section-kicker">Inventory</p>
           <h2 id="active-title">ALL ACTIVE CANDIDATES</h2>
-          <p>현재 데이터셋에 포함된 모든 활성 후보를 같은 기준으로 비교합니다.</p>
+          <p id="active-copy">현재 데이터셋에 포함된 모든 활성 후보를 같은 기준으로 비교합니다.</p>
         </div>
         <span class="section-count" id="active-count">—</span>
       </div>

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { classify, estimateOtd, maximumListingPrice } from "../.claude/skills/tesla-buy-box/scripts/evaluate.mjs";
+import { historyRunPresentation, statusPresentation } from "../dashboard/status-ui.js";
 
 const config = JSON.parse(fs.readFileSync(new URL("../config/buy-box.json", import.meta.url), "utf8"));
 
@@ -87,4 +88,70 @@ test("current baseline and shared skill bridge exist", () => {
   assert.equal(fs.existsSync(path.resolve("0902_candidates_v2.html")), true);
   assert.equal(fs.existsSync(path.resolve(".agents/skills/tesla-buy-box/SKILL.md")), true);
   assert.equal(fs.existsSync(path.resolve(".claude/skills/tesla-buy-box/SKILL.md")), true);
+});
+
+test("degraded status presents last-known data without exposing raw 403 text", () => {
+  const raw = "Tesla inventory request failed after 3 attempt(s): HTTP Error 403: Forbidden";
+  const presentation = statusPresentation({
+    status: "degraded",
+    stale: true,
+    last_successful_crawl: "2026-09-02T07:08:00Z",
+    failure_reason: raw,
+    failure_http_status: 403,
+  });
+
+  assert.equal(presentation.state, "degraded");
+  assert.equal(presentation.dataMode, "last_known");
+  assert.equal(presentation.headline, "재고 갱신 지연");
+  assert.match(presentation.message, /마지막으로 확인된 스냅샷/);
+  assert.doesNotMatch(presentation.message, /403|Forbidden|request failed/);
+});
+
+test("public status copy is preferred and technical history errors are sanitized", () => {
+  const presentation = statusPresentation({
+    status: "degraded",
+    data_mode: "last_known",
+    last_verified_snapshot: "2026-09-02T07:08:00Z",
+    headline: "재고 갱신 지연",
+    message: "마지막 확인 데이터를 안전하게 표시합니다.",
+    health_label: "SOURCE DEGRADED",
+    failure_reason: "HTTP Error 403: Forbidden",
+  });
+  assert.equal(presentation.message, "마지막 확인 데이터를 안전하게 표시합니다.");
+  assert.equal(presentation.healthLabel, "SOURCE DEGRADED");
+
+  const history = historyRunPresentation({
+    status: "source_error",
+    error: "Tesla inventory request failed after 3 attempt(s): HTTP Error 403: Forbidden",
+  });
+  assert.equal(history.title, "재고 갱신 실패");
+  assert.match(history.note, /스냅샷을 보존/);
+  assert.doesNotMatch(history.note, /403|Forbidden|request failed/);
+
+  const typedHistory = historyRunPresentation({
+    status: "source_error",
+    error_code: "timeout",
+    error: "legacy wrapper mentioned HTTP Error 403: Forbidden",
+  });
+  assert.equal(typedHistory.note, "Tesla 재고 소스를 갱신하지 못해 마지막으로 확인된 스냅샷을 보존했습니다.");
+
+  const typedStatus = statusPresentation({
+    status: "degraded",
+    stale: true,
+    last_verified_snapshot: "2026-09-02T07:08:00Z",
+    failure_kind: "timeout",
+    failure_http_status: null,
+    failure_reason: "legacy wrapper mentioned HTTP Error 403: Forbidden",
+  });
+  assert.match(typedStatus.message, /재고 소스를 갱신하지 못했습니다/);
+  assert.doesNotMatch(typedStatus.message, /자동 요청을 거부/);
+});
+
+test("dashboard labels distinguish verified snapshots from current inventory", () => {
+  const html = fs.readFileSync(new URL("../dashboard/index.html", import.meta.url), "utf8");
+  const app = fs.readFileSync(new URL("../dashboard/app.js", import.meta.url), "utf8");
+  assert.match(html, /Last verified snapshot/);
+  assert.match(app, /Last-known candidates/);
+  assert.match(app, /LAST-KNOWN CANDIDATES/);
+  assert.doesNotMatch(app, /status\.failure_reason\s*,\s*status\.last_error/);
 });

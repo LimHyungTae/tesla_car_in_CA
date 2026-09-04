@@ -11,7 +11,14 @@ from io import BytesIO
 from pathlib import Path
 from urllib.error import HTTPError
 
-from tesla_monitor.cadence import cadence_minutes, is_due, is_stale, next_due_at, parse_instant
+from tesla_monitor.cadence import (
+    cadence_minutes,
+    is_due,
+    is_stale,
+    next_due_at,
+    parse_instant,
+    source_failure_next_due_at,
+)
 from tesla_monitor.changes import detect_changes
 from tesla_monitor.cli import main as cli_main
 from tesla_monitor.evaluation import estimate_otd, evaluate_vehicle, normalize_vehicle
@@ -47,6 +54,9 @@ def monitor_config() -> dict:
             "timeout_seconds": 1,
             "maximum_attempts": 3,
             "initial_backoff_seconds": 0,
+            "maximum_retry_after_seconds": 60,
+            "http_403_cooldown_hours": 6,
+            "transient_failure_backoff_multiplier_cap": 4,
         },
         "filters": {
             "neutral_colors": ["Black", "Grey", "Gray", "Midnight Silver Metallic", "White"]
@@ -100,8 +110,13 @@ class StaticClient:
 
 
 class FailingClient:
+    def __init__(self, error=None):
+        self.error = error or SourceError("deliberate source failure")
+        self.calls = 0
+
     def fetch(self):
-        raise SourceError("deliberate source failure")
+        self.calls += 1
+        raise self.error
 
 
 def test_cadence_uses_los_angeles_pdt_and_pst():
@@ -141,6 +156,36 @@ def test_next_due_accounts_for_midnight_and_five_am_interval_changes():
         "2026-09-03T06:59:00Z",
         config,
     ) == "2026-09-03T07:14:00Z"
+
+
+def test_source_failure_due_time_uses_error_code_and_consecutive_failures():
+    config = monitor_config()
+    assert source_failure_next_due_at(
+        "2026-09-02T07:30:00Z",
+        config,
+        error_code="http_403",
+        consecutive_failures=1,
+    ) == "2026-09-02T13:30:00Z"
+    shorter_403 = monitor_config()
+    shorter_403["source"]["http_403_cooldown_hours"] = 2
+    assert source_failure_next_due_at(
+        "2026-09-02T07:30:00Z",
+        shorter_403,
+        error_code="http_403",
+        consecutive_failures=3,
+    ) == "2026-09-02T09:30:00Z"
+    assert source_failure_next_due_at(
+        "2026-09-02T07:30:00Z",
+        config,
+        error_code="timeout",
+        consecutive_failures=1,
+    ) == "2026-09-02T07:45:00Z"
+    assert source_failure_next_due_at(
+        "2026-09-02T07:45:00Z",
+        config,
+        error_code="timeout",
+        consecutive_failures=2,
+    ) == "2026-09-02T08:15:00Z"
 
 
 def test_stale_uses_twice_the_current_cadence_and_rejects_future_state():
@@ -437,6 +482,102 @@ def test_cadence_skip_does_not_call_source():
             assert (root / relative).read_bytes() == contents
 
 
+def test_http_403_cooldown_anchors_to_last_attempt_and_preserves_files_on_skip():
+    with tempfile.TemporaryDirectory() as directory:
+        root = prepare_root(Path(directory))
+        run_monitor(root, force=True, now="2026-09-02T07:00:00Z", client=StaticClient([raw_vehicle()]))
+        inventory_path = root / "data/inventory.json"
+        inventory_before = inventory_path.read_bytes()
+        denied = FailingClient(
+            SourceError(
+                "Tesla access denied",
+                error_code="http_403",
+                http_status=403,
+                attempt_count=1,
+            )
+        )
+        failed = run_monitor(root, force=True, now="2026-09-02T07:30:00Z", client=denied)
+        assert failed.status == "source_error"
+        assert denied.calls == 1
+        assert inventory_path.read_bytes() == inventory_before
+        state = json.loads((root / "data/state.json").read_text())
+        assert state["last_successful_at"] == "2026-09-02T07:00:00Z"
+        assert state["last_attempt_at"] == "2026-09-02T07:30:00Z"
+        assert state["last_error_code"] == "http_403"
+        assert state["last_http_status"] == 403
+        assert state["next_due_at"] == "2026-09-02T13:30:00Z"
+
+        tracked = {
+            relative: (root / relative).read_bytes()
+            for relative in (
+                "data/state.json",
+                "data/history.json",
+                "data/inventory.json",
+                "dashboard/data/status.json",
+                "dashboard/data/history.json",
+                "dashboard/data/inventory.json",
+            )
+        }
+        next_client = StaticClient([raw_vehicle()])
+        skipped = run_monitor(root, now="2026-09-02T13:29:59Z", client=next_client)
+        assert skipped.status == "skipped"
+        assert skipped.attempted is False
+        assert next_client.calls == 0
+        for relative, contents in tracked.items():
+            assert (root / relative).read_bytes() == contents
+
+        resumed = run_monitor(root, now="2026-09-02T13:30:00Z", client=next_client)
+        assert resumed.status == "success"
+        assert next_client.calls == 1
+
+
+def test_transient_failure_uses_attempt_cadence_and_consecutive_backoff():
+    with tempfile.TemporaryDirectory() as directory:
+        root = prepare_root(Path(directory))
+        run_monitor(root, force=True, now="2026-09-02T07:00:00Z", client=StaticClient([raw_vehicle()]))
+        transient = FailingClient(SourceError("timed out", error_code="timeout"))
+        run_monitor(root, force=True, now="2026-09-02T07:30:00Z", client=transient)
+        state = json.loads((root / "data/state.json").read_text())
+        assert state["next_due_at"] == "2026-09-02T07:45:00Z"
+
+        skipped_client = StaticClient([raw_vehicle()])
+        skipped = run_monitor(root, now="2026-09-02T07:44:59Z", client=skipped_client)
+        assert skipped.status == "skipped"
+        assert skipped_client.calls == 0
+
+        second_failure = FailingClient(SourceError("timed out again", error_code="timeout"))
+        run_monitor(root, now="2026-09-02T07:45:00Z", client=second_failure)
+        state = json.loads((root / "data/state.json").read_text())
+        assert state["consecutive_failures"] == 2
+        assert state["next_due_at"] == "2026-09-02T08:15:00Z"
+
+
+def test_force_bypasses_http_403_cooldown_and_success_clears_failure_state():
+    with tempfile.TemporaryDirectory() as directory:
+        root = prepare_root(Path(directory))
+        run_monitor(root, force=True, now="2026-09-02T07:00:00Z", client=StaticClient([raw_vehicle()]))
+        run_monitor(
+            root,
+            force=True,
+            now="2026-09-02T07:30:00Z",
+            client=FailingClient(SourceError("denied", error_code="http_403", http_status=403)),
+        )
+        client = StaticClient([raw_vehicle()])
+        resumed = run_monitor(
+            root,
+            force=True,
+            now="2026-09-02T08:00:00Z",
+            client=client,
+        )
+        assert resumed.status == "success"
+        assert client.calls == 1
+        state = json.loads((root / "data/state.json").read_text())
+        assert state["last_error_code"] is None
+        assert state["last_http_status"] is None
+        assert state["consecutive_failures"] == 0
+        assert state["next_due_at"] == "2026-09-02T08:15:00Z"
+
+
 def test_source_failure_and_suspicious_empty_result_never_erase_inventory():
     with tempfile.TemporaryDirectory() as directory:
         root = prepare_root(Path(directory))
@@ -535,6 +676,52 @@ class FakeResponse:
         return self.body
 
 
+def test_client_http_403_is_typed_and_never_retried():
+    calls = []
+    sleeps = []
+
+    def opener(request, timeout):
+        calls.append((request.full_url, timeout))
+        raise HTTPError(request.full_url, 403, "Forbidden", {"Retry-After": "999"}, None)
+
+    caught = None
+    try:
+        TeslaInventoryClient(
+            monitor_config()["source"],
+            opener=opener,
+            sleeper=sleeps.append,
+        ).fetch()
+    except SourceError as exc:
+        caught = exc
+    assert caught is not None
+    assert caught.error_code == "http_403"
+    assert caught.http_status == 403
+    assert caught.attempt_count == 1
+    assert len(calls) == 1
+    assert sleeps == []
+
+
+def test_client_bounds_retry_after_for_http_429():
+    calls = []
+    sleeps = []
+
+    def opener(request, timeout):
+        calls.append((request.full_url, timeout))
+        if len(calls) == 1:
+            raise HTTPError(request.full_url, 429, "rate limited", {"Retry-After": "999"}, None)
+        return FakeResponse(json.dumps({"results": [], "total_matches_found": 0}).encode())
+
+    source = monitor_config()["source"] | {
+        "maximum_attempts": 2,
+        "initial_backoff_seconds": 2,
+        "maximum_retry_after_seconds": 60,
+    }
+    result = TeslaInventoryClient(source, opener=opener, sleeper=sleeps.append).fetch()
+    assert result.vehicles == []
+    assert len(calls) == 2
+    assert sleeps == [60]
+
+
 def test_client_retries_429_and_parser_failure_with_bounded_backoff():
     calls = []
     sleeps = []
@@ -554,6 +741,34 @@ def test_client_retries_429_and_parser_failure_with_bounded_backoff():
     assert sleeps == [2, 4]
     # There is deliberately no min-price query parameter.
     assert "minPrice" not in calls[-1][0]
+
+
+def test_client_keeps_bounded_retries_for_transient_failure_types():
+    source = monitor_config()["source"] | {
+        "maximum_attempts": 2,
+        "initial_backoff_seconds": 1,
+    }
+
+    for kind in ("http_408", "http_503", "timeout", "parser"):
+        calls = []
+        sleeps = []
+
+        def opener(request, timeout, failure_kind=kind):
+            calls.append((request.full_url, timeout))
+            if len(calls) == 1:
+                if failure_kind == "http_408":
+                    raise HTTPError(request.full_url, 408, "timeout", {}, None)
+                if failure_kind == "http_503":
+                    raise HTTPError(request.full_url, 503, "unavailable", {}, None)
+                if failure_kind == "timeout":
+                    raise TimeoutError("timed out")
+                return FakeResponse(b"not json")
+            return FakeResponse(json.dumps({"results": [], "total_matches_found": 0}).encode())
+
+        result = TeslaInventoryClient(source, opener=opener, sleeper=sleeps.append).fetch()
+        assert result.vehicles == []
+        assert len(calls) == 2
+        assert sleeps == [1]
 
 
 def test_cli_treats_controlled_source_error_as_degraded_success():

@@ -24,6 +24,9 @@
     "timeout_seconds": 20,
     "maximum_attempts": 3,
     "initial_backoff_seconds": 2,
+    "maximum_retry_after_seconds": 60,
+    "http_403_cooldown_hours": 6,
+    "transient_failure_backoff_multiplier_cap": 4,
     "allow_empty_inventory": false,
     "user_agent": "tesla-car-in-ca-inventory-monitor/1.0 (+https://github.com/LimHyungTae/tesla_car_in_CA)"
   },

@@ -1,3 +1,5 @@
+import { historyRunPresentation, statusPresentation } from "./status-ui.js";
+
 const PATHS = {
   inventory: "./data/inventory.json",
   history: "./data/history.json",
@@ -286,23 +288,26 @@ function normalizeHistory(raw, inventory, buyBox, monitorConfig) {
   const eventSource = Array.isArray(get(raw, "events")) ? get(raw, "events") : [];
   const eventContract = Array.isArray(get(raw, "events"));
 
-  const runs = runSource.map((entry) => ({
-    at: timestamp(firstDefined(get(entry, "observed_at", "snapshot_at", "date", "at"), null)),
-    status: String(firstDefined(get(entry, "status"), "unknown")),
-    title: String(firstDefined(get(entry, "details.title"), `Crawler ${String(firstDefined(get(entry, "status"), "run")).replaceAll("_", " ")}`)),
-    note: String(firstDefined(get(entry, "details.note", "error", "reason"), get(entry, "status") === "success" ? "Tesla source crawl completed." : "Crawler execution record.")),
-    active: number(firstDefined(get(entry, "details.active_count"), get(entry, "inventory_count"), get(entry, "inventory_count_preserved"))),
-    priority: number(get(entry, "details.high_priority_count")),
-    buy: number(get(entry, "details.buy_count")),
-    fresh: number(get(entry, "details.new_count")),
-    drops: number(get(entry, "details.price_drop_count")),
-    gone: number(get(entry, "details.disappeared_count")),
-    events: number(get(entry, "event_count")),
-    alerts: number(get(entry, "alert_count")),
-    model: firstDefined(get(entry, "details.decision_model"), "monitor run"),
-    reportUrl: firstDefined(get(entry, "details.report_url"), null),
-    kind: "run",
-  }));
+  const runs = runSource.map((entry) => {
+    const presentation = historyRunPresentation(entry);
+    return {
+      at: timestamp(firstDefined(get(entry, "observed_at", "snapshot_at", "date", "at"), null)),
+      status: String(firstDefined(get(entry, "status"), "unknown")),
+      title: presentation.title,
+      note: presentation.note,
+      active: number(firstDefined(get(entry, "details.active_count"), get(entry, "inventory_count"), get(entry, "inventory_count_preserved"))),
+      priority: number(get(entry, "details.high_priority_count")),
+      buy: number(get(entry, "details.buy_count")),
+      fresh: number(get(entry, "details.new_count")),
+      drops: number(get(entry, "details.price_drop_count")),
+      gone: number(get(entry, "details.disappeared_count")),
+      events: number(get(entry, "event_count")),
+      alerts: number(get(entry, "alert_count")),
+      model: firstDefined(get(entry, "details.decision_model"), "monitor run"),
+      reportUrl: firstDefined(get(entry, "details.report_url"), null),
+      kind: "run",
+    };
+  });
 
   const events = eventSource.map((entry) => {
     const beforeObject = get(entry, "before") && typeof get(entry, "before") === "object" ? get(entry, "before") : null;
@@ -699,38 +704,35 @@ function sourceStatusValue(status) {
   return String(firstDefined(status.status, status.state, status.last_status, status.last_internal_status, "unknown")).toLowerCase();
 }
 
-function sourceHealth(status, warnings) {
-  const raw = sourceStatusValue(status);
-  const stale = boolean(status.stale) === true;
-  const hasBaseline = Boolean(firstDefined(status.last_successful_crawl, status.last_successful_at));
-  if (["failed", "error"].includes(raw)) return "error";
-  if (raw === "source_error") return hasBaseline ? "degraded" : "error";
-  if (stale || ["degraded", "skipped", "never_run", "unknown"].includes(raw) || warnings.length) return "degraded";
-  if (["healthy", "success", "ok"].includes(raw)) return "ok";
-  return "degraded";
-}
-
-function renderNotice(status, warnings, source) {
+function renderNotice(presentation, status) {
   const notice = $("data-notice");
-  const state = sourceHealth(status, warnings);
-  const headline = String(firstDefined(status.headline, state === "error" ? "데이터 오류" : state === "degraded" ? "검증 대기 데이터" : "데이터 정상"));
-  const message = String(firstDefined(status.message, status.summary, status.failure_reason, status.last_error, "최종 구매 전 Tesla checkout과 차량 이력을 다시 확인하세요."));
-  const fragments = [message, ...warnings];
-  if (source !== "canonical") fragments.push(`표시 소스: ${source}`);
-  if (state === "ok" && !warnings.length) {
+  if (presentation.state === "ok") {
     notice.hidden = true;
-    return state;
+    return presentation;
   }
   notice.hidden = false;
-  notice.dataset.level = state === "error" ? "error" : "warning";
-  notice.replaceChildren(element("strong", "", `${headline} — `), document.createTextNode(fragments.join(" ")));
-  return warnings.length && state === "ok" ? "degraded" : state;
+  notice.dataset.level = presentation.state === "error" ? "error" : "warning";
+  notice.replaceChildren(
+    element("strong", "", `${presentation.headline} — `),
+    document.createTextNode(presentation.message),
+  );
+  const lastVerified = firstDefined(
+    status.last_verified_snapshot,
+    status.last_successful_crawl,
+    status.last_successful_at,
+  );
+  if (presentation.dataMode === "last_known" && lastVerified) {
+    notice.append(document.createTextNode(` 마지막 확인: ${formatDate(lastVerified)}.`));
+  }
+  return presentation;
 }
 
-function setHealth(state, status) {
-  const normalized = ["ok", "degraded", "error"].includes(state) ? state : "degraded";
+function setHealth(presentation) {
+  const normalized = ["ok", "degraded", "error"].includes(presentation.state)
+    ? presentation.state
+    : "degraded";
   $("health-pill").dataset.state = normalized;
-  $("health-label").textContent = String(firstDefined(status.health_label, status.headline, normalized === "ok" ? "SOURCE HEALTHY" : normalized === "error" ? "SOURCE FAILED" : "SOURCE DEGRADED"));
+  $("health-label").textContent = presentation.healthLabel;
 }
 
 function attachEvent(vehicle, event, kind) {
@@ -743,10 +745,14 @@ function attachEvent(vehicle, event, kind) {
   };
 }
 
-function installInventoryControls(vehicles) {
+function installInventoryControls(vehicles, isLastKnown) {
   const search = $("inventory-search");
   const filter = $("decision-filter");
   const sort = $("inventory-sort");
+  $("inventory-controls").setAttribute(
+    "aria-label",
+    isLastKnown ? "마지막으로 확인된 재고 필터" : "활성 재고 필터",
+  );
 
   const update = () => {
     const query = search.value.trim().toLowerCase();
@@ -764,7 +770,9 @@ function installInventoryControls(vehicles) {
     };
     visible.sort(sorters[sort.value] || prioritySort);
     renderGrid("active-grid", visible, "조건에 맞는 차량이 없습니다.", "검색어나 판정 필터를 바꿔보세요.");
-    $("results-copy").textContent = `활성 ${vehicles.length}대 중 ${visible.length}대 표시`;
+    $("results-copy").textContent = isLastKnown
+      ? `마지막 확인 ${vehicles.length}대 중 ${visible.length}대 표시`
+      : `활성 ${vehicles.length}대 중 ${visible.length}대 표시`;
   };
   search.addEventListener("input", update);
   filter.addEventListener("change", update);
@@ -774,6 +782,8 @@ function installInventoryControls(vehicles) {
 
 function renderDashboard(data) {
   const { inventory, history, status, warnings, source } = data;
+  const statusView = statusPresentation(status, warnings, source);
+  const isLastKnown = statusView.dataMode === "last_known";
   const active = inventory.vehicles.filter((vehicle) => vehicle.available && !vehicle.gone);
   const priority = active.filter((vehicle) => vehicle.highPriority).sort(prioritySort);
   const buy = active.filter((vehicle) => vehicle.decision.tier === "BUY").sort(prioritySort);
@@ -806,7 +816,26 @@ function renderDashboard(data) {
   setCount("drops-count", drops.length);
   setCount("active-count", active.length);
   setCount("gone-count", gone.length);
-  $("metric-buy-hint").textContent = `${confirmedBuy.length} confirmed · ${conditionalBuy} conditional`;
+  $("metric-priority-label").textContent = isLastKnown ? "Snapshot HIGH PRIORITY" : "HIGH PRIORITY count";
+  $("metric-priority-hint").textContent = isLastKnown ? "마지막 확인 기준" : "next action";
+  $("metric-buy-label").textContent = isLastKnown ? "Snapshot BUY count" : "BUY count";
+  $("metric-buy-hint").textContent = isLastKnown
+    ? `${confirmedBuy.length} confirmed · ${conditionalBuy} conditional · 마지막 확인 기준`
+    : `${confirmedBuy.length} confirmed · ${conditionalBuy} conditional`;
+  $("metric-active-label").textContent = isLastKnown ? "Last-known candidates" : "Current candidates";
+  $("metric-active-hint").textContent = isLastKnown ? "마지막 확인 스냅샷" : "tracked now";
+  $("active-nav-label").textContent = isLastKnown ? "마지막 확인 후보" : "후보 전체";
+  $("active-title").textContent = isLastKnown ? "LAST-KNOWN CANDIDATES" : "ALL ACTIVE CANDIDATES";
+  $("active-copy").textContent = isLastKnown
+    ? "소스 갱신 전 마지막으로 확인된 후보입니다. 현재 가격과 판매 여부는 Tesla 링크에서 다시 확인하세요."
+    : "현재 데이터셋에 포함된 모든 활성 후보를 같은 기준으로 비교합니다.";
+  $("priority-copy").textContent = isLastKnown
+    ? "마지막 확인 스냅샷에서 monitor_tier가 HIGH PRIORITY 또는 ULTRA VALUE인 후보입니다."
+    : "monitor_tier가 HIGH PRIORITY 또는 ULTRA VALUE인 활성 후보입니다.";
+  $("buy-copy").textContent = isLastKnown
+    ? "마지막 확인 스냅샷에서 Buy Box와 OTD를 통과했던 차량입니다. 현재 추천이나 판매 가능 상태를 뜻하지 않습니다."
+    : "Buy Box와 OTD를 통과한 차량입니다. 미확인 gate가 있으면 조건부로 구분합니다.";
+  $("decision-count-label").textContent = isLastKnown ? "snapshot BUY" : "confirmed BUY";
   $("decision-count").textContent = String(confirmedBuy.length);
   $("otd-ceiling").textContent = formatCurrency(inventory.market.maxOtd);
   $("price-drop-threshold").textContent = formatCurrency(history.priceDropThreshold);
@@ -814,25 +843,49 @@ function renderDashboard(data) {
   const feeRange = `${formatCurrency(inventory.market.fixedFeeLow)}–${formatCurrency(inventory.market.fixedFeeHigh)}`;
   $("otd-method-copy").textContent = `표시 OTD는 Foster City ${taxPercent}% 세율과 고정비 ${feeRange} 추정치입니다. 최종 Transport, 세금, 등록비와 판매 상태는 Tesla checkout이 우선합니다.`;
   $("otd-formula").textContent = `OTD = (price + taxable Transport) × ${(1 + inventory.market.taxRate).toFixed(5)} + ${feeRange}`;
-  $("hero-summary").textContent = `활성 ${active.length}대 중 High Priority ${priority.length}대. Foster City OTD ${formatCurrency(inventory.market.maxOtd)} cap과 고정 gate를 함께 봅니다.`;
-  $("decision-copy").textContent = confirmedBuy.length
-    ? `${confirmedBuy.length}대가 현재 저장 데이터의 모든 gate를 통과했습니다. checkout에서 최종 상태를 재확인하세요.`
-    : priority.length
-      ? `현재 확정 BUY는 없습니다. HIGH PRIORITY ${priority.length}대를 먼저 검증합니다.`
-      : "현재 확정 BUY와 HIGH PRIORITY 차량은 없습니다. 다음 crawl 변화를 기다립니다.";
-  const lastSuccessful = firstDefined(status.last_successful_crawl, status.last_successful_at, inventory.sourceSuccessfulAt, inventory.sourceFeedLastSeenAt);
+  $("hero-summary").textContent = isLastKnown
+    ? `마지막 확인 후보 ${active.length}대 중 High Priority ${priority.length}대. 최신 가격과 판매 여부는 아직 갱신되지 않았습니다.`
+    : `활성 ${active.length}대 중 High Priority ${priority.length}대. Foster City OTD ${formatCurrency(inventory.market.maxOtd)} cap과 고정 gate를 함께 봅니다.`;
+  $("decision-copy").textContent = isLastKnown
+    ? `마지막 확인 스냅샷 기준 확정 BUY ${confirmedBuy.length}대입니다. 현재 상태로 간주하지 말고 Tesla에서 다시 확인하세요.`
+    : confirmedBuy.length
+      ? `${confirmedBuy.length}대가 현재 저장 데이터의 모든 gate를 통과했습니다. checkout에서 최종 상태를 재확인하세요.`
+      : priority.length
+        ? `현재 확정 BUY는 없습니다. HIGH PRIORITY ${priority.length}대를 먼저 검증합니다.`
+        : "현재 확정 BUY와 HIGH PRIORITY 차량은 없습니다. 다음 확인 결과를 기다립니다.";
+  const lastSuccessful = firstDefined(
+    status.last_verified_snapshot,
+    status.last_successful_crawl,
+    status.last_successful_at,
+    inventory.sourceSuccessfulAt,
+    inventory.sourceFeedLastSeenAt,
+  );
   const lastAttempted = firstDefined(status.last_attempted_crawl, status.last_attempt_at, status.last_run_at, inventory.snapshotAt);
   const sourceStatus = sourceStatusValue(status);
   $("last-successful-crawl").textContent = formatDate(lastSuccessful);
   $("last-attempted-crawl").textContent = formatDate(lastAttempted);
   $("source-status").textContent = sourceStatus.replaceAll("_", " ").toUpperCase();
   $("source-status").dataset.state = sourceStatus;
-  $("freshness").textContent = `Dashboard generated ${formatDate(inventory.snapshotAt)} · Los Angeles time · ${inventory.sourceName} · ZIP ${inventory.market.zip}`;
+  $("freshness").textContent = `Last verified snapshot ${formatDate(lastSuccessful || inventory.snapshotAt)} · Los Angeles time · ${inventory.sourceName} · ZIP ${inventory.market.zip}`;
   const linkedReport = reportUrl(status.baseline_report_url || status.report_url);
   if (linkedReport) $("report-link").href = linkedReport;
 
-  renderGrid("priority-grid", priority, "HIGH PRIORITY가 없습니다.", "현재 monitor_tier가 HIGH PRIORITY 또는 ULTRA VALUE인 활성 차량이 없습니다.");
-  renderGrid("buy-grid", buy, "오늘 확정 BUY는 0대입니다.", "좋은 숫자만으로는 부족합니다. 가격·19인치·이력·SOH·최종 Transport를 모두 통과해야 합니다.");
+  renderGrid(
+    "priority-grid",
+    priority,
+    "HIGH PRIORITY가 없습니다.",
+    isLastKnown
+      ? "마지막 확인 스냅샷에 HIGH PRIORITY 또는 ULTRA VALUE 후보가 없습니다."
+      : "현재 monitor_tier가 HIGH PRIORITY 또는 ULTRA VALUE인 활성 차량이 없습니다.",
+  );
+  renderGrid(
+    "buy-grid",
+    buy,
+    isLastKnown ? "마지막 확인 스냅샷의 BUY는 0대입니다." : "오늘 확정 BUY는 0대입니다.",
+    isLastKnown
+      ? "최신 재고 갱신 전 데이터입니다. 현재 가격과 판매 여부를 Tesla에서 다시 확인하세요."
+      : "좋은 숫자만으로는 부족합니다. 가격·19인치·이력·SOH·최종 Transport를 모두 통과해야 합니다.",
+  );
   renderGrid("new-grid", fresh, "이번 crawl의 신규 차량이 없습니다.", "latest successful crawl의 new/reappeared 이벤트가 없습니다.");
   renderGrid(
     "drops-grid",
@@ -841,14 +894,14 @@ function renderDashboard(data) {
     "latest successful crawl에서 alert 기준을 넘은 활성 차량이 없습니다.",
   );
   renderGrid("gone-grid", gone, "이번 crawl에서 사라진 차량이 없습니다.", "latest successful crawl의 disappeared 이벤트가 없거나 history 데이터가 없습니다.");
-  installInventoryControls(active);
+  installInventoryControls(active, isLastKnown);
   renderHistory(history.snapshots);
-  setHealth(renderNotice(status, warnings, source), status);
+  setHealth(renderNotice(statusView, status));
   $("main-content").setAttribute("aria-busy", "false");
 }
 
 function renderFatal(error) {
-  setHealth("error", { headline: "로드 오류" });
+  setHealth({ state: "error", healthLabel: "로드 오류" });
   const notice = $("data-notice");
   notice.hidden = false;
   notice.dataset.level = "error";

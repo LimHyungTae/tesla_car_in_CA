@@ -5,6 +5,8 @@
   "last_successful_at": "2026-09-02T07:08:00Z",
   "last_status": "source_error",
   "last_error": "Tesla inventory request failed after 3 attempt(s): HTTP Error 403: Forbidden",
+  "last_error_code": "http_403",
+  "last_http_status": 403,
   "consecutive_failures": 2,
   "stale": true,
   "known_vins": [
@@ -1044,6 +1046,6 @@
   "inventory_count": 8,
   "last_event_count": 12,
   "last_alert_count": 6,
-  "next_due_at": "2026-09-03T19:16:14Z",
+  "next_due_at": "2026-09-04T01:16:14Z",
   "seed_source": "data/snapshots/2026-09-02.json plus prior dashboard disappeared history"
 }
