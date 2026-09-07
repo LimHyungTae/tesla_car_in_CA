@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import test from "node:test";
 import { classify, estimateOtd, maximumListingPrice } from "../.claude/skills/tesla-buy-box/scripts/evaluate.mjs";
 import { historyRunPresentation, statusPresentation } from "../dashboard/status-ui.js";
@@ -57,7 +58,8 @@ test("Buy Box bands preserve the owner's final thresholds", () => {
 });
 
 test("hard vehicle and history failures cannot be rescued by price", () => {
-  assert.equal(classify(candidate({ price_usd: 30000, wheel_inches: 20 }), config).tier, "EXCLUDE");
+  assert.equal(classify(candidate({ price_usd: 30000, wheel_inches: 20 }), config).tier, "BUY");
+  assert.equal(classify(candidate({ price_usd: 30000, wheel_inches: 21 }), config).tier, "EXCLUDE");
   assert.equal(classify(candidate({ price_usd: 30000, hardware: "HW3" }), config).tier, "EXCLUDE");
   assert.equal(classify(candidate({ price_usd: 30000, accident_or_damage: true }), config).tier, "EXCLUDE");
   assert.equal(classify(candidate({ price_usd: 30000, prior_use: "rental" }), config).tier, "EXCLUDE");
@@ -75,6 +77,14 @@ test("an otherwise suitable over-budget car waits with a target", () => {
   const result = classify(candidate({ price_usd: 36800, mileage: 27544 }), config);
   assert.equal(result.tier, "WAIT");
   assert.equal(result.listing_price_target_usd, 35500);
+  assert.equal(result.listing_price_target_tier, "HIGH PRIORITY");
+  assert.deepEqual(
+    [
+      classify(candidate({ price_usd: 36200, mileage: 32138 }), config),
+      classify(candidate({ price_usd: 36900, mileage: 37242 }), config),
+    ].map(({ listing_price_target_usd, listing_price_target_tier }) => [listing_price_target_usd, listing_price_target_tier]),
+    [[35000, "BUY"], [35500, "FAIR"]],
+  );
 });
 
 test("unknown SOH and Transport never become an unconditional pass", () => {
@@ -84,10 +94,29 @@ test("unknown SOH and Transport never become an unconditional pass", () => {
   assert.deepEqual(result.pending.sort(), ["Battery Health/SOH", "final Transport fee"].sort());
 });
 
+test("missing wheel evidence waits for verification instead of failing the vehicle", () => {
+  const result = classify(candidate({ wheel_inches: null }), config);
+  assert.equal(result.tier, "BUY");
+  assert.equal(result.verification, "VERIFY FIRST");
+  assert.deepEqual(result.failures, []);
+  assert.match(result.pending.join(" "), /wheel size/);
+});
+
 test("current baseline and shared skill bridge exist", () => {
-  assert.equal(fs.existsSync(path.resolve("0902_candidates_v2.html")), true);
+  assert.equal(fs.existsSync(path.resolve("0906_candidates.html")), true);
   assert.equal(fs.existsSync(path.resolve(".agents/skills/tesla-buy-box/SKILL.md")), true);
   assert.equal(fs.existsSync(path.resolve(".claude/skills/tesla-buy-box/SKILL.md")), true);
+});
+
+test("evaluator CLI runs through the shared .agents symlink", () => {
+  const output = execFileSync(
+    process.execPath,
+    [".agents/skills/tesla-buy-box/scripts/evaluate.mjs", "data/snapshots/2026-09-02.json"],
+    { encoding: "utf8" },
+  );
+  const results = JSON.parse(output);
+  assert.equal(results.length, 8);
+  assert.equal(results.find(({ vin }) => vin.endsWith("PF864217")).tier, "WAIT");
 });
 
 test("degraded status presents last-known data without exposing raw 403 text", () => {

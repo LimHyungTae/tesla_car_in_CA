@@ -6,11 +6,12 @@ Foster City, California에서 살 중고 Tesla Model Y Long Range AWD를 추적�
 
 - Dashboard: <https://limhyungtae.github.io/tesla_car_in_CA/>
 - Actions: <https://github.com/LimHyungTae/tesla_car_in_CA/actions/workflows/tesla-monitor.yml>
-- Current report baseline: [`0902_candidates_v2.html`](./0902_candidates_v2.html)
+- Current report baseline: [`0906_candidates.html`](./0906_candidates.html)
+- Buying checklist: [`how-to-buy.md`](./how-to-buy.md)
 
 ## Buy Box
 
-공통 필수조건은 2023년식 이상 Model Y Long Range AWD, HW4, 19인치, neutral color, 50,000mi 미만, Tesla 중고 재고, clean title, 알려진 사고·damage 없음, rental/fleet/commercial/taxi/rideshare 이력 없음입니다. Battery Health/SOH나 이력 근거가 빠졌다면 가격 조건을 만족해도 `VERIFY FIRST`입니다.
+공통 필수조건은 2023년식 이상 Model Y Long Range AWD, HW4, **19인치 또는 20인치**, neutral color, 50,000mi 미만, Tesla 중고 재고, clean title, 알려진 사고·damage 없음, rental/fleet/commercial/taxi/rideshare 이력 없음입니다. 19인치는 효율·승차감·타이어 비용 때문에 soft preference이고, **White exterior는 비슷한 후보끼리의 우선순위**입니다. 둘 다 이력·SOH·가격·마일보다 앞서는 hard gate는 아닙니다. Battery Health/SOH나 이력 근거가 빠졌다면 가격 조건을 만족해도 `VERIFY FIRST`입니다.
 
 | Opportunity | Price | Mileage |
 |---|---:|---:|
@@ -104,7 +105,7 @@ GitHub 예약 실행은 지연되거나 드물게 누락될 수 있으므로 정
 
 크롤러는 timeout, 제한된 재시도, exponential backoff, HTTP 403/429/5xx, 잘못된 JSON과 예상하지 못한 응답 구조를 처리합니다. CAPTCHA 풀이, fingerprint 위장, proxy rotation 같은 우회는 하지 않습니다.
 
-`inventory/api/v4/inventory-results`는 Tesla 웹사이트가 사용하는 내부 재고 경로이지, [Tesla Developer/Fleet API](https://developer.tesla.com/docs/fleet-api/endpoints/vehicle-endpoints)에 문서화된 판매 재고 API가 아닙니다. 따라서 Fleet API token을 붙여 해결할 수 없습니다. 2026-09-03 [Actions 실행](https://github.com/LimHyungTae/tesla_car_in_CA/actions/runs/33795417132)과 별도 진단에서 Tesla/Akamai가 GitHub-hosted runner의 홈페이지·재고 페이지·재고 API 요청을 모두 HTTP 403으로 거부했고, 쿼리나 JSON parser 문제는 아니었습니다.
+`inventory/api/v4/inventory-results`는 Tesla 웹사이트가 사용하는 내부 재고 경로이지, [Tesla Developer/Fleet API](https://developer.tesla.com/docs/fleet-api/endpoints/vehicle-endpoints)에 문서화된 판매 재고 API가 아닙니다. 따라서 Fleet API token을 붙여 해결할 수 없습니다. 2026-09-03 [Actions 실행](https://github.com/LimHyungTae/tesla_car_in_CA/actions/runs/33795417132)에서 시작된 Tesla/Akamai의 HTTP 403은 2026-09-06 최신 실행에서도 계속됐습니다. 이는 쿼리나 JSON parser 문제가 아니라 GitHub-hosted 자동 요청이 거부되는 소스 접근 문제입니다.
 
 - HTTP 403은 같은 요청을 반복해도 회복될 가능성이 낮아 1회에 중단하고 6시간 cooldown을 적용합니다.
 - HTTP 429, 408, 5xx, timeout과 일시적 parser/network 오류만 제한적으로 재시도합니다. `Retry-After`는 최대 60초까지만 반영합니다.

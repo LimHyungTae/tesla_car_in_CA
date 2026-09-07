@@ -4,6 +4,7 @@ import json
 import shutil
 import tempfile
 import unittest
+from copy import deepcopy
 from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
 from datetime import datetime, timezone
@@ -237,12 +238,33 @@ def test_buy_opportunity_levels_are_buy_strengths():
 def test_otd_and_hard_gates_follow_buy_box():
     assert estimate_otd(35200, 0, BUY_BOX) == {"low": 39100.0, "high": 39300.0}
     assert estimate_otd(35200, 2500, BUY_BOX) == {"low": 41834.38, "high": 42034.38}
-    assert evaluate_vehicle(complete_candidate(wheel_inches=20), BUY_BOX)["tier"] == "EXCLUDE"
+    assert evaluate_vehicle(complete_candidate(wheel_inches=20), BUY_BOX)["tier"] == "BUY"
+    assert evaluate_vehicle(complete_candidate(wheel_inches=21), BUY_BOX)["tier"] == "EXCLUDE"
     assert evaluate_vehicle(complete_candidate(hardware="HW3"), BUY_BOX)["tier"] == "EXCLUDE"
     assert evaluate_vehicle(complete_candidate(accident_or_damage=True), BUY_BOX)["tier"] == "EXCLUDE"
     assert evaluate_vehicle(complete_candidate(prior_use="rental"), BUY_BOX)["tier"] == "EXCLUDE"
     for prior_use in ("Commercial Use", "rental fleet", "Fleet vehicle", "rideshare lease"):
         assert evaluate_vehicle(complete_candidate(prior_use=prior_use), BUY_BOX)["tier"] == "EXCLUDE"
+
+
+def test_wait_targets_match_the_best_reachable_mileage_band():
+    high_priority = evaluate_vehicle(
+        complete_candidate(price_usd=36800, mileage=27544), BUY_BOX
+    )
+    buy = evaluate_vehicle(complete_candidate(price_usd=36200, mileage=32138), BUY_BOX)
+    fair = evaluate_vehicle(complete_candidate(price_usd=36900, mileage=37242), BUY_BOX)
+    assert (high_priority["listing_price_target_usd"], high_priority["listing_price_target_tier"]) == (35500, "HIGH PRIORITY")
+    assert (buy["listing_price_target_usd"], buy["listing_price_target_tier"]) == (35000, "BUY")
+    assert (fair["listing_price_target_usd"], fair["listing_price_target_tier"]) == (35500, "FAIR")
+    assert buy["listing_price_target_transport_assumption_usd"] == 0
+    assert buy["listing_price_target_transport_verified"] is True
+
+    unknown_transport = evaluate_vehicle(
+        complete_candidate(price_usd=36200, mileage=32138, transport_fee_usd=None),
+        BUY_BOX,
+    )
+    assert unknown_transport["listing_price_target_transport_assumption_usd"] == 0
+    assert unknown_transport["listing_price_target_transport_verified"] is False
 
 
 def test_history_parser_respects_negation_and_string_booleans():
@@ -442,7 +464,7 @@ def test_sparse_live_record_keeps_last_known_evidence_and_provenance():
         assert vehicle["battery_evidence_status"] == "last_known"
 
 
-def test_scope_filters_non_neutral_paint_but_keeps_20_inch_exclusion():
+def test_scope_filters_non_neutral_paint_and_accepts_20_inch_wheels():
     with tempfile.TemporaryDirectory() as directory:
         root = prepare_root(Path(directory))
         red = raw_vehicle("RED", OptionCodeList="$PPMR,$WY19B,$STY5S")
@@ -455,7 +477,74 @@ def test_scope_filters_non_neutral_paint_but_keeps_20_inch_exclusion():
         )
         inventory = json.loads((root / "data/inventory.json").read_text())
         assert [vehicle["vin"] for vehicle in inventory["vehicles"]] == ["GREY20"]
-        assert inventory["vehicles"][0]["tier"] == "EXCLUDE"
+        assert inventory["vehicles"][0]["tier"] == "BUY"
+
+
+def test_white_then_19_inch_break_equal_price_and_mileage_ties():
+    with tempfile.TemporaryDirectory() as directory:
+        root = prepare_root(Path(directory))
+        grey_nineteen = raw_vehicle(
+            "GREY19", Price=35000, Odometer=25000, OptionCodeList="$PMNG,$WY19B,$STY5S"
+        )
+        white_twenty = raw_vehicle(
+            "WHITE20", Price=35000, Odometer=25000, OptionCodeList="$PPSW,$WY20P,$STY5S"
+        )
+        white_nineteen = raw_vehicle(
+            "WHITE19", Price=35000, Odometer=25000, OptionCodeList="$PPSW,$WY19B,$STY5S"
+        )
+        run_monitor(
+            root,
+            force=True,
+            now="2026-09-02T07:00:00Z",
+            client=StaticClient([grey_nineteen, white_twenty, white_nineteen]),
+        )
+        inventory = json.loads((root / "data/inventory.json").read_text())
+        assert [vehicle["vin"] for vehicle in inventory["vehicles"]] == [
+            "WHITE19",
+            "WHITE20",
+            "GREY19",
+        ]
+
+
+def test_buy_box_version_change_reclassifies_preserved_inventory_without_a_crawl():
+    with tempfile.TemporaryDirectory() as directory:
+        root = prepare_root(Path(directory))
+        old_buy_box = deepcopy(BUY_BOX)
+        old_buy_box["version"] = 2
+        old_buy_box["effective_date"] = "2026-09-02"
+        old_buy_box["vehicle_gates"].pop("accepted_wheel_inches")
+        old_buy_box["vehicle_gates"]["required_wheel_inches"] = 19
+        (root / "config" / "buy-box.json").write_text(
+            json.dumps(old_buy_box), encoding="utf-8"
+        )
+        twenty_inch = raw_vehicle(
+            "TWENTY", Price=35000, OptionCodeList="$PMNG,$WY20P,$STY5S"
+        )
+        first = run_monitor(
+            root,
+            force=True,
+            now="2026-09-02T07:00:00Z",
+            client=StaticClient([twenty_inch]),
+        )
+        assert first.success
+        original = json.loads((root / "data/inventory.json").read_text())
+        assert original["vehicles"][0]["tier"] == "EXCLUDE"
+
+        (root / "config" / "buy-box.json").write_text(
+            json.dumps(BUY_BOX), encoding="utf-8"
+        )
+        skipped = run_monitor(
+            root,
+            now="2026-09-02T07:05:00Z",
+            client=StaticClient([]),
+        )
+        migrated = json.loads((root / "data/inventory.json").read_text())
+        state = json.loads((root / "data/state.json").read_text())
+        assert skipped.status == "skipped"
+        assert migrated["source_successful_at"] == "2026-09-02T07:00:00Z"
+        assert migrated["decision_model_version"] == BUY_BOX["version"]
+        assert migrated["vehicles"][0]["tier"] == "BUY"
+        assert state["last_attempt_at"] == "2026-09-02T07:00:00Z"
 
 
 def test_cadence_skip_does_not_call_source():

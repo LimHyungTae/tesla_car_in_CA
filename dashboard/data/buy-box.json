@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "effective_date": "2026-09-02",
+  "version": 3,
+  "effective_date": "2026-09-06",
   "market": {
     "registration_location": "Foster City, CA",
     "zip": "94404",
@@ -20,7 +20,10 @@
     ],
     "minimum_year": 2023,
     "required_hardware": "HW4",
-    "required_wheel_inches": 19,
+    "accepted_wheel_inches": [
+      19,
+      20
+    ],
     "maximum_mileage_exclusive": 50000,
     "preferred_maximum_mileage": 35000,
     "require_tesla_cpo": true,
@@ -34,6 +37,13 @@
       "rideshare"
     ],
     "require_battery_health_clear": true
+  },
+  "soft_preferences": {
+    "preferred_wheel_inches": 19,
+    "preferred_exterior_colors": [
+      "White",
+      "Pearl White Multi-Coat"
+    ]
   },
   "price_mileage_bands": {
     "ultra_value": {
@@ -70,15 +80,17 @@
   "tie_break_weights_percent": {
     "price": 30,
     "mileage": 25,
-    "wheel": 15,
+    "exterior_color_preference": 15,
     "original_basic_warranty": 10,
     "model_year": 10,
-    "options": 9,
+    "wheel_preference": 5,
+    "options": 4,
     "pickup_location": 1
   },
   "policy_notes": [
     "Hard gates dominate all weights.",
-    "The 19-inch weight is binary because 19-inch wheels are also required.",
+    "Both 19-inch and 20-inch wheels pass the gate; 19-inch is a soft preference for efficiency, ride comfort, and tire cost.",
+    "White exterior is preferred only as a tie-breaker among otherwise similar candidates.",
     "Battery SOH must not be inferred from displayed range.",
     "A BUY tier remains conditional while any verification gate is pending.",
     "Transport is taxable in the report estimate and Tesla checkout is final."

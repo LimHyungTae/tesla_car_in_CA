@@ -1,4 +1,4 @@
-# Buy Box v2
+# Buy Box v3
 
 ## Hard vehicle and verification gates
 
@@ -6,7 +6,8 @@ The target is a Tesla Certified Pre-Owned Model Y Long Range AWD with:
 
 - model year 2023 or newer;
 - HW4;
-- 19-inch wheels;
+- 19-inch or 20-inch wheels (19-inch preferred for efficiency, ride comfort, and tire cost);
+- white exterior preferred as a soft tie-breaker; other configured neutral colors still pass;
 - fewer than 50,000 miles, preferably 35,000 or fewer;
 - no reported accident or damage and a clean title;
 - no rental, fleet, commercial, taxi, or rideshare use; personal or lease use is acceptable;
@@ -54,21 +55,22 @@ Hard gates are outside the score. Within the same tier use:
 
 - price 30%;
 - mileage 25%;
-- 19-inch wheel 15% (binary and normally equal after the gate);
+- exterior color preference 15% (White preferred; other configured neutral colors remain eligible);
 - remaining Original Basic warranty 10%;
 - model year 10%;
-- options 9%;
+- wheel preference 5% (19-inch preferred, but 20-inch remains eligible);
+- options 4%;
 - pickup location 1%.
 
 Warranty mileage gap is not the actual remaining warranty. The Original Basic warranty is limited by both four years from original delivery and 50,000 total miles. The CPO limited warranty follows according to Tesla's current terms. Do not pay thousands merely for a small Basic-warranty mileage difference when history, SOH, price, and total mileage favor another car.
 
 ## Decision examples
 
-- $34,600 / 32,000mi / 19-inch with all gates passed: `BUY`.
-- $34,000 / 35,000mi / 19-inch with all gates passed: `ULTRA VALUE`.
-- $35,000 / 25,000mi / 19-inch with all gates passed: `ULTRA VALUE`.
-- $35,400 / 24,000mi / 19-inch with all gates passed: `HIGH PRIORITY`.
-- $35,400 / 32,000mi / 19-inch with all gates passed: `FAIR`.
-- $36,800 / 27,000mi / 19-inch: `WAIT`; give the price required for both the Buy Box and OTD.
+- $34,600 / 32,000mi / 19- or 20-inch with all gates passed: `BUY`.
+- $34,000 / 35,000mi / 19- or 20-inch with all gates passed: `ULTRA VALUE`.
+- $35,000 / 25,000mi / 19- or 20-inch with all gates passed: `ULTRA VALUE`.
+- $35,400 / 24,000mi / 19- or 20-inch with all gates passed: `HIGH PRIORITY`.
+- $35,400 / 32,000mi / 19- or 20-inch with all gates passed: `FAIR`.
+- $36,800 / 27,000mi / 19- or 20-inch: `WAIT`; give the price required for both the Buy Box and OTD.
 - $35,700 / 47,000mi: `EXCLUDE — poor value`, even if direct-pickup OTD barely fits.
-- Any 20-inch, accident-history, branded-title, or excluded-use vehicle: `EXCLUDE` regardless of price.
+- Any 21-inch/unsupported-wheel, accident-history, branded-title, or excluded-use vehicle: `EXCLUDE` regardless of price.

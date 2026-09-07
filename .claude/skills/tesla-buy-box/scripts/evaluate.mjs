@@ -35,7 +35,11 @@ export function classify(candidate, config) {
   if (!gates.accepted_trims.includes(candidate.trim)) failures.push("wrong trim");
   if (candidate.year < gates.minimum_year) failures.push("model year below minimum");
   if (candidate.hardware !== gates.required_hardware) failures.push("not HW4");
-  if (candidate.wheel_inches !== gates.required_wheel_inches) failures.push("not 19-inch wheels");
+  const acceptedWheels = Array.isArray(gates.accepted_wheel_inches)
+    ? gates.accepted_wheel_inches.map(Number)
+    : [Number(gates.required_wheel_inches)];
+  if (candidate.wheel_inches == null) pending.push("wheel size");
+  else if (!acceptedWheels.includes(Number(candidate.wheel_inches))) failures.push("unsupported wheel size");
   if (candidate.mileage >= gates.maximum_mileage_exclusive) failures.push("50,000mi or more");
   if (candidate.tesla_cpo !== true) failures.push("not Tesla CPO");
 
@@ -54,10 +58,18 @@ export function classify(candidate, config) {
   if (candidate.transport_fee_usd == null) pending.push("final Transport fee");
   const transport = candidate.transport_fee_usd ?? 0;
   const otd = estimateOtd(candidate.price_usd, transport, config);
-  const buyBoxPriceTarget = Math.min(
-    bands.high_priority.maximum_listing_price_usd,
-    maximumListingPrice(transport, config)
-  );
+  let targetBand = null;
+  let targetTier = null;
+  if (candidate.mileage <= bands.high_priority.maximum_mileage) {
+    [targetBand, targetTier] = [bands.high_priority, "HIGH PRIORITY"];
+  } else if (candidate.mileage <= bands.buy.maximum_mileage) {
+    [targetBand, targetTier] = [bands.buy, "BUY"];
+  } else if (candidate.mileage < bands.fair.maximum_mileage) {
+    [targetBand, targetTier] = [bands.fair, "FAIR"];
+  }
+  const buyBoxPriceTarget = targetBand
+    ? Math.min(targetBand.maximum_listing_price_usd, maximumListingPrice(transport, config))
+    : null;
 
   let tier;
   let strength = null;
@@ -111,7 +123,10 @@ export function classify(candidate, config) {
     pending,
     reasons,
     otd,
-    listing_price_target_usd: tier === "WAIT" ? Math.floor(buyBoxPriceTarget) : null
+    listing_price_target_usd: tier === "WAIT" && buyBoxPriceTarget !== null ? Math.floor(buyBoxPriceTarget) : null,
+    listing_price_target_tier: tier === "WAIT" ? targetTier : null,
+    listing_price_target_transport_assumption_usd: tier === "WAIT" && buyBoxPriceTarget !== null ? transport : null,
+    listing_price_target_transport_verified: tier === "WAIT" && buyBoxPriceTarget !== null ? candidate.transport_fee_usd != null : null
   };
 }
 
@@ -125,4 +140,7 @@ function main() {
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
+if (
+  process.argv[1] &&
+  fs.realpathSync(path.resolve(process.argv[1])) === fs.realpathSync(fileURLToPath(import.meta.url))
+) main();

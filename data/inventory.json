@@ -87,7 +87,10 @@
           "low": 40850.0,
           "high": 41050.0
         },
-        "listing_price_target_usd": 35500
+        "listing_price_target_usd": 35500,
+        "listing_price_target_tier": "HIGH PRIORITY",
+        "listing_price_target_transport_assumption_usd": 0,
+        "listing_price_target_transport_verified": false
       }
     },
     {
@@ -162,7 +165,10 @@
           "low": 40959.38,
           "high": 41159.38
         },
-        "listing_price_target_usd": 35500
+        "listing_price_target_usd": 35500,
+        "listing_price_target_tier": "FAIR",
+        "listing_price_target_transport_assumption_usd": 0,
+        "listing_price_target_transport_verified": false
       }
     },
     {
@@ -240,7 +246,10 @@
           "low": 41178.12,
           "high": 41378.12
         },
-        "listing_price_target_usd": 35500
+        "listing_price_target_usd": 35500,
+        "listing_price_target_tier": "HIGH PRIORITY",
+        "listing_price_target_transport_assumption_usd": 0,
+        "listing_price_target_transport_verified": false
       }
     },
     {
@@ -318,7 +327,10 @@
           "low": 41615.62,
           "high": 41815.62
         },
-        "listing_price_target_usd": 35500
+        "listing_price_target_usd": 35500,
+        "listing_price_target_tier": "HIGH PRIORITY",
+        "listing_price_target_transport_assumption_usd": 0,
+        "listing_price_target_transport_verified": false
       }
     },
     {
@@ -382,22 +394,20 @@
       "strength": null,
       "opportunity_tier": null,
       "monitor_tier": "EXCLUDE",
-      "verification": "FAIL",
+      "verification": "VERIFY FIRST",
       "evaluation": {
         "tier": "EXCLUDE",
         "strength": null,
         "opportunity_tier": null,
         "monitor_tier": "EXCLUDE",
-        "verification": "FAIL",
-        "failures": [
-          "not 19-inch wheels"
-        ],
+        "verification": "VERIFY FIRST",
+        "failures": [],
         "pending": [
           "Battery Health/SOH",
           "final Transport fee"
         ],
         "reasons": [
-          "not 19-inch wheels"
+          "$35k+ with 40k–50kmi poor-value band"
         ],
         "otd": {
           "low": 39100.0,
@@ -407,7 +417,10 @@
           "low": 39100.0,
           "high": 39300.0
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": null,
+        "listing_price_target_tier": null,
+        "listing_price_target_transport_assumption_usd": null,
+        "listing_price_target_transport_verified": null
       }
     },
     {
@@ -491,7 +504,10 @@
           "low": 39646.88,
           "high": 39846.88
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": null,
+        "listing_price_target_tier": null,
+        "listing_price_target_transport_assumption_usd": null,
+        "listing_price_target_transport_verified": null
       }
     },
     {
@@ -539,26 +555,24 @@
       "rewards_verified_at": null,
       "rewards_evidence_status": "unverified",
       "observed_at": "2026-09-02T07:08:00Z",
-      "tier": "EXCLUDE",
+      "tier": "WAIT",
       "strength": null,
       "opportunity_tier": null,
-      "monitor_tier": "EXCLUDE",
-      "verification": "FAIL",
+      "monitor_tier": "WAIT",
+      "verification": "VERIFY FIRST",
       "evaluation": {
-        "tier": "EXCLUDE",
+        "tier": "WAIT",
         "strength": null,
         "opportunity_tier": null,
-        "monitor_tier": "EXCLUDE",
-        "verification": "FAIL",
-        "failures": [
-          "not 19-inch wheels"
-        ],
+        "monitor_tier": "WAIT",
+        "verification": "VERIFY FIRST",
+        "failures": [],
         "pending": [
           "Battery Health/SOH",
           "final Transport fee"
         ],
         "reasons": [
-          "not 19-inch wheels"
+          "estimated OTD exceeds cap"
         ],
         "otd": {
           "low": 40193.75,
@@ -568,7 +582,10 @@
           "low": 40193.75,
           "high": 40393.75
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": 35000,
+        "listing_price_target_tier": "BUY",
+        "listing_price_target_transport_assumption_usd": 0,
+        "listing_price_target_transport_verified": false
       }
     },
     {
@@ -648,8 +665,13 @@
           "low": 40850.0,
           "high": 41050.0
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": null,
+        "listing_price_target_tier": null,
+        "listing_price_target_transport_assumption_usd": null,
+        "listing_price_target_transport_verified": null
       }
     }
-  ]
+  ],
+  "decision_model_version": 3,
+  "decision_model_effective_date": "2026-09-06"
 }

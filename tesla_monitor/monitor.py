@@ -55,6 +55,8 @@ def _default_state() -> dict[str, Any]:
         "consecutive_failures": 0,
         "next_due_at": None,
         "stale": True,
+        "decision_model_version": None,
+        "decision_model_effective_date": None,
         "known_vins": [],
         "inactive_vins": [],
         "catalog": {},
@@ -113,6 +115,61 @@ def _decorate(record: dict[str, Any], buy_box: Mapping[str, Any], observed_at: s
         }
     )
     return result
+
+
+def _reclassify(record: Mapping[str, Any], buy_box: Mapping[str, Any]) -> dict[str, Any]:
+    """Refresh decision fields without changing any source-observation facts."""
+
+    result = dict(record)
+    evaluation = evaluate_vehicle(result, buy_box)
+    result.update(
+        {
+            "tier": evaluation["tier"],
+            "strength": evaluation["strength"],
+            "opportunity_tier": evaluation["opportunity_tier"],
+            "monitor_tier": evaluation["monitor_tier"],
+            "verification": evaluation["verification"],
+            "evaluation": evaluation,
+        }
+    )
+    return result
+
+
+def _refresh_decision_model(
+    inventory: Any,
+    state: dict[str, Any],
+    buy_box: Mapping[str, Any],
+) -> tuple[Any, dict[str, Any], bool]:
+    """Migrate preserved judgments when config changes, without claiming a crawl."""
+
+    version = buy_box.get("version")
+    if version is None:
+        return inventory, state, False
+    inventory_version = inventory.get("decision_model_version") if isinstance(inventory, dict) else None
+    state_version = state.get("decision_model_version")
+    if inventory_version == version and state_version == version:
+        return inventory, state, False
+
+    updated_inventory = inventory
+    if isinstance(inventory, dict) and isinstance(inventory.get("vehicles"), list):
+        updated_inventory = dict(inventory)
+        updated_inventory["decision_model_version"] = version
+        updated_inventory["decision_model_effective_date"] = buy_box.get("effective_date")
+        updated_inventory["vehicles"] = [
+            _reclassify(vehicle, buy_box) if isinstance(vehicle, Mapping) else vehicle
+            for vehicle in inventory["vehicles"]
+        ]
+
+    updated_state = dict(state)
+    catalog = state.get("catalog")
+    if isinstance(catalog, Mapping):
+        updated_state["catalog"] = {
+            str(vin): _reclassify(vehicle, buy_box) if isinstance(vehicle, Mapping) else vehicle
+            for vin, vehicle in catalog.items()
+        }
+    updated_state["decision_model_version"] = version
+    updated_state["decision_model_effective_date"] = buy_box.get("effective_date")
+    return updated_inventory, updated_state, True
 
 
 def _preserve_observation_history(
@@ -219,7 +276,7 @@ def _preserve_verified_metadata(
 def _in_candidate_scope(
     vehicle: Mapping[str, Any], monitor: Mapping[str, Any], buy_box: Mapping[str, Any]
 ) -> bool:
-    """Keep the configured search pool while retaining gate failures like 20-inch wheels."""
+    """Keep the configured search pool while retaining records that fail later gates."""
 
     gates = buy_box["vehicle_gates"]
     known_checks = (
@@ -240,9 +297,24 @@ def _in_candidate_scope(
     return neutral_color_status(vehicle, monitor) is not False
 
 
-def _sort_key(vehicle: Mapping[str, Any]) -> tuple[Any, ...]:
+def _sort_key(vehicle: Mapping[str, Any], buy_box: Mapping[str, Any]) -> tuple[Any, ...]:
     rank = TIER_RANK.get(str(vehicle.get("monitor_tier") or "WAIT"), 1)
-    return (-rank, vehicle.get("price_usd") is None, vehicle.get("price_usd") or 10**9, vehicle.get("mileage") or 10**9)
+    preferences = buy_box.get("soft_preferences", {})
+    preferred_colors = {
+        str(value).strip().casefold()
+        for value in preferences.get("preferred_exterior_colors", [])
+    }
+    exterior = str(vehicle.get("exterior") or "").strip().casefold()
+    preferred_exterior = any(color and color in exterior for color in preferred_colors)
+    preferred_wheel = vehicle.get("wheel_inches") == preferences.get("preferred_wheel_inches")
+    return (
+        -rank,
+        vehicle.get("price_usd") is None,
+        vehicle.get("price_usd") or 10**9,
+        vehicle.get("mileage") or 10**9,
+        not preferred_exterior,
+        not preferred_wheel,
+    )
 
 
 def _write_status_and_history(
@@ -275,6 +347,16 @@ def run_monitor(
         history = _default_history()
     history = {**_default_history(), **history}
     previous_document = read_json(paths["inventory"], {}, strict=True)
+    previous_document, state, decision_model_changed = _refresh_decision_model(
+        previous_document,
+        state,
+        buy_box,
+    )
+    if decision_model_changed:
+        if isinstance(previous_document, dict) and previous_document.get("vehicles") is not None:
+            atomic_write_json(paths["inventory"], previous_document)
+        atomic_write_json(paths["state"], state)
+        sync_dashboard(paths)
     previous_vehicles = _inventory_vehicles(previous_document)
     previous_by_vin = {
         str(item["vin"]): item for item in previous_vehicles if item.get("vin")
@@ -335,7 +417,7 @@ def run_monitor(
             monitor["source"].get("allow_empty_inventory", False)
         ):
             raise ParserError("Empty normalized result rejected to protect the last active inventory")
-        normalized.sort(key=_sort_key)
+        normalized.sort(key=lambda vehicle: _sort_key(vehicle, buy_box))
         events, known, inactive, catalog = detect_changes(
             previous_vehicles,
             normalized,
@@ -348,6 +430,8 @@ def run_monitor(
         alert_count = sum(1 for event in events if event.get("alert"))
         inventory = {
             "schema_version": 1,
+            "decision_model_version": buy_box.get("version"),
+            "decision_model_effective_date": buy_box.get("effective_date"),
             "generated_at": observed_at,
             "source_successful_at": observed_at,
             "source": {

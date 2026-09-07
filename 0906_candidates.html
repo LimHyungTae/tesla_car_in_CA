@@ -1,0 +1,955 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="2026년 9월 6일 Foster City 기준 Tesla Model Y Long Range AWD CPO 후보 점검 보고서">
+  <title>0906 Tesla Model Y 후보 · Buy Box v3</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #111827;
+      --navy-2: #1f2937;
+      --ink: #18212f;
+      --muted: #657184;
+      --line: #dce2ea;
+      --paper: #ffffff;
+      --wash: #f4f6f9;
+      --red: #e82127;
+      --red-soft: #fff0f1;
+      --amber: #a66100;
+      --amber-soft: #fff7e6;
+      --green: #087a55;
+      --green-soft: #eaf8f2;
+      --blue: #2457c5;
+      --blue-soft: #eef3ff;
+      --shadow: 0 18px 50px rgba(17, 24, 39, .09);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--wash);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a { color: inherit; }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid #7aa2ff;
+      outline-offset: 3px;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 18px 0 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      color: white;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 92% 3%, rgba(232, 33, 39, .34), transparent 31%),
+        linear-gradient(145deg, #111827 0%, #172033 58%, #242b3b 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -80px -110px auto;
+      width: 250px;
+      height: 250px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 50%;
+    }
+
+    .topline,
+    .brand,
+    .chips,
+    .actions,
+    .section-head,
+    .vin-row,
+    .card-head,
+    .status-line,
+    .source-row {
+      display: flex;
+      align-items: center;
+    }
+
+    .topline {
+      position: relative;
+      z-index: 1;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      gap: 10px;
+      font-size: .79rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 6px rgba(232,33,39,.16);
+    }
+
+    .stamp {
+      color: #cbd5e1;
+      font-size: .78rem;
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 1;
+      margin: 34px 0 8px;
+      color: #ff9296;
+      font-size: .76rem;
+      font-weight: 850;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0;
+      font-size: clamp(2rem, 7vw, 4.4rem);
+      line-height: 1.03;
+      letter-spacing: -.045em;
+    }
+
+    .lede {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 18px 0 0;
+      color: #d7dee9;
+      font-size: 1rem;
+    }
+
+    .chips {
+      position: relative;
+      z-index: 1;
+      align-items: stretch;
+      gap: 8px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      padding: 9px 12px;
+      color: #f7f9fc;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      background: rgba(255,255,255,.07);
+      font-size: .78rem;
+      font-weight: 730;
+    }
+
+    .chip.warn {
+      color: #ffe2b0;
+      border-color: rgba(255,190,77,.34);
+      background: rgba(166,97,0,.18);
+    }
+
+    .actions {
+      position: relative;
+      z-index: 1;
+      gap: 10px;
+      margin-top: 23px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 44px;
+      padding: 10px 15px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 12px;
+      color: white;
+      background: rgba(255,255,255,.08);
+      font-size: .85rem;
+      font-weight: 780;
+      text-decoration: none;
+    }
+
+    .btn.primary {
+      border-color: var(--red);
+      background: var(--red);
+    }
+
+    main { margin-top: 18px; }
+
+    section {
+      margin-top: 18px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 8px 24px rgba(17,24,39,.045);
+    }
+
+    .section-head {
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    h2, h3, p { margin-top: 0; }
+
+    h2 {
+      margin-bottom: 0;
+      font-size: 1.2rem;
+      letter-spacing: -.02em;
+    }
+
+    h3 {
+      margin-bottom: 4px;
+      font-size: 1rem;
+      letter-spacing: -.015em;
+    }
+
+    .kicker,
+    .micro,
+    .muted {
+      color: var(--muted);
+    }
+
+    .kicker {
+      margin-bottom: 4px;
+      font-size: .75rem;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .micro { font-size: .78rem; }
+
+    .alert {
+      padding: 17px;
+      border: 1px solid #f0ca8c;
+      border-left: 5px solid #d58b11;
+      border-radius: 14px;
+      background: var(--amber-soft);
+    }
+
+    .alert strong { color: #794900; }
+
+    .alert p:last-child { margin-bottom: 0; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .rule-card,
+    .candidate,
+    .anchor,
+    .source-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .rule-card { padding: 17px; }
+
+    .rule-card ul,
+    .steps {
+      margin: 10px 0 0;
+      padding-left: 20px;
+    }
+
+    .rule-card li + li,
+    .steps li + li { margin-top: 6px; }
+
+    .candidate {
+      position: relative;
+      overflow: hidden;
+      padding: 18px;
+    }
+
+    .candidate::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--amber);
+    }
+
+    .candidate.exclude::before { background: var(--red); }
+
+    .card-head {
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .rank {
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 820;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: .7rem;
+      font-weight: 850;
+      letter-spacing: .055em;
+      white-space: nowrap;
+    }
+
+    .badge.wait { color: #825000; background: #ffedc7; }
+    .badge.exclude { color: #a3151a; background: var(--red-soft); }
+    .badge.stale { color: #425069; background: #edf0f5; }
+    .badge.soft { color: #17469c; background: var(--blue-soft); }
+
+    .vin-row {
+      gap: 8px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .vin {
+      color: #303b4c;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .76rem;
+      overflow-wrap: anywhere;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      margin: 15px -18px;
+      border-block: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .metric {
+      min-width: 0;
+      padding: 12px 18px;
+      background: white;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: .67rem;
+      font-weight: 760;
+      letter-spacing: .055em;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 2px;
+      font-size: .95rem;
+      overflow-wrap: anywhere;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .fact {
+      display: grid;
+      grid-template-columns: 98px minmax(0, 1fr);
+      gap: 9px;
+      font-size: .79rem;
+    }
+
+    .fact dt { color: var(--muted); }
+    .fact dd { margin: 0; font-weight: 620; overflow-wrap: anywhere; }
+
+    .verdict {
+      margin: 14px 0 0;
+      padding: 11px 12px;
+      border-radius: 11px;
+      color: #664000;
+      background: var(--amber-soft);
+      font-size: .8rem;
+    }
+
+    .exclude .verdict {
+      color: #8d161b;
+      background: var(--red-soft);
+    }
+
+    .past-link {
+      display: inline-flex;
+      margin-top: 13px;
+      color: var(--blue);
+      font-size: .78rem;
+      font-weight: 800;
+      text-underline-offset: 3px;
+    }
+
+    .anchor {
+      padding: 18px;
+      border-color: #bed0f7;
+      background: linear-gradient(145deg, #fff 0%, #f4f7ff 100%);
+    }
+
+    .anchor .status-line {
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .formula {
+      overflow-wrap: anywhere;
+      padding: 15px;
+      border: 1px dashed #9fb0c9;
+      border-radius: 13px;
+      background: #f8fafc;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .82rem;
+    }
+
+    .ceiling-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .ceiling {
+      padding: 12px;
+      border-radius: 11px;
+      background: #f2f5f9;
+      font-size: .78rem;
+    }
+
+    .ceiling strong {
+      display: block;
+      margin-top: 2px;
+      font-size: .96rem;
+    }
+
+    .sources { display: grid; gap: 9px; }
+
+    .source-card { padding: 14px; }
+
+    .source-row {
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .source-card a {
+      color: var(--blue);
+      font-weight: 770;
+      text-underline-offset: 3px;
+    }
+
+    .note {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: .75rem;
+    }
+
+    footer {
+      padding: 25px 4px 0;
+      color: var(--muted);
+      font-size: .73rem;
+      text-align: center;
+    }
+
+    @media (min-width: 720px) {
+      .shell { width: min(1180px, calc(100% - 48px)); padding-top: 26px; }
+      .hero { padding: 38px; }
+      section { padding: 28px; }
+      .grid.rules { grid-template-columns: 1.15fr .85fr; }
+      .grid.candidates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid.excludes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .ceiling-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    @media (min-width: 1050px) {
+      .grid.candidates { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid.candidates .candidate:first-child,
+      .grid.candidates .candidate:nth-child(2) { grid-column: span 1; }
+    }
+
+    @media (max-width: 520px) {
+      .shell { width: min(100% - 18px, 1180px); padding-top: 9px; }
+      .hero { padding: 21px 17px; border-radius: 20px; }
+      .stamp { width: 100%; }
+      .actions { display: grid; grid-template-columns: 1fr; }
+      .btn { width: 100%; }
+      section { padding: 18px 15px; border-radius: 17px; }
+      .candidate { padding: 16px; }
+      .metrics { margin-inline: -16px; }
+      .metric { padding-inline: 16px; }
+      .fact { grid-template-columns: 86px minmax(0, 1fr); }
+    }
+
+    @media print {
+      body { background: white; }
+      .shell { width: 100%; }
+      .hero, section { box-shadow: none; break-inside: avoid; }
+      .actions { display: none; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div class="topline">
+        <div class="brand"><span class="mark" aria-hidden="true"></span>Tesla Model Y Monitor</div>
+        <div class="stamp">Latest official-source attempt · 2026-09-06 21:29:44 PDT · ZIP 94404 · 200 mi</div>
+      </div>
+
+      <p class="eyebrow">Buy Box v3 · 0906 snapshot</p>
+      <h1>오늘 재고는 “0대”가 아니라 검증 불가입니다.</h1>
+      <p class="lede">
+        Tesla 공식 재고 요청이 HTTP 403으로 거절되었습니다. 따라서 현재 재고 수와 BUY 수는 알 수 없으며,
+        독립적으로 현재 판매 중임을 확인한 후보는 0대입니다. 아래 차량은 모두 9월 2일 마지막 정상 스냅샷을
+        비교용으로만 보여주며 현재 매물로 간주하지 않습니다.
+      </p>
+
+      <div class="chips" aria-label="현황 요약">
+        <span class="chip warn">Current inventory · unavailable</span>
+        <span class="chip warn">Current BUY count · unavailable</span>
+        <span class="chip">Independently verified current · 0</span>
+        <span class="chip">Last verified · 9/2 00:08 PDT</span>
+        <span class="chip">19″ + 20″ accepted</span>
+        <span class="chip">White · soft preference</span>
+      </div>
+
+      <nav class="actions" aria-label="빠른 링크">
+        <a class="btn primary" href="https://www.tesla.com/inventory/used/my?arrangeby=plh&amp;zip=94404&amp;range=200&amp;TRIM=MY_LR_AWD&amp;PAINT=DIAMOND_BLACK,BLACK,WHITE,GREY,SILVER">Tesla 공식 재고 직접 열기 ↗</a>
+        <a class="btn" href="how-to-buy.md">구매 절차 보기</a>
+        <a class="btn" href="#last-known">마지막 확인 후보 비교</a>
+      </nav>
+    </header>
+
+    <main>
+      <section aria-labelledby="status-title">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Source status</p>
+            <h2 id="status-title">공식 소스 실패 · 기존 데이터 보존</h2>
+          </div>
+          <span class="badge exclude">HTTP 403</span>
+        </div>
+        <div class="alert">
+          <p><strong>확인 결과:</strong> 2026-09-06 15:11:13 PDT에 Tesla 94404 / 200마일 공식 검색 URL이 Akamai HTTP 403을 반환했습니다.</p>
+          <p>GitHub Actions의 더 최근 자동 재시도도 <strong>2026-09-06 21:29:44 PDT</strong>에 같은 HTTP 403으로 끝났습니다.</p>
+          <p>마지막 정상 확인은 <strong>2026-09-02 00:08 PDT</strong>이며, 그때 사용한 재고 feed 시각은 <strong>2026-09-01 23:07 PDT</strong>입니다. 403을 재고 소진으로 해석하지 않았고, stale snapshot을 오늘 재고로 복사하지 않았습니다.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="buy-box-title">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Decision system</p>
+            <h2 id="buy-box-title">Buy Box v3</h2>
+          </div>
+          <span class="badge soft">Updated 2026-09-06</span>
+        </div>
+        <div class="grid rules">
+          <article class="rule-card">
+            <h3>Hard gates</h3>
+            <ul>
+              <li>Model Y Long Range AWD · 2023년식 이상 · Tesla CPO</li>
+              <li>HW4 확인 · 19인치 또는 20인치</li>
+              <li>50,000mi 미만 · Clean title · 사고/손상 없음</li>
+              <li>Rental/Fleet/Commercial/Rideshare 제외</li>
+              <li>Battery Health 이상 없음 · Foster City OTD $40,000 이하</li>
+            </ul>
+          </article>
+          <article class="rule-card">
+            <h3>Price × mileage bands</h3>
+            <ul>
+              <li><strong>ULTRA VALUE A:</strong> ≤$34,000 + ≤35k mi</li>
+              <li><strong>ULTRA VALUE B:</strong> ≤$35,000 + ≤25k mi</li>
+              <li><strong>HIGH PRIORITY:</strong> ≤$35,500 + ≤30k mi</li>
+              <li><strong>BUY:</strong> ≤$35,000 + ≤35k mi</li>
+              <li><strong>FAIR:</strong> ≤$35,500 + &lt;40k mi</li>
+            </ul>
+            <p class="micro" style="margin:12px 0 0"><strong>Soft preferences:</strong> 19인치 우선, 흰색 외장 우선. 둘 다 가격·마일·이력 hard gate를 뒤집지는 않습니다.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="last-known" aria-labelledby="last-known-title">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Comparison only · not current inventory</p>
+            <h2 id="last-known-title">9/2 마지막 확인 WAIT 5대</h2>
+          </div>
+          <span class="badge stale">LAST-KNOWN</span>
+        </div>
+        <p class="muted">오늘 판매 여부는 미확인입니다. OTD는 Transport $0 가정 범위이며, 실제 Transport가 있으면 전액 과세 후 추가됩니다.</p>
+
+        <div class="grid candidates">
+          <article class="candidate">
+            <div class="card-head">
+              <div>
+                <span class="rank">Last-known 01</span>
+                <h3>2023 Model Y Long Range AWD</h3>
+                <div class="vin-row"><span class="vin">7SAYGDEE7PF886407</span></div>
+              </div>
+              <span class="badge wait">WAIT</span>
+            </div>
+            <div class="metrics">
+              <div class="metric"><span>Price</span><strong>$36,800</strong></div>
+              <div class="metric"><span>Mileage</span><strong>27,544 mi</strong></div>
+              <div class="metric"><span>Wheel / HW</span><strong>19″ · HW4</strong></div>
+              <div class="metric"><span>OTD @ $0</span><strong>$40,850–41,050</strong></div>
+            </div>
+            <dl class="facts">
+              <div class="fact"><dt>색상</dt><dd>Black / Black</dd></div>
+              <div class="fact"><dt>위치</dt><dd>McClellan Park, CA</dd></div>
+              <div class="fact"><dt>CPO</dt><dd>확인</dd></div>
+              <div class="fact"><dt>이력</dt><dd>AutoCheck 93 · clean title · 사고/손상 없음</dd></div>
+              <div class="fact"><dt>Prior use</dt><dd>Lease</dd></div>
+              <div class="fact"><dt>SOH / 운송</dt><dd>검증 대기 / 현재 미확인</dd></div>
+            </dl>
+            <p class="verdict">$1,300 내려 $35,500 이하면 HIGH PRIORITY 가격대. 현재 가격은 OTD cap 초과.</p>
+            <a class="past-link" href="https://www.tesla.com/my/order/7SAYGDEE7PF886407?titleStatus=used&amp;redirect=no#overview">과거 Tesla VIN 링크 ↗</a>
+          </article>
+
+          <article class="candidate">
+            <div class="card-head">
+              <div>
+                <span class="rank">Last-known 02</span>
+                <h3>2023 Model Y Long Range AWD</h3>
+                <div class="vin-row"><span class="vin">7SAYGDEE8PF971563</span></div>
+              </div>
+              <span class="badge wait">WAIT</span>
+            </div>
+            <div class="metrics">
+              <div class="metric"><span>Price</span><strong>$37,100</strong></div>
+              <div class="metric"><span>Mileage</span><strong>22,851 mi</strong></div>
+              <div class="metric"><span>Wheel / HW</span><strong>19″ · HW4</strong></div>
+              <div class="metric"><span>OTD @ $0</span><strong>$41,178–41,378</strong></div>
+            </div>
+            <dl class="facts">
+              <div class="fact"><dt>색상</dt><dd>Black / White</dd></div>
+              <div class="fact"><dt>위치</dt><dd>Colma, CA</dd></div>
+              <div class="fact"><dt>CPO</dt><dd>확인</dd></div>
+              <div class="fact"><dt>이력 / Title</dt><dd>검증 대기</dd></div>
+              <div class="fact"><dt>Prior use</dt><dd>검증 대기</dd></div>
+              <div class="fact"><dt>SOH / 운송</dt><dd>검증 대기 / 현재 미확인</dd></div>
+            </dl>
+            <p class="verdict">$1,600 내려 $35,500 이하면 HIGH PRIORITY, $2,100 내려 $35,000 이하면 ULTRA VALUE B.</p>
+            <a class="past-link" href="https://www.tesla.com/my/order/7SAYGDEE8PF971563?titleStatus=used&amp;redirect=no#overview">과거 Tesla VIN 링크 ↗</a>
+          </article>
+
+          <article class="candidate">
+            <div class="card-head">
+              <div>
+                <span class="rank">Last-known 03</span>
+                <h3>2023 Model Y Long Range AWD</h3>
+                <div class="vin-row"><span class="vin">7SAYGDEE4PA154636</span></div>
+              </div>
+              <span class="badge wait">WAIT</span>
+            </div>
+            <div class="metrics">
+              <div class="metric"><span>Price</span><strong>$37,500</strong></div>
+              <div class="metric"><span>Mileage</span><strong>19,147 mi</strong></div>
+              <div class="metric"><span>Wheel / HW</span><strong>19″ · HW4</strong></div>
+              <div class="metric"><span>OTD @ $0</span><strong>$41,616–41,816</strong></div>
+            </div>
+            <dl class="facts">
+              <div class="fact"><dt>색상</dt><dd>Grey / White</dd></div>
+              <div class="fact"><dt>위치</dt><dd>McClellan Park, CA</dd></div>
+              <div class="fact"><dt>CPO</dt><dd>확인</dd></div>
+              <div class="fact"><dt>이력 / Title</dt><dd>검증 대기</dd></div>
+              <div class="fact"><dt>Prior use</dt><dd>검증 대기</dd></div>
+              <div class="fact"><dt>SOH / 운송</dt><dd>검증 대기 / 현재 미확인</dd></div>
+            </dl>
+            <p class="verdict">$2,000 내려 $35,500 이하면 HIGH PRIORITY, $2,500 내려 $35,000 이하면 ULTRA VALUE B.</p>
+            <a class="past-link" href="https://www.tesla.com/my/order/7SAYGDEE4PA154636?titleStatus=used&amp;redirect=no#overview">과거 Tesla VIN 링크 ↗</a>
+          </article>
+
+          <article class="candidate">
+            <div class="card-head">
+              <div>
+                <span class="rank">Last-known 04</span>
+                <h3>2023 Model Y Long Range AWD</h3>
+                <div class="vin-row"><span class="vin">7SAYGDEE7PF964653</span></div>
+              </div>
+              <span class="badge wait">WAIT</span>
+            </div>
+            <div class="metrics">
+              <div class="metric"><span>Price</span><strong>$36,900</strong></div>
+              <div class="metric"><span>Mileage</span><strong>37,242 mi</strong></div>
+              <div class="metric"><span>Wheel / HW</span><strong>19″ · HW4</strong></div>
+              <div class="metric"><span>OTD @ $0</span><strong>$40,959–41,159</strong></div>
+            </div>
+            <dl class="facts">
+              <div class="fact"><dt>색상</dt><dd>Grey / Black</dd></div>
+              <div class="fact"><dt>위치</dt><dd>Reno, NV</dd></div>
+              <div class="fact"><dt>CPO</dt><dd>확인</dd></div>
+              <div class="fact"><dt>이력</dt><dd>AutoCheck 94 · clean title · 사고/손상 없음</dd></div>
+              <div class="fact"><dt>Prior use</dt><dd>Personal</dd></div>
+              <div class="fact"><dt>SOH / 운송</dt><dd>검증 대기 / 현재 미확인</dd></div>
+            </dl>
+            <p class="verdict">$1,400 내려 $35,500 이하여야 FAIR 상단. 37k mi라 더 큰 할인 없이는 우선순위가 낮습니다.</p>
+            <a class="past-link" href="https://www.tesla.com/my/order/7SAYGDEE7PF964653?titleStatus=used&amp;redirect=no#overview">과거 Tesla VIN 링크 ↗</a>
+          </article>
+
+          <article class="candidate">
+            <div class="card-head">
+              <div>
+                <span class="rank">Last-known 05 · v3 재분류</span>
+                <h3>2023 Model Y Long Range AWD</h3>
+                <div class="vin-row"><span class="vin">7SAYGDEE2PF864217</span></div>
+              </div>
+              <span class="badge wait">WAIT</span>
+            </div>
+            <div class="metrics">
+              <div class="metric"><span>Price</span><strong>$36,200</strong></div>
+              <div class="metric"><span>Mileage</span><strong>32,138 mi</strong></div>
+              <div class="metric"><span>Wheel / HW</span><strong>20″ · HW4</strong></div>
+              <div class="metric"><span>OTD @ $0</span><strong>$40,194–40,394</strong></div>
+            </div>
+            <dl class="facts">
+              <div class="fact"><dt>색상</dt><dd>Grey / Black</dd></div>
+              <div class="fact"><dt>위치</dt><dd>McClellan Park, CA</dd></div>
+              <div class="fact"><dt>CPO</dt><dd>확인</dd></div>
+              <div class="fact"><dt>이력</dt><dd>AutoCheck 94 · clean title · 사고/손상 없음</dd></div>
+              <div class="fact"><dt>Prior use</dt><dd>Lease</dd></div>
+              <div class="fact"><dt>SOH / 운송</dt><dd>검증 대기 / 현재 미확인</dd></div>
+            </dl>
+            <p class="verdict">20″도 v3에서 허용되어 EXCLUDE→WAIT. $700 내려 $35,500 이하면 FAIR, $1,200 내려 $35,000 이하면 BUY.</p>
+            <a class="past-link" href="https://www.tesla.com/my/order/7SAYGDEE2PF864217?titleStatus=used&amp;redirect=no#overview">과거 Tesla VIN 링크 ↗</a>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="exclude-title">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Hard gate / value rejection</p>
+            <h2 id="exclude-title">9/2 마지막 확인 EXCLUDE 3대</h2>
+          </div>
+          <span class="badge exclude">DO NOT BUY</span>
+        </div>
+        <p class="muted">20인치 자체는 더 이상 탈락 사유가 아닙니다. 아래는 가격·마일 조합 또는 사고 이력 때문에 제외됩니다.</p>
+
+        <div class="grid excludes">
+          <article class="candidate exclude">
+            <div class="card-head">
+              <div>
+                <span class="rank">Poor value</span>
+                <h3>2023 LR AWD · PF840366</h3>
+                <span class="vin">7SAYGDEE9PF840366</span>
+              </div>
+              <span class="badge exclude">EXCLUDE</span>
+            </div>
+            <div class="metrics">
+              <div class="metric"><span>Price</span><strong>$35,200</strong></div>
+              <div class="metric"><span>Mileage</span><strong>44,377 mi</strong></div>
+              <div class="metric"><span>Wheel / HW</span><strong>20″ · HW4</strong></div>
+              <div class="metric"><span>OTD @ $0</span><strong>$39,100–39,300</strong></div>
+            </div>
+            <dl class="facts">
+              <div class="fact"><dt>색상 / 위치</dt><dd>Grey / White · Gilroy</dd></div>
+              <div class="fact"><dt>CPO / 이력</dt><dd>CPO · AutoCheck 93 · clean/no damage</dd></div>
+              <div class="fact"><dt>Prior use</dt><dd>Lease</dd></div>
+              <div class="fact"><dt>Data note</dt><dd>titleSubtype=DEMO / isDemo=false 충돌</dd></div>
+              <div class="fact"><dt>SOH / 운송</dt><dd>검증 대기 / 현재 미확인</dd></div>
+            </dl>
+            <p class="verdict">$35k+인데 40–50k mi인 poor-value 구간. 20″ 때문이 아니라 가격×마일로 제외.</p>
+            <a class="past-link" href="https://www.tesla.com/my/order/7SAYGDEE9PF840366?titleStatus=used&amp;redirect=no#overview">과거 Tesla VIN 링크 ↗</a>
+          </article>
+
+          <article class="candidate exclude">
+            <div class="card-head">
+              <div>
+                <span class="rank">Poor value</span>
+                <h3>2023 LR AWD · PF866876</h3>
+                <span class="vin">7SAYGDEE8PF866876</span>
+              </div>
+              <span class="badge exclude">EXCLUDE</span>
+            </div>
+            <div class="metrics">
+              <div class="metric"><span>Price</span><strong>$35,700</strong></div>
+              <div class="metric"><span>Mileage</span><strong>47,548 mi</strong></div>
+              <div class="metric"><span>Wheel / HW</span><strong>19″ · HW4</strong></div>
+              <div class="metric"><span>OTD @ $0</span><strong>$39,647–39,847</strong></div>
+            </div>
+            <dl class="facts">
+              <div class="fact"><dt>색상 / 위치</dt><dd>Grey / Black · McClellan Park</dd></div>
+              <div class="fact"><dt>CPO / 이력</dt><dd>CPO · AutoCheck 93 · clean/no damage</dd></div>
+              <div class="fact"><dt>Prior use</dt><dd>Lease</dd></div>
+              <div class="fact"><dt>SOH / 운송</dt><dd>검증 대기 / 현재 미확인</dd></div>
+            </dl>
+            <p class="verdict">기본보증 마일 여유가 거의 없고 $35k+ / 40–50k mi poor-value 구간이라 제외.</p>
+            <a class="past-link" href="https://www.tesla.com/my/order/7SAYGDEE8PF866876?titleStatus=used&amp;redirect=no#overview">과거 Tesla VIN 링크 ↗</a>
+          </article>
+
+          <article class="candidate exclude">
+            <div class="card-head">
+              <div>
+                <span class="rank">History hard gate</span>
+                <h3>2024 LR AWD · RF043246</h3>
+                <span class="vin">7SAYGDEE9RF043246</span>
+              </div>
+              <span class="badge exclude">EXCLUDE</span>
+            </div>
+            <div class="metrics">
+              <div class="metric"><span>Price</span><strong>$36,800</strong></div>
+              <div class="metric"><span>Mileage</span><strong>37,500 mi</strong></div>
+              <div class="metric"><span>Wheel / HW</span><strong>19″ · HW4</strong></div>
+              <div class="metric"><span>OTD @ $0</span><strong>$40,850–41,050</strong></div>
+            </div>
+            <dl class="facts">
+              <div class="fact"><dt>색상 / 위치</dt><dd>Grey / Black · Gilroy</dd></div>
+              <div class="fact"><dt>CPO / Title</dt><dd>CPO · clean title</dd></div>
+              <div class="fact"><dt>사고/손상</dt><dd>2026-07-09 collision/damage 보고 · severity 미상</dd></div>
+              <div class="fact"><dt>Prior use</dt><dd>검증 대기</dd></div>
+              <div class="fact"><dt>SOH / 운송</dt><dd>검증 대기 / 현재 미확인</dd></div>
+            </dl>
+            <p class="verdict">연식과 휠보다 사고/손상 hard gate가 우선이므로 제외.</p>
+            <a class="past-link" href="https://www.tesla.com/my/order/7SAYGDEE9RF043246?titleStatus=used&amp;redirect=no#overview">과거 Tesla VIN 링크 ↗</a>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="white-title">
+        <div class="section-head">
+          <div>
+            <p class="kicker">White preference</p>
+            <h2 id="white-title">마지막 확인 active 8대 중 흰색 외장은 없었습니다</h2>
+          </div>
+          <span class="badge soft">SOFT PREFERENCE</span>
+        </div>
+        <article class="anchor">
+          <div class="status-line">
+            <span class="badge stale">HISTORICAL ANCHOR</span>
+            <strong>PA151462 · 2023 LR AWD · White / Black · 19″ · HW4</strong>
+          </div>
+          <p style="margin:12px 0 0">과거 수치: <strong>$34,600 / 32,172 mi / Gilroy / CPO</strong> · Transport $0 가정 OTD <strong>$38,444–38,644</strong>.</p>
+          <p class="micro" style="margin:8px 0 0">2026-08-31 이후 inactive입니다. 이력·prior use·SOH가 최종 검증되지 않았으므로 “좋은 흰색 매물의 숫자 기준”일 뿐, 검증 완료 BUY 사례는 아닙니다.</p>
+          <a class="past-link" href="https://www.tesla.com/my/order/7SAYGDEE4PA151462?titleStatus=used&amp;redirect=no#overview">과거 Tesla VIN 링크 ↗</a>
+        </article>
+      </section>
+
+      <section aria-labelledby="otd-title">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Foster City estimate</p>
+            <h2 id="otd-title">OTD $40k 역산</h2>
+          </div>
+          <span class="badge soft">Tax 9.375%</span>
+        </div>
+        <div class="formula">Estimated OTD = (listing price + known taxable Transport) × 1.09375 + DMV/title/registration $600–800</div>
+        <div class="ceiling-grid">
+          <div class="ceiling">Transport $0<strong>차량가 ≤ $35,840</strong></div>
+          <div class="ceiling">Transport $500<strong>차량가 ≤ $35,340</strong></div>
+          <div class="ceiling">Transport $1,000<strong>차량가 ≤ $34,840</strong></div>
+          <div class="ceiling">Transport $2,500<strong>차량가 ≤ $33,340</strong></div>
+        </div>
+        <p class="note">상한은 DMV/title/registration $800을 적용한 보수적 근삿값입니다. Tesla 주문 화면의 실제 세금·등록비·Transport가 최종값입니다.</p>
+      </section>
+
+      <section aria-labelledby="verify-title">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Before paying the order fee</p>
+            <h2 id="verify-title">후보가 다시 뜨면 이 순서로 확인</h2>
+          </div>
+          <a class="past-link" style="margin-top:0" href="how-to-buy.md">전체 구매 가이드 →</a>
+        </div>
+        <ol class="steps">
+          <li>Tesla 공식 페이지에서 VIN, 현재 판매 상태, listing price와 Transport를 다시 확인합니다.</li>
+          <li>주문 전 AutoCheck 원문으로 title, accident/damage, owner type, rental/fleet/commercial/rideshare 여부를 확인합니다.</li>
+          <li>차량 화면 또는 Tesla 증빙으로 HW4와 휠을 확인합니다. 20″도 허용하지만 19″를 소폭 우선합니다.</li>
+          <li>Battery Health Test 또는 BMS 진단 증빙이 없으면 SOH는 pending으로 유지합니다. 표시 주행거리로 SOH를 추정하지 않습니다.</li>
+          <li>checkout의 실제 OTD가 $40,000 이하인지 확인한 뒤에만 결제 판단을 합니다.</li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="sources-title">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Evidence &amp; provenance</p>
+            <h2 id="sources-title">출처</h2>
+          </div>
+        </div>
+        <div class="sources">
+          <div class="source-card">
+            <div class="source-row">
+              <div><strong>공식 Tesla 94404 / 200 mi 검색</strong><div class="micro">2026-09-06 15:11:13 PDT · HTTP 403</div></div>
+              <a href="https://www.tesla.com/inventory/used/my?arrangeby=plh&amp;zip=94404&amp;range=200&amp;TRIM=MY_LR_AWD&amp;PAINT=DIAMOND_BLACK,BLACK,WHITE,GREY,SILVER">열기 ↗</a>
+            </div>
+          </div>
+          <div class="source-card">
+            <div class="source-row">
+              <div><strong>9/2 로컬 검증 스냅샷</strong><div class="micro">마지막 정상 확인 자료 · 오늘 재고가 아님</div></div>
+              <a href="data/snapshots/2026-09-02.json">JSON 보기</a>
+            </div>
+          </div>
+          <div class="source-card">
+            <div class="source-row">
+              <div><strong>기준 보고서</strong><div class="micro">Buy Box와 이전 분석의 historical baseline</div></div>
+              <a href="0902_candidates_v2.html">0902 보고서</a>
+            </div>
+          </div>
+          <div class="source-card">
+            <div class="source-row">
+              <div><strong>Tesla CPO 주문 안내</strong><div class="micro">공식 Tesla 지원 문서</div></div>
+              <a href="https://www.tesla.com/support/ordering-pre-owned-tesla">공식 문서 ↗</a>
+            </div>
+          </div>
+          <div class="source-card">
+            <div class="source-row">
+              <div><strong>서드파티 source-health 참고</strong><div class="micro">EV Inventory가 Tesla 요청 차단과 stale 가능성을 경고 · 후보 확정 근거로 사용하지 않음</div></div>
+              <a href="https://ev-inventory.com/inventory/US/MY/?adv=0&amp;country=US&amp;max=99999999&amp;miles=99999&amp;minrange=0&amp;model=MY&amp;sortsale=256&amp;spec=0&amp;state=&amp;token=163848&amp;year=20082024">경고 확인 ↗</a>
+            </div>
+          </div>
+          <div class="source-card">
+            <div class="source-row">
+              <div><strong>Monitor workflow</strong><div class="micro">2026-09-06 21:29:44 PDT · HTTP 403 · 실행 및 장애 상태 확인</div></div>
+              <a href="https://github.com/LimHyungTae/tesla_car_in_CA/actions/workflows/tesla-monitor.yml">GitHub Actions ↗</a>
+            </div>
+          </div>
+        </div>
+        <p class="note">모든 가격·주행거리·사양은 명시된 관측 시점의 값입니다. 과거 VIN 링크는 만료되거나 일반 inventory로 이동할 수 있습니다. 이 보고서는 후보 선별 자료이며 Tesla checkout, AutoCheck, 차량 진단을 대체하지 않습니다.</p>
+      </section>
+    </main>
+
+    <footer>
+      Generated for Foster City Buy Box · Latest attempt 2026-09-06 21:29:44 PDT · No stale listing represented as current
+    </footer>
+  </div>
+</body>
+</html>

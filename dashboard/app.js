@@ -119,8 +119,11 @@ function deriveDecision(vehicle, market, buyBox, explicit = {}) {
   else if (!(gates.accepted_trims || []).map((value) => String(value).toLowerCase()).includes(trim)) failures.push("Long Range AWD가 아님");
   if (!vehicle.hardware) pending.push(gates.required_hardware || "hardware");
   else if (hardware !== String(gates.required_hardware || "").toUpperCase()) failures.push(`${gates.required_hardware}가 아님`);
+  const acceptedWheels = Array.isArray(gates.accepted_wheel_inches)
+    ? gates.accepted_wheel_inches.map(Number)
+    : [Number(gates.required_wheel_inches)];
   if (vehicle.wheels === null) pending.push("wheel size");
-  else if (vehicle.wheels !== Number(gates.required_wheel_inches)) failures.push(`${gates.required_wheel_inches}인치 휠 gate 실패`);
+  else if (!acceptedWheels.includes(vehicle.wheels)) failures.push(`${acceptedWheels.join("/")}인치 휠 gate 실패`);
   if (vehicle.miles === null) pending.push("mileage");
   else if (vehicle.miles >= Number(gates.maximum_mileage_exclusive)) failures.push(`${Number(gates.maximum_mileage_exclusive).toLocaleString("en-US")}mi 미만 gate 실패`);
   if (vehicle.teslaCpo === null) pending.push("Tesla CPO status");
@@ -128,20 +131,23 @@ function deriveDecision(vehicle, market, buyBox, explicit = {}) {
   if (vehicle.titleStatus && !String(vehicle.titleStatus).toLowerCase().includes("clean")) failures.push("clean title gate 실패");
   if (vehicle.accident === true) failures.push("사고·damage 이력 gate 실패");
   if ((gates.excluded_prior_use || []).some((term) => priorUse.includes(String(term).toLowerCase()))) failures.push("제외 prior use 이력");
-  if (vehicle.price !== null && vehicle.miles !== null && vehicle.price >= Number(bands.avoid?.minimum_listing_price_usd) && vehicle.miles >= Number(bands.avoid?.minimum_mileage)) failures.push("고가·고마일 poor-value band");
+  const poorValue = vehicle.price !== null && vehicle.miles !== null && vehicle.price >= Number(bands.avoid?.minimum_listing_price_usd) && vehicle.miles >= Number(bands.avoid?.minimum_mileage);
+  if (poorValue && !reasons.some((reason) => String(reason).toLowerCase().includes("poor-value"))) {
+    reasons.push("고가·고마일 poor-value band");
+  }
 
   if (!vehicle.titleStatus) pending.push("title status");
-  if (vehicle.accident === null) pending.push("사고·damage 이력");
+  if (vehicle.accident === null) pending.push("accident/damage history");
   if (!vehicle.priorUse) pending.push("prior use");
-  if (!vehicle.batteryHealth || ["unknown", "pending", "unavailable"].includes(String(vehicle.batteryHealth).toLowerCase())) pending.push("Battery Health / SOH");
-  if (vehicle.transport === null) pending.push("최종 Transport");
+  if (!vehicle.batteryHealth || ["unknown", "pending", "unavailable"].includes(String(vehicle.batteryHealth).toLowerCase())) pending.push("Battery Health/SOH");
+  if (vehicle.transport === null) pending.push("final Transport fee");
 
   const bandMatch = (band) => Boolean(
     band && vehicle.price !== null && vehicle.miles !== null &&
     vehicle.price <= Number(band.maximum_listing_price_usd) &&
     vehicle.miles <= Number(band.maximum_mileage)
   );
-  let tier = failures.length ? "EXCLUDE" : explicit.tier;
+  let tier = failures.length || poorValue ? "EXCLUDE" : explicit.tier;
   let monitorTier = String(vehicle.monitorTier || "");
   if (!tier) {
     if (failures.length) tier = "EXCLUDE";
@@ -183,7 +189,9 @@ function deriveDecision(vehicle, market, buyBox, explicit = {}) {
 }
 
 function normalizeVehicle(raw, market, options = {}) {
-  const classificationSource = get(raw, "classification", "decision", "evaluation") || {};
+  const classificationSource = options.ignoreStoredDecision
+    ? {}
+    : get(raw, "classification", "decision", "evaluation") || {};
   const classificationObject = typeof classificationSource === "object" ? classificationSource : {};
   const vin = String(firstDefined(get(raw, "vin", "VIN", "vehicle_vin", "vehicleVin"), "미확인"));
   const price = number(firstDefined(get(raw, "price_usd", "priceUsd", "price", "listing_price_usd", "listingPrice"), get(raw, "last_observed_price_usd")));
@@ -237,10 +245,17 @@ function normalizeVehicle(raw, market, options = {}) {
     lastSeen: timestamp(firstDefined(get(raw, "last_seen_at", "lastSeenAt", "last_seen", "source_last_seen_at", "observed.last", "tracking.last_seen_at"), options.defaultLastSeen)),
     isNew: boolean(firstDefined(get(raw, "is_new_since_previous_snapshot", "isNewSincePreviousSnapshot", "is_new", "changes.is_new"), false)) === true,
     priorityRank: number(firstDefined(get(raw, "priority_rank", "priorityRank", "classification.priority_rank", "decision.rank"), null)),
-    monitorTier: String(firstDefined(get(raw, "monitor_tier", "monitorTier", "evaluation.monitor_tier", "evaluation.opportunity_tier", "opportunity_tier"), "" )).toUpperCase(),
+    monitorTier: options.ignoreStoredDecision
+      ? ""
+      : String(firstDefined(get(raw, "monitor_tier", "monitorTier", "evaluation.monitor_tier", "evaluation.opportunity_tier", "opportunity_tier"), "" )).toUpperCase(),
     highPriority: false,
     teslaUrl: String(firstDefined(get(raw, "tesla_url", "teslaUrl", "url"), vin !== "미확인" ? `https://www.tesla.com/my/order/${encodeURIComponent(vin)}?titleStatus=used&redirect=no#overview` : "https://www.tesla.com/inventory/used/my")),
   };
+
+  const softPreferences = options.buyBox?.soft_preferences || {};
+  const preferredColors = (softPreferences.preferred_exterior_colors || []).map((value) => String(value).toLowerCase());
+  vehicle.preferredExterior = preferredColors.some((value) => vehicle.exterior.toLowerCase().includes(value));
+  vehicle.preferredWheel = vehicle.wheels === Number(softPreferences.preferred_wheel_inches);
 
   const explicit = {
     tier: options.gone ? "EXCLUDE" : validTier(typeof classificationSource === "string" ? classificationSource : firstDefined(classificationObject.tier, classificationObject.classification, classificationObject.decision)),
@@ -252,7 +267,13 @@ function normalizeVehicle(raw, market, options = {}) {
     pending: stringList(firstDefined(classificationObject.pending, classificationObject.pending_gates, classificationObject.verify)),
     reasons: stringList(firstDefined(classificationObject.reasons, classificationObject.reason, classificationObject.notes)),
     targetPrice: number(firstDefined(classificationObject.listing_price_target_usd, classificationObject.target_price_usd, classificationObject.targetPriceUsd, get(raw, "target_price_usd"))),
-    targetLabel: firstDefined(classificationObject.target_label, classificationObject.targetLabel),
+    targetLabel: firstDefined(
+      classificationObject.target_label,
+      classificationObject.targetLabel,
+      classificationObject.listing_price_target_tier
+        ? `${classificationObject.listing_price_target_tier} 목표가${vehicle.transport === null ? " · Transport $0 가정" : ""}`
+        : null,
+    ),
   };
   vehicle.decision = deriveDecision(vehicle, market, options.buyBox || {}, explicit);
   if (!vehicle.monitorTier) vehicle.monitorTier = vehicle.decision.monitorTier;
@@ -262,6 +283,9 @@ function normalizeVehicle(raw, market, options = {}) {
 
 function normalizeInventory(raw, config) {
   const market = normalizeMarket(config || {}, raw || {});
+  const storedDecisionVersion = number(get(raw, "decision_model_version", "decisionModelVersion"));
+  const configuredDecisionVersion = number(get(config, "version"));
+  const ignoreStoredDecision = configuredDecisionVersion !== null && storedDecisionVersion !== configuredDecisionVersion;
   const candidates = firstDefined(get(raw, "candidates"), get(raw, "active"), get(raw, "vehicles"), get(raw, "inventory"), []);
   const defaultLastSeen = firstDefined(
     get(raw, "source_successful_at", "sourceSuccessfulAt"),
@@ -277,7 +301,9 @@ function normalizeInventory(raw, config) {
     sourceName: String(firstDefined(get(raw, "source.name"), get(raw, "source"), "Tesla inventory source")),
     previousSnapshotAt: timestamp(get(raw, "previous_snapshot_at", "previousSnapshotAt")),
     notes: stringList(get(raw, "notes")),
-    vehicles: Array.isArray(candidates) ? candidates.map((candidate) => normalizeVehicle(candidate, market, { defaultLastSeen, buyBox: config })) : [],
+    vehicles: Array.isArray(candidates)
+      ? candidates.map((candidate) => normalizeVehicle(candidate, market, { defaultLastSeen, buyBox: config, ignoreStoredDecision }))
+      : [],
   };
 }
 
@@ -555,6 +581,7 @@ function vehicleCard(vehicle) {
     badges.append(element("span", "minor-badge minor-badge--priority", vehicle.monitorTier));
   }
   if (vehicle.decision.verification !== "PASS" && !vehicle.gone) badges.append(element("span", "minor-badge minor-badge--verify", vehicle.decision.verification));
+  if (vehicle.preferredExterior && !vehicle.gone) badges.append(element("span", "minor-badge", "WHITE PREFERRED"));
   if (vehicle.isNew && !vehicle.gone) badges.append(element("span", "minor-badge minor-badge--new", "NEW"));
   top.append(badges);
   if (vehicle.priorityRank !== null) top.append(element("span", "rank-badge", `#${vehicle.priorityRank}`));
@@ -615,7 +642,13 @@ function vehicleCard(vehicle) {
   if (target) target.append(element("span", "", vehicle.decision.targetLabel), element("strong", "", `≤ ${formatCurrency(vehicle.decision.targetPrice)}`));
 
   const reasonBox = element("div", "reason-box");
-  const reasonTitle = vehicle.decision.failures.length ? "고정 gate" : vehicle.decision.pending.length ? "다음 확인" : "판정 근거";
+  const reasonTitle = vehicle.decision.failures.length
+    ? "고정 gate"
+    : vehicle.decision.reasons.length && vehicle.decision.pending.length
+      ? "판정 근거 · 다음 확인"
+      : vehicle.decision.pending.length
+        ? "다음 확인"
+        : "판정 근거";
   const reasonValues = vehicle.decision.failures.length
     ? vehicle.decision.failures
     : [...vehicle.decision.reasons, ...vehicle.decision.pending.map((item) => `${item} 미확인`)];
@@ -656,7 +689,10 @@ function prioritySort(a, b) {
   return (monitorOrder[a.monitorTier] ?? 8) - (monitorOrder[b.monitorTier] ?? 8)
     || aRank - bRank
     || (TIER_ORDER[a.decision.tier] ?? 9) - (TIER_ORDER[b.decision.tier] ?? 9)
-    || (a.price ?? Infinity) - (b.price ?? Infinity);
+    || (a.price ?? Infinity) - (b.price ?? Infinity)
+    || (a.miles ?? Infinity) - (b.miles ?? Infinity)
+    || Number(!a.preferredExterior) - Number(!b.preferredExterior)
+    || Number(!a.preferredWheel) - Number(!b.preferredWheel);
 }
 
 function renderHistory(snapshots) {
@@ -884,7 +920,7 @@ function renderDashboard(data) {
     isLastKnown ? "마지막 확인 스냅샷의 BUY는 0대입니다." : "오늘 확정 BUY는 0대입니다.",
     isLastKnown
       ? "최신 재고 갱신 전 데이터입니다. 현재 가격과 판매 여부를 Tesla에서 다시 확인하세요."
-      : "좋은 숫자만으로는 부족합니다. 가격·19인치·이력·SOH·최종 Transport를 모두 통과해야 합니다.",
+      : "좋은 숫자만으로는 부족합니다. 가격·19/20인치·이력·SOH·최종 Transport를 모두 통과해야 합니다.",
   );
   renderGrid("new-grid", fresh, "이번 crawl의 신규 차량이 없습니다.", "latest successful crawl의 new/reappeared 이벤트가 없습니다.");
   renderGrid(

@@ -8,7 +8,7 @@ This repository tracks a Foster City, California purchase decision for a used Te
 - Read `config/buy-box.json` for machine-readable preferences and thresholds.
 - Read `config/monitor.json` for scheduler, source-safety, persistence, and dashboard paths.
 - Use the repo skill at `.agents/skills/tesla-buy-box/SKILL.md` whenever the user asks to refresh inventory, assess a VIN, compare financing or incentives, or update an HTML report.
-- The current report baseline is `0902_candidates_v2.html`. Preserve older dated reports as historical snapshots.
+- The current report baseline is `0906_candidates.html`. Preserve older dated reports as historical snapshots.
 
 ## Non-negotiable behavior
 

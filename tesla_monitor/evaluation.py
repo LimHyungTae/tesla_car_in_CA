@@ -1,4 +1,4 @@
-"""Normalize Tesla records and apply Buy Box v2 deterministically."""
+"""Normalize Tesla records and apply the configured Buy Box deterministically."""
 
 from __future__ import annotations
 
@@ -375,20 +375,6 @@ def _matches_price_mileage_band(
     return False
 
 
-def _maximum_band_price(band: Mapping[str, Any] | None, default: int) -> int:
-    if not isinstance(band, Mapping):
-        return default
-    choices = band.get("any_of")
-    if not isinstance(choices, list):
-        choices = [band]
-    prices = [
-        int(item["maximum_listing_price_usd"])
-        for item in choices
-        if isinstance(item, Mapping) and item.get("maximum_listing_price_usd") is not None
-    ]
-    return max(prices, default=default)
-
-
 def evaluate_vehicle(vehicle: Mapping[str, Any], buy_box: Mapping[str, Any]) -> dict[str, Any]:
     gates = buy_box["vehicle_gates"]
     bands = buy_box["price_mileage_bands"]
@@ -415,12 +401,16 @@ def evaluate_vehicle(vehicle: Mapping[str, Any], buy_box: Mapping[str, Any]) -> 
     elif int(year) < int(gates["minimum_year"]):
         failures.append("model year below minimum")
     required_equal(vehicle.get("hardware"), gates["required_hardware"], "HW4", "not HW4")
-    required_equal(
-        vehicle.get("wheel_inches"),
-        int(gates["required_wheel_inches"]),
-        "wheel size",
-        "not 19-inch wheels",
-    )
+    accepted_wheels = gates.get("accepted_wheel_inches")
+    if not isinstance(accepted_wheels, list):
+        legacy_required_wheel = gates.get("required_wheel_inches")
+        accepted_wheels = [] if legacy_required_wheel is None else [legacy_required_wheel]
+    accepted_wheels = {int(value) for value in accepted_wheels}
+    wheel_inches = vehicle.get("wheel_inches")
+    if wheel_inches is None:
+        pending.append("wheel size")
+    elif int(wheel_inches) not in accepted_wheels:
+        failures.append("unsupported wheel size")
     if "neutral_color" in vehicle:
         if vehicle.get("neutral_color") is None:
             pending.append("exterior color")
@@ -519,14 +509,25 @@ def evaluate_vehicle(vehicle: Mapping[str, Any], buy_box: Mapping[str, Any]) -> 
     verification = "FAIL" if failures else "VERIFY FIRST" if pending else "PASS"
     monitor_tier = opportunity_tier or decision_tier
     target = None
+    target_tier = None
     if decision_tier == "WAIT" and price is not None:
-        high_priority = bands.get("high_priority", bands.get("very_good_buy"))
-        target = int(
-            min(
-                float(_maximum_band_price(high_priority, int(price))),
-                maximum_listing_price(transport_for_estimate, buy_box),
+        target_band: Mapping[str, Any] | None = None
+        if mileage is not None and int(mileage) <= int(bands["high_priority"]["maximum_mileage"]):
+            target_tier = "HIGH PRIORITY"
+            target_band = bands["high_priority"]
+        elif mileage is not None and int(mileage) <= int(bands["buy"]["maximum_mileage"]):
+            target_tier = "BUY"
+            target_band = bands["buy"]
+        elif mileage is not None and int(mileage) < int(bands["fair"]["maximum_mileage"]):
+            target_tier = "FAIR"
+            target_band = bands["fair"]
+        if target_band is not None:
+            target = int(
+                min(
+                    float(target_band["maximum_listing_price_usd"]),
+                    maximum_listing_price(transport_for_estimate, buy_box),
+                )
             )
-        )
     return {
         "tier": decision_tier,
         "strength": strength,
@@ -539,4 +540,7 @@ def evaluate_vehicle(vehicle: Mapping[str, Any], buy_box: Mapping[str, Any]) -> 
         "otd": otd,
         "direct_pickup_otd": direct_pickup_otd,
         "listing_price_target_usd": target,
+        "listing_price_target_tier": target_tier,
+        "listing_price_target_transport_assumption_usd": transport_for_estimate if target is not None else None,
+        "listing_price_target_transport_verified": transport is not None if target is not None else None,
     }

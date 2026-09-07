@@ -16,7 +16,7 @@ Produce a decision the owner can act on, not a padded Top 5. Start from `PROJECT
 
 ## Core decision contract
 
-1. Apply immutable vehicle/history gates before price ranking. Known accident or damage, branded title, excluded prior use, non-HW4, non-CPO, wrong trim/year, 20/21-inch wheels, or 50,000mi and above is `EXCLUDE`.
+1. Apply immutable vehicle/history gates before price ranking. Known accident or damage, branded title, excluded prior use, non-HW4, non-CPO, wrong trim/year, a wheel size outside the configured accepted set (currently 19/20-inch), or 50,000mi and above is `EXCLUDE`.
 2. Treat price and OTD as correctable market conditions. A vehicle that otherwise fits but exceeds the target is `WAIT`, with the exact listing-price target needed.
 3. Treat missing AutoCheck, prior use, title, Transport, and Battery Health evidence as pending—not as a pass. Add a visible `VERIFY FIRST` modifier. Never call a vehicle an unconditional BUY while a hard-verification item is pending.
 4. Never infer battery SOH from rated or displayed range. Request BMS/Battery Health evidence and keep SOH `Pending` until it exists.

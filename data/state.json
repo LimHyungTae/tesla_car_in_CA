@@ -10,6 +10,8 @@
   "consecutive_failures": 12,
   "next_due_at": "2026-09-07T10:29:44Z",
   "stale": true,
+  "decision_model_version": 3,
+  "decision_model_effective_date": "2026-09-06",
   "known_vins": [
     "7SAYGDEE0PF875376",
     "7SAYGDEE2PF864217",
@@ -103,7 +105,10 @@
           "low": 40850.0,
           "high": 41050.0
         },
-        "listing_price_target_usd": 35500
+        "listing_price_target_usd": 35500,
+        "listing_price_target_tier": "HIGH PRIORITY",
+        "listing_price_target_transport_assumption_usd": 0,
+        "listing_price_target_transport_verified": false
       }
     },
     "7SAYGDEE7PF964653": {
@@ -178,7 +183,10 @@
           "low": 40959.38,
           "high": 41159.38
         },
-        "listing_price_target_usd": 35500
+        "listing_price_target_usd": 35500,
+        "listing_price_target_tier": "FAIR",
+        "listing_price_target_transport_assumption_usd": 0,
+        "listing_price_target_transport_verified": false
       }
     },
     "7SAYGDEE8PF971563": {
@@ -256,7 +264,10 @@
           "low": 41178.12,
           "high": 41378.12
         },
-        "listing_price_target_usd": 35500
+        "listing_price_target_usd": 35500,
+        "listing_price_target_tier": "HIGH PRIORITY",
+        "listing_price_target_transport_assumption_usd": 0,
+        "listing_price_target_transport_verified": false
       }
     },
     "7SAYGDEE4PA154636": {
@@ -334,7 +345,10 @@
           "low": 41615.62,
           "high": 41815.62
         },
-        "listing_price_target_usd": 35500
+        "listing_price_target_usd": 35500,
+        "listing_price_target_tier": "HIGH PRIORITY",
+        "listing_price_target_transport_assumption_usd": 0,
+        "listing_price_target_transport_verified": false
       }
     },
     "7SAYGDEE9PF840366": {
@@ -398,22 +412,20 @@
       "strength": null,
       "opportunity_tier": null,
       "monitor_tier": "EXCLUDE",
-      "verification": "FAIL",
+      "verification": "VERIFY FIRST",
       "evaluation": {
         "tier": "EXCLUDE",
         "strength": null,
         "opportunity_tier": null,
         "monitor_tier": "EXCLUDE",
-        "verification": "FAIL",
-        "failures": [
-          "not 19-inch wheels"
-        ],
+        "verification": "VERIFY FIRST",
+        "failures": [],
         "pending": [
           "Battery Health/SOH",
           "final Transport fee"
         ],
         "reasons": [
-          "not 19-inch wheels"
+          "$35k+ with 40k–50kmi poor-value band"
         ],
         "otd": {
           "low": 39100.0,
@@ -423,7 +435,10 @@
           "low": 39100.0,
           "high": 39300.0
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": null,
+        "listing_price_target_tier": null,
+        "listing_price_target_transport_assumption_usd": null,
+        "listing_price_target_transport_verified": null
       }
     },
     "7SAYGDEE8PF866876": {
@@ -507,7 +522,10 @@
           "low": 39646.88,
           "high": 39846.88
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": null,
+        "listing_price_target_tier": null,
+        "listing_price_target_transport_assumption_usd": null,
+        "listing_price_target_transport_verified": null
       }
     },
     "7SAYGDEE2PF864217": {
@@ -555,26 +573,24 @@
       "rewards_verified_at": null,
       "rewards_evidence_status": "unverified",
       "observed_at": "2026-09-02T07:08:00Z",
-      "tier": "EXCLUDE",
+      "tier": "WAIT",
       "strength": null,
       "opportunity_tier": null,
-      "monitor_tier": "EXCLUDE",
-      "verification": "FAIL",
+      "monitor_tier": "WAIT",
+      "verification": "VERIFY FIRST",
       "evaluation": {
-        "tier": "EXCLUDE",
+        "tier": "WAIT",
         "strength": null,
         "opportunity_tier": null,
-        "monitor_tier": "EXCLUDE",
-        "verification": "FAIL",
-        "failures": [
-          "not 19-inch wheels"
-        ],
+        "monitor_tier": "WAIT",
+        "verification": "VERIFY FIRST",
+        "failures": [],
         "pending": [
           "Battery Health/SOH",
           "final Transport fee"
         ],
         "reasons": [
-          "not 19-inch wheels"
+          "estimated OTD exceeds cap"
         ],
         "otd": {
           "low": 40193.75,
@@ -584,7 +600,10 @@
           "low": 40193.75,
           "high": 40393.75
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": 35000,
+        "listing_price_target_tier": "BUY",
+        "listing_price_target_transport_assumption_usd": 0,
+        "listing_price_target_transport_verified": false
       }
     },
     "7SAYGDEE9RF043246": {
@@ -664,7 +683,10 @@
           "low": 40850.0,
           "high": 41050.0
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": null,
+        "listing_price_target_tier": null,
+        "listing_price_target_transport_assumption_usd": null,
+        "listing_price_target_transport_verified": null
       }
     },
     "7SAYGDEE5PF873395": {
@@ -757,7 +779,10 @@
           "low": 39100.0,
           "high": 39300.0
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": null,
+        "listing_price_target_tier": null,
+        "listing_price_target_transport_assumption_usd": null,
+        "listing_price_target_transport_verified": null
       }
     },
     "7SAYGDEE0PF875376": {
@@ -849,7 +874,10 @@
           "low": 40303.12,
           "high": 40503.12
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": null,
+        "listing_price_target_tier": null,
+        "listing_price_target_transport_assumption_usd": null,
+        "listing_price_target_transport_verified": null
       }
     },
     "7SAYGDEE4PA151462": {
@@ -942,7 +970,10 @@
           "low": 38443.75,
           "high": 38643.75
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": null,
+        "listing_price_target_tier": null,
+        "listing_price_target_transport_assumption_usd": null,
+        "listing_price_target_transport_verified": null
       }
     },
     "7SAYGDEE6PF853205": {
@@ -1017,7 +1048,6 @@
         "verification": "FAIL",
         "failures": [
           "not currently available",
-          "not 19-inch wheels",
           "excluded exterior color"
         ],
         "pending": [
@@ -1029,7 +1059,6 @@
         ],
         "reasons": [
           "not currently available",
-          "not 19-inch wheels",
           "excluded exterior color"
         ],
         "otd": {
@@ -1040,7 +1069,10 @@
           "low": 40521.88,
           "high": 40721.88
         },
-        "listing_price_target_usd": null
+        "listing_price_target_usd": null,
+        "listing_price_target_tier": null,
+        "listing_price_target_transport_assumption_usd": null,
+        "listing_price_target_transport_verified": null
       }
     }
   },

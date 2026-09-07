@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "record_type": "refresh_attempt",
+  "report_generated_at": "2026-09-06T21:46:00-07:00",
+  "refresh_attempt": {
+    "attempted_at": "2026-09-06T21:29:44-07:00",
+    "source": "Tesla Certified Pre-Owned Inventory",
+    "status": "source_error",
+    "fresh_inventory_received": false,
+    "error_code": "http_403",
+    "http_status": 403,
+    "attempts": [
+      {
+        "method": "official_direct_check",
+        "attempted_at": "2026-09-06T15:11:13-07:00",
+        "status": "source_error",
+        "error_code": "http_403",
+        "http_status": 403
+      },
+      {
+        "method": "persisted_github_actions_monitor",
+        "attempted_at": "2026-09-06T21:29:44-07:00",
+        "status": "source_error",
+        "error_code": "http_403",
+        "http_status": 403,
+        "consecutive_failures": 12
+      }
+    ]
+  },
+  "data_mode": "last_known",
+  "last_verified_inventory": {
+    "path": "data/snapshots/2026-09-02.json",
+    "snapshot_at": "2026-09-02T00:08:00-07:00",
+    "source_feed_last_seen_at": "2026-09-01T23:07:00-07:00",
+    "candidate_count": 8
+  },
+  "criteria": {
+    "config_path": "config/buy-box.json",
+    "version": 3,
+    "effective_date": "2026-09-06",
+    "changes": [
+      "19-inch and 20-inch wheels accepted",
+      "19-inch wheels preferred",
+      "white exterior preferred"
+    ]
+  },
+  "report": "0906_candidates.html",
+  "notes": [
+    "No current availability or price claim can be made.",
+    "The preserved inventory is referenced only as a historical comparison set.",
+    "Battery Health/SOH remains unverified for every preserved vehicle."
+  ]
+}
