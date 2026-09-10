@@ -11,14 +11,14 @@
   "failure_kind": "http_403",
   "failure_http_status": 403,
   "last_successful_crawl": "2026-09-02T07:08:00Z",
-  "last_attempted_crawl": "2026-09-09T21:16:47Z",
+  "last_attempted_crawl": "2026-09-10T06:05:36Z",
   "stale": true,
   "current_candidates": 8,
   "last_known_candidates": 8,
   "last_internal_status": "source_error",
-  "last_run_at": "2026-09-09T21:16:47Z",
-  "next_due_at": "2026-09-10T03:16:47Z",
-  "consecutive_failures": 20,
+  "last_run_at": "2026-09-10T06:05:36Z",
+  "next_due_at": "2026-09-10T12:05:36Z",
+  "consecutive_failures": 21,
   "last_event_count": 12,
   "last_alert_count": 6
 }
