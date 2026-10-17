@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-17T14:16:38Z",
+  "updated_at": "2026-10-17T21:42:19Z",
   "runs": [
     {
       "observed_at": "2026-08-31T07:39:00Z",
@@ -1163,6 +1163,15 @@
       "error_code": "http_403",
       "http_status": 403,
       "next_due_at": "2026-10-17T20:16:38Z",
+      "inventory_count_preserved": 8
+    },
+    {
+      "observed_at": "2026-10-17T21:42:19Z",
+      "status": "source_error",
+      "error": "Tesla inventory request failed after 1 attempt(s): HTTP Error 403: Forbidden",
+      "error_code": "http_403",
+      "http_status": 403,
+      "next_due_at": "2026-10-18T03:42:19Z",
       "inventory_count_preserved": 8
     }
   ],
